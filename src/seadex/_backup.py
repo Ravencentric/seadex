@@ -4,11 +4,11 @@ from datetime import datetime, timezone
 from os import PathLike
 from os.path import basename
 from pathlib import Path
-from typing import assert_never
 from zipfile import BadZipFile, ZipFile
 
 from pocketbase import PocketBase
 from pydantic import BaseModel, ByteSize, ConfigDict
+from typing_extensions import assert_never
 
 from seadex._types import StrPath, UTCDateTime
 from seadex._utils import realpath

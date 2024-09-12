@@ -1444,4 +1444,4 @@ cli = ["cyclopts", "rich"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10"
-content-hash = "006e57a991b8a510359518a08c00b8ba8043b8b996e752e8cf222dcb60cc06c3"
+content-hash = "66cff3b45954915e5ab03c883f861b0000daca52cee9a9a2439d3f3dca98b124"
