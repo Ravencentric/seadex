@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/Ravencentric/seadex">
-    <img src="https://github.com/Ravencentric/seadex/blob/main/docs/assets/logo.png" alt="Logo" width="400">
+    <img src="https://github.com/Ravencentric/seadex/blob/main/docs/assets/logo.png" alt="Logo" width="200">
   </a>
   <p align="center">
     Python wrapper for the SeaDex API.
