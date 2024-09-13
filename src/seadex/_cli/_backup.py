@@ -17,8 +17,8 @@ backup_app = App(
     version_flags=None,
 )
 
-EmailType: TypeAlias = Annotated[str, Parameter(env_var="SEADEX_ADMIN_EMAIL")]
-PasswordType: TypeAlias = Annotated[str, Parameter(env_var="SEADEX_ADMIN_PASSWORD")]
+EmailType: TypeAlias = Annotated[str, Parameter(env_var="SEADEX_EMAIL")]
+PasswordType: TypeAlias = Annotated[str, Parameter(env_var="SEADEX_PASSWORD")]
 
 
 def _login(email: str, password: str) -> SeaDexBackup:

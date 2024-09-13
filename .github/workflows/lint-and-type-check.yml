@@ -47,7 +47,7 @@ jobs:
       - uses: actions/cache@v4
         name: Define a cache for the venv based on the dependencies lock file
         with:
-          key: ubuntu-latest-3.12-${{ hashFiles('poetry.lock') }}
+          key: 3.12-${{ hashFiles('poetry.lock') }}
           path: ./.venv
 
       - name: Install the project dependencies

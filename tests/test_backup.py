@@ -11,8 +11,8 @@ from pydantic import ByteSize
 
 from seadex import BackupFile, SeaDexBackup
 
-email = getenv("SEADEX_ADMIN_EMAIL")
-password = getenv("SEADEX_ADMIN_PASSWORD")
+email = getenv("SEADEX_EMAIL")
+password = getenv("SEADEX_PASSWORD")
 
 cannot_authenticate = not (bool(email) and bool(password))
 

@@ -28,8 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.10', '3.11', '3.12']
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,7 +52,7 @@ jobs:
       - uses: actions/cache@v4
         name: Define a cache for the venv based on the dependencies lock file
         with:
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: ${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
           path: ./.venv
 
       - name: Install the project dependencies
@@ -61,8 +60,8 @@ jobs:
 
       - name: Run tests and generate coverage
         env:
-          SEADEX_ADMIN_EMAIL: ${{ secrets.SEADEX_ADMIN_EMAIL }}
-          SEADEX_ADMIN_PASSWORD: ${{ secrets.SEADEX_ADMIN_PASSWORD }}
+          SEADEX_EMAIL: ${{ secrets.SEADEX_EMAIL }}
+          SEADEX_PASSWORD: ${{ secrets.SEADEX_PASSWORD }}
         run: |
           poetry run coverage run -m pytest -vv
           poetry run coverage xml
@@ -76,7 +75,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: seadex-${{ steps.version.outputs.version }}-${{ matrix.python-version }}-${{ matrix.os }}
+          name: seadex-${{ steps.version.outputs.version }}-${{ matrix.python-version }}
           path: "dist/*"
 
       - name: Upload coverage to Codecov
