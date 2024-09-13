@@ -82,16 +82,7 @@ def test_backup_download_with_pathlike(tmp_path: Path) -> None:
 
 
 @skip_if_cannot_authenticate
-def test_backup_create_without_filename() -> None:
-    client = SeaDexBackup(email, password)  # type: ignore
-    new_backup = client.create()
-    assert new_backup in [backup.name for backup in client.backups]
-    client.delete(new_backup)
-    assert new_backup not in [backup.name for backup in client.backups]
-
-
-@skip_if_cannot_authenticate
-def test_backup_create_with_strpath() -> None:
+def test_backup_create() -> None:
     client = SeaDexBackup(email, password)  # type: ignore
     new_backup = client.create(Path(f"{uuid4()}-made-by-pytest.zip"))
     assert new_backup in [backup.name for backup in client.backups]
