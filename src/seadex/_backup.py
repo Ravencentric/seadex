@@ -70,10 +70,8 @@ class SeaDexBackup:
         -----
         Only SeaDex admins can use this! Logging in with a non-admin account will result in failure.
         """
-        self.client = PocketBase(
-            url,
-            http_client=Client(headers={"user-agent": f"seadex/{__version__} (https://pypi.org/project/seadex)"}),
-        )
+        headers = {"user-agent": f"seadex/{__version__} (https://pypi.org/project/seadex)"}
+        self.client = PocketBase(url, http_client=Client(headers=headers))
         self.admin = self.client.admins.auth_with_password(email, password)
 
     @property

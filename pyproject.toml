@@ -4,7 +4,20 @@ version = "0.1.0"
 description = "Python wrapper for the SeaDex API"
 authors = ["Ravencentric <me@ravencentric.cc>"]
 readme = "README.md"
+license = "Unlicense"
 packages = [{ include = "seadex", from = "src" }]
+keywords = ["seadex"]
+homepage = "https://seadex.ravencentric.cc"
+repository = "https://github.com/Ravencentric/seadex"
+documentation = "https://seadex.ravencentric.cc"
+classifiers = [
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10"
