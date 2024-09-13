@@ -24,6 +24,7 @@ defaults:
 jobs:
   test:
     name: Tests
+    environment: tests
     strategy:
       max-parallel: 1
       fail-fast: false
