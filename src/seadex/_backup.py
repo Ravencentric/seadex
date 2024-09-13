@@ -152,7 +152,7 @@ class SeaDexBackup:
 
         return outfile
 
-    def create(self, filename: StrPath | None = None) -> str:
+    def create(self, filename: StrPath | None = None) -> BackupFile:
         """
         Creates a new backup with an optional filename.
 
@@ -165,8 +165,8 @@ class SeaDexBackup:
 
         Returns
         -------
-        str
-            The name of the newly created backup file.
+        BackupFile
+            The newly created backup file.
         """
         datefmt = "%Y%m%d%H%M%S"
         name = f"{datefmt}-seadex-backup.zip"
@@ -179,7 +179,7 @@ class SeaDexBackup:
 
         self.client.backups.create(_filename)
 
-        return _filename
+        return next(filter(lambda member: member.name == _filename, self.backups))
 
     def delete(self, file: StrPath | BackupFile) -> None:
         """
