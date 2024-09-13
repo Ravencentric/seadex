@@ -48,7 +48,7 @@ strict = true
 pretty = true
 
 [[tool.mypy.overrides]]
-module = ["pocketbase"]
+module = ["pocketbase", "pocketbase.*"]
 ignore_missing_imports = true
 
 [build-system]

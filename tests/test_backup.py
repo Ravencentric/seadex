@@ -6,7 +6,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
-from pocketbase.utils import ClientResponseError  # type: ignore
+from pocketbase.utils import ClientResponseError
 from pydantic import ByteSize
 
 from seadex import BackupFile, SeaDexBackup
