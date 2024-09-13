@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "seadex"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python wrapper for the SeaDex API"
 authors = ["Ravencentric <me@ravencentric.cc>"]
 readme = "README.md"
