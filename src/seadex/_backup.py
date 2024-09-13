@@ -6,12 +6,14 @@ from os.path import basename
 from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
+from httpx import Client
 from pocketbase import PocketBase
 from pydantic import BaseModel, ByteSize, ConfigDict
 from typing_extensions import assert_never
 
 from seadex._types import StrPath, UTCDateTime
 from seadex._utils import realpath
+from seadex._version import __version__
 
 
 class BackupFile(BaseModel):
@@ -68,7 +70,10 @@ class SeaDexBackup:
         -----
         Only SeaDex admins can use this! Logging in with a non-admin account will result in failure.
         """
-        self.client = PocketBase(url)
+        self.client = PocketBase(
+            url,
+            http_client=Client(headers={"user-agent": f"seadex/{__version__} (https://pypi.org/project/seadex)"}),
+        )
         self.admin = self.client.admins.auth_with_password(email, password)
 
     @property
@@ -168,7 +173,7 @@ class SeaDexBackup:
         datefmt = "%Y%m%d%H%M%S"
         name = f"{datefmt}-seadex-backup.zip"
 
-        if filename is None:
+        if filename is None:  # pragma: no cover
             _filename = datetime.now(timezone.utc).strftime(name)
         else:
             _filename = basename(filename).removesuffix(".zip") + ".zip"
