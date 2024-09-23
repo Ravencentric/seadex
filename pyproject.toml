@@ -63,6 +63,9 @@ exclude = "tests/"
 module = ["pocketbase", "pocketbase.*"]
 ignore_missing_imports = true
 
+[tool.coverage.run]
+omit = ["src/seadex/_version.py", "tests/*"]
+
 [tool.coverage.report]
 exclude_also = [
     "if TYPE_CHECKING:", # Only used for type-hints

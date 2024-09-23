@@ -151,7 +151,7 @@ class SeaDexBackup:
                 fp.write(data)
             try:
                 tmpfile.replace(outfile)  # Attempt atomic replace
-            except OSError:
+            except OSError:  # pragma: no cover
                 # Failed, do a normal move
                 move(tmpfile, outfile)
 
