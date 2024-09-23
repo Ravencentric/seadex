@@ -1,53 +1,51 @@
-[tool.poetry]
+[project]
 name = "seadex"
 version = "0.1.2"
 description = "Python wrapper for the SeaDex API"
-authors = ["Ravencentric <me@ravencentric.cc>"]
+authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
-license = "Unlicense"
-packages = [{ include = "seadex", from = "src" }]
+license = { text = "Unlicense" }
+requires-python = ">=3.10"
 keywords = ["seadex"]
-homepage = "https://seadex.ravencentric.cc"
-repository = "https://github.com/Ravencentric/seadex"
-documentation = "https://seadex.ravencentric.cc"
 classifiers = [
     "License :: OSI Approved :: The Unlicense (Unlicense)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
+dependencies = [
+    "pocketbase>=0.12.1 ; python_full_version < '4'",
+    "pydantic>=2.9.2",
+    "typing-extensions>=4.12.2",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10"
-pydantic = ">=2.9.0"
-typing-extensions = ">=4.12.2"
-pocketbase = { version = ">=0.12.1", python = "<4" }
-cyclopts = { version = ">=2.9.9", optional = true }
-rich = { version = ">=13.6.0", optional = true }
+[project.optional-dependencies]
+cli = ["cyclopts>=2.9.9", "rich>=13.8.1"]
 
-[tool.poetry.extras]
-cli = ["cyclopts", "rich"]
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.6.4"
-mypy = "^1.11.2"
-pytest = "^8.3.3"
-coverage = "^7.6.1"
-
-[tool.poetry.group.docs.dependencies]
-mkdocs-material = "^9.5.30"
-mkdocstrings = { extras = ["python"], version = "^0.25.1" }
-mkdocs-autorefs = "^1.0.1"
-
-
-[tool.poetry.scripts]
+[project.scripts]
 seadex = "seadex.__main__:app"
+
+[project.urls]
+Homepage = "https://seadex.ravencentric.cc"
+Documentation = "https://seadex.ravencentric.cc"
+Repository = "https://github.com/Ravencentric/seadex"
+
+[tool.uv]
+dev-dependencies = [
+    "coverage>=7.6.1",
+    "mkdocs-autorefs>=1.2.0",
+    "mkdocs-material>=9.5.36",
+    "mkdocstrings[python]>=0.26.1",
+    "mypy>=1.11.2",
+    "pytest>=8.3.3",
+    "ruff>=0.6.7",
+]
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
 
 [tool.ruff.lint]
 extend-select = ["I"]
@@ -59,11 +57,17 @@ required-imports = ["from __future__ import annotations"]
 [tool.mypy]
 strict = true
 pretty = true
+exclude = "tests/"
 
 [[tool.mypy.overrides]]
 module = ["pocketbase", "pocketbase.*"]
 ignore_missing_imports = true
 
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:", # Only used for type-hints
+]
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+build-backend = "hatchling.build"
+requires = ["hatchling"]

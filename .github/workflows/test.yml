@@ -29,51 +29,39 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13']
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        id: setup-uv
+        uses: astral-sh/setup-uv@v3
 
-      - name: Install pipx
-        run: python -m pip install pipx
+      - name: Install Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Setup a local virtual environment
-        run: |
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-
-      - uses: actions/cache@v4
-        name: Define a cache for the venv based on the dependencies lock file
-        with:
-          key: ${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-          path: ./.venv
+      - name: Install the project
+        run: uv sync --all-extras --python ${{ matrix.python-version }}
 
       - name: Install the project dependencies
-        run: poetry install --all-extras --sync
+        run: uv install --all-extras --sync
 
       - name: Run tests and generate coverage
         env:
           SEADEX_EMAIL: ${{ secrets.SEADEX_EMAIL }}
           SEADEX_PASSWORD: ${{ secrets.SEADEX_PASSWORD }}
         run: |
-          poetry run coverage run -m pytest -vv
-          poetry run coverage xml
+          uv run coverage run -m pytest -vv
+          uv run coverage xml
 
       - name: Build
-        run: poetry build
+        run: uv build
 
       - name: Get version
         id: version
-        run: echo "version=$(poetry run python -c 'import seadex; print(seadex.__version__)')" >> $GITHUB_OUTPUT
+        run: echo "version=$(uv run python -c 'import seadex; print(seadex.__version__)')" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
         with:
