@@ -45,9 +45,6 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --python ${{ matrix.python-version }}
 
-      - name: Install the project dependencies
-        run: uv install --all-extras --sync
-
       - name: Run tests and generate coverage
         env:
           SEADEX_EMAIL: ${{ secrets.SEADEX_EMAIL }}
