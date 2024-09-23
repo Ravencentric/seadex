@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 from os import PathLike
 from os.path import basename
 from pathlib import Path
+from shutil import move
+from tempfile import TemporaryDirectory
+from uuid import uuid4
 from zipfile import BadZipFile, ZipFile
 
 from httpx import Client
@@ -141,13 +144,21 @@ class SeaDexBackup:
 
         outfile = destination / key
 
-        with outfile.open("wb") as f:
-            data = self.client.backups.download(key, self.client.get_file_token())
-            f.write(data)
+        with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
+            tmpfile = Path(tmpdir).resolve() / str(uuid4())
+            with tmpfile.open("wb", errors="strict") as fp:
+                data = self.client.backups.download(key, self.client.get_file_token())
+                fp.write(data)
+            try:
+                tmpfile.replace(outfile)  # Attempt atomic replace
+            except OSError:
+                # Failed, do a normal move
+                move(tmpfile, outfile)
 
         with ZipFile(outfile) as archive:
             check = archive.testzip()
             if check is not None:  # pragma: no cover
+                outfile.unlink(missing_ok=True)
                 raise BadZipFile(f"{outfile} failed integrity check!")
 
         return outfile
