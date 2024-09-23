@@ -146,7 +146,7 @@ class SeaDexBackup:
 
         with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
             tmpfile = Path(tmpdir).resolve() / str(uuid4())
-            with tmpfile.open("wb", errors="strict") as fp:
+            with tmpfile.open("wb") as fp:
                 data = self.client.backups.download(key, self.client.get_file_token())
                 fp.write(data)
             try:
