@@ -17,8 +17,10 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
+    "natsort>=8.4.0",
     "pocketbase>=0.12.1 ; python_full_version < '4'",
     "pydantic>=2.9.2",
+    "torf>=4.2.7",
     "typing-extensions>=4.12.2",
 ]
 
@@ -60,7 +62,7 @@ pretty = true
 exclude = "tests/"
 
 [[tool.mypy.overrides]]
-module = ["pocketbase", "pocketbase.*"]
+module = ["pocketbase", "pocketbase.*", "torf", "torf.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]
