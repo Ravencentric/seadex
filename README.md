@@ -68,4 +68,4 @@ Checkout the complete documentation [here](https://seadex.ravencentric.cc/).
 
 ## License
 
-Distributed under the [Unlicense](https://choosealicense.com/licenses/unlicense/) License. See [UNLICENSE](https://github.com/Ravencentric/seadex/blob/main/UNLICENSE) for more information.
+Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License. See [LICENSE](https://github.com/Ravencentric/seadex/blob/main/LICENSE) for more information.
