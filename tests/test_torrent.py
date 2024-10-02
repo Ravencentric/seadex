@@ -20,7 +20,9 @@ def test_sanitize_file_exists_error() -> None:
 def test_sanitize_private_torrent(tmp_path: Path) -> None:
     file = "tests/__torrents__/private-ubuntu-24.04.1-desktop-amd64.iso.torrent"
     original = Torrent.read(file)
-    sanitized = Torrent.read(SeaDexTorrent(file).sanitize(destination=tmp_path / "private-ubuntu-24.04.1-desktop-amd64.iso.torrent"))
+    sanitized = Torrent.read(
+        SeaDexTorrent(file).sanitize(destination=tmp_path / "private-ubuntu-24.04.1-desktop-amd64.iso.torrent")
+    )
 
     assert original.trackers is not None
     assert sanitized.trackers == []
