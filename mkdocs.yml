@@ -77,4 +77,5 @@ nav:
   - Home: index.md
   - API Reference:
       - Backup: api-reference/backup.md
+      - Torrent: api-reference/torrent.md
       - Types: api-reference/types.md

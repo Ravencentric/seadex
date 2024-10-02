@@ -11,18 +11,17 @@ from zipfile import BadZipFile, ZipFile
 
 from httpx import Client
 from pocketbase import PocketBase
-from pydantic import BaseModel, ByteSize, ConfigDict
+from pydantic import ByteSize
 from typing_extensions import assert_never
 
+from seadex._models import FrozenBaseModel
 from seadex._types import StrPath, UTCDateTime
 from seadex._utils import realpath
 from seadex._version import __version__
 
 
-class BackupFile(BaseModel):
+class BackupFile(FrozenBaseModel):
     """A model representing a backup file."""
-
-    model_config = ConfigDict(frozen=True)  # adds __hash__ and __eq__
 
     name: str
     """The name of the backup file."""

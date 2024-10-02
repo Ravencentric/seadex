@@ -234,6 +234,12 @@ wheels = [
 ]
 
 [[package]]
+name = "flatbencode"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/96/3d/ed36c2a94bef2ff1b7fc62ba932fa2eb4db3f7ea30c89da01b1c64ecbb8c/flatbencode-0.2.1.tar.gz", hash = "sha256:77397d5d0108835404f6f7cad640d403c7025a11812afc7e1df4b0f92589ba77", size = 3234 }
+
+[[package]]
 name = "ghp-import"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -563,6 +569,15 @@ wheels = [
 ]
 
 [[package]]
+name = "natsort"
+version = "8.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e2/a9/a0c57aee75f77794adaf35322f8b6404cbd0f89ad45c87197a937764b7d0/natsort-8.4.0.tar.gz", hash = "sha256:45312c4a0e5507593da193dedd04abb1469253b601ecaf63445ad80f0a1ea581", size = 76575 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/82/7a9d0550484a62c6da82858ee9419f3dd1ccc9aa1c26a1e43da3ecd20b0d/natsort-8.4.0-py3-none-any.whl", hash = "sha256:4732914fb471f56b5cce04d7bae6f164a592c7712e1c85f9ef585e197299521c", size = 38268 },
+]
+
+[[package]]
 name = "packaging"
 version = "24.1"
 source = { registry = "https://pypi.org/simple" }
@@ -721,6 +736,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/d7/e6/51b83b93b74014ebc
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f5/08/56121d5a6746c192172766c18be90c790018b632ff94598ad3fa39935b73/pymdown_extensions-10.10.1-py3-none-any.whl", hash = "sha256:6c74ea6c2e2285186a241417480fc2d3cc52941b3ec2dced4014c84dc78c5493", size = 258809 },
 ]
+
+[[package]]
+name = "pyperclip"
+version = "1.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/30/23/2f0a3efc4d6a32f3b63cdff36cd398d9701d26cda58e3ab97ac79fb5e60d/pyperclip-1.9.0.tar.gz", hash = "sha256:b7de0142ddc81bfc5c7507eea19da920b92252b548b96186caf94a5e2527d310", size = 20961 }
 
 [[package]]
 name = "pytest"
@@ -947,14 +968,17 @@ name = "seadex"
 version = "0.1.3"
 source = { editable = "." }
 dependencies = [
+    { name = "natsort" },
     { name = "pocketbase", marker = "python_full_version < '4'" },
     { name = "pydantic" },
+    { name = "torf" },
     { name = "typing-extensions" },
 ]
 
 [package.optional-dependencies]
 cli = [
     { name = "cyclopts" },
+    { name = "pyperclip" },
     { name = "rich" },
 ]
 
@@ -972,9 +996,12 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "cyclopts", marker = "extra == 'cli'", specifier = ">=2.9.9" },
+    { name = "natsort", specifier = ">=8.4.0" },
     { name = "pocketbase", marker = "python_full_version < '4'", specifier = ">=0.12.1" },
     { name = "pydantic", specifier = ">=2.9.2" },
+    { name = "pyperclip", marker = "extra == 'cli'", specifier = ">=1.9.0" },
     { name = "rich", marker = "extra == 'cli'", specifier = ">=13.8.1" },
+    { name = "torf", specifier = ">=4.2.7" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
 
@@ -1014,6 +1041,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/c0/3f/d7af728f075fb08564c5949a9c95e44352e23dee646869fa104a3b2060a3/tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f", size = 15164 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc", size = 12757 },
+]
+
+[[package]]
+name = "torf"
+version = "4.2.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flatbencode" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/85/24/208ef9e2fde55e0c1ea6f78f7e025dae50678a62d255c5d13551d72857de/torf-4.2.7.tar.gz", hash = "sha256:c2e1e2171ce03ffc9303ddbc50d7f73e419d9a1af22a07edb029b7c0cf7293d9", size = 102961 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/f3/0090e0ab45963b0022ae2a7648aa4fe26bfc402d4bf00c5cfcda22e5975c/torf-4.2.7-py3-none-any.whl", hash = "sha256:a15e31ee7f9c04104bf6253bf383f69ad9b42b8207faeb791d096212af460ccf", size = 59491 },
 ]
 
 [[package]]
