@@ -1,1 +1,3 @@
-::: seadex.sanitize_torrent
+::: seadex.SeaDexTorrent
+::: seadex._torrent.FileList
+::: seadex._torrent.File

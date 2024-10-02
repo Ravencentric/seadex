@@ -25,7 +25,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-cli = ["cyclopts>=2.9.9", "rich>=13.8.1"]
+cli = ["cyclopts>=2.9.9", "rich>=13.8.1", "pyperclip>=1.9.0"]
 
 [project.scripts]
 seadex = "seadex.__main__:app"
@@ -62,7 +62,7 @@ pretty = true
 exclude = "tests/"
 
 [[tool.mypy.overrides]]
-module = ["pocketbase", "pocketbase.*", "torf", "torf.*"]
+module = ["pocketbase", "pocketbase.*", "torf", "torf.*", "pyperclip", "pyperclip.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]
