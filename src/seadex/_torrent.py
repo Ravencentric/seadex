@@ -145,6 +145,6 @@ class SeaDexTorrent:
                 torrent.write(self.file, overwrite=True)
                 return self.file
         else:
-            destination = Path(destination).expanduser().resolve()
+            destination = realpath(destination)
             torrent.write(destination, overwrite=overwrite)
             return destination
