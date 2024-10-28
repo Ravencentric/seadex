@@ -27,6 +27,18 @@ class SeaDexEntry:
             The base URL of SeaDex, used for constructing API queries.
         client : Client, optional
             An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to SeaDex.
+
+        Examples
+        -------
+        ```py
+        with SeaDexEntry() as entry:
+            tamako = entry.from_title("tamako love story")
+            for torrent in tamako.torrents:
+                if torrent.is_best and torrent.tracker.is_public():
+                    print(torrent.release_group)
+                    #> LYS1TH3A
+                    #> Okay-Subs
+        ```
         """
         self._base_url = base_url
         self._endpoint = urljoin(self._base_url, "/api/collections/entries/records")
