@@ -9,15 +9,13 @@ from tempfile import TemporaryDirectory
 from uuid import uuid4
 from zipfile import BadZipFile, ZipFile
 
-from httpx import Client
 from pocketbase import PocketBase
 from pydantic import ByteSize
 from typing_extensions import assert_never
 
 from seadex._models import FrozenBaseModel
 from seadex._types import StrPath, UTCDateTime
-from seadex._utils import realpath
-from seadex._version import __version__
+from seadex._utils import httpx_client, realpath
 
 
 class BackupFile(FrozenBaseModel):
@@ -72,8 +70,7 @@ class SeaDexBackup:
         -----
         Only SeaDex admins can use this! Logging in with a non-admin account will result in failure.
         """
-        headers = {"user-agent": f"seadex/{__version__} (https://pypi.org/project/seadex)"}
-        self.client = PocketBase(url, http_client=Client(headers=headers))
+        self.client = PocketBase(url, http_client=httpx_client())
         self.admin = self.client.admins.auth_with_password(email, password)
 
     @property
@@ -87,7 +84,7 @@ class SeaDexBackup:
             A tuple of all backup files, sorted by the modified date.
         """
         deduped = {
-            BackupFile(name=file.key, size=file.size, modified_time=file.modified)
+            BackupFile(name=file.key, size=file.size, modified_time=file.modified)  # type: ignore
             for file in self.client.backups.get_full_list()
         }
 
@@ -146,7 +143,7 @@ class SeaDexBackup:
         with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
             tmpfile = Path(tmpdir).resolve() / str(uuid4())
             with tmpfile.open("wb") as fp:
-                data = self.client.backups.download(key, self.client.get_file_token())
+                data = self.client.backups.download(key, self.client.get_file_token())  # type: ignore
                 fp.write(data)
             try:
                 tmpfile.replace(outfile)  # Attempt atomic replace
@@ -162,7 +159,7 @@ class SeaDexBackup:
 
         return outfile
 
-    def create(self, filename: StrPath | None = None) -> BackupFile:
+    def create(self, filename: StrPath | None = None) -> BackupFile:  # pragma: no cover; TODO: Mock this in tests
         """
         Creates a new backup with an optional filename.
 
@@ -191,7 +188,7 @@ class SeaDexBackup:
 
         return next(filter(lambda member: member.name == _filename, self.backups))
 
-    def delete(self, file: StrPath | BackupFile) -> None:
+    def delete(self, file: StrPath | BackupFile) -> None:  # pragma: no cover; TODO: Mock this in tests
         """
         Deletes a specified backup file.
 

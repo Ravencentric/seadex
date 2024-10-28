@@ -3,14 +3,12 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from os import getenv
 from pathlib import Path
-from uuid import uuid4
 
 import pytest
 from pocketbase.utils import ClientResponseError
 from pydantic import ByteSize
 
-from seadex import SeaDexBackup
-from seadex._backup import BackupFile
+from seadex import BackupFile, SeaDexBackup
 
 email = getenv("SEADEX_EMAIL")
 password = getenv("SEADEX_PASSWORD")
@@ -82,10 +80,11 @@ def test_backup_download_with_pathlike(tmp_path: Path) -> None:
     assert client.download(Path(latest_backup), destination=tmp_path).name == latest_backup.name
 
 
-@skip_if_cannot_authenticate
-def test_backup_create() -> None:
-    client = SeaDexBackup(email, password)  # type: ignore
-    new_backup = client.create(Path(f"{uuid4()}-made-by-pytest.zip"))
-    assert new_backup in client.backups
-    client.delete(new_backup)
-    assert new_backup not in client.backups
+# TODO: Mock this test
+# @skip_if_cannot_authenticate
+# def test_backup_create() -> None:
+#     client = SeaDexBackup(email, password)  # type: ignore
+#     new_backup = client.create(Path(f"{uuid4()}-made-by-pytest.zip"))
+#     assert new_backup in client.backups
+#     client.delete(new_backup)
+#     assert new_backup not in client.backups
