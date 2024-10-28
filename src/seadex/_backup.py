@@ -188,7 +188,7 @@ class SeaDexBackup:
 
         return next(filter(lambda member: member.name == _filename, self.backups))
 
-    def delete(self, file: StrPath | BackupFile) -> None: # pragma: no cover; TODO: Mock this in tests
+    def delete(self, file: StrPath | BackupFile) -> None:  # pragma: no cover; TODO: Mock this in tests
         """
         Deletes a specified backup file.
 
