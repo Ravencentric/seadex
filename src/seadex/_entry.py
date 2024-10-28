@@ -16,10 +16,10 @@ if TYPE_CHECKING:
     from typing_extensions import Self
 
 
-class SeaDex:
+class SeaDexEntry:
     def __init__(self, base_url: str = "https://releases.moe", client: Client | None = None) -> None:
         """
-        A client to interact with the SeaDex API and retrieve anime entries.
+        A client to interact with the anime entries in SeaDex.
 
         Parameters
         ----------
@@ -143,7 +143,7 @@ class SeaDex:
         for entry in response.json()["items"]:
             yield EntryRecord._from_dict(entry)
 
-    def get_all_entries(self) -> Iterator[EntryRecord]:  # pragma: no cover; Testing this is annoying
+    def iterator(self) -> Iterator[EntryRecord]:  # pragma: no cover; Testing this is annoying
         """
         Lazily get all the entries from SeaDex.
 

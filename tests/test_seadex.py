@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pytest_httpx import HTTPXMock
 
-from seadex import SeaDex, Tracker
+from seadex import SeaDexEntry, Tracker
 
 SAMPLE_JSON_REPLY = {
     "page": 1,
@@ -71,16 +71,16 @@ SAMPLE_JSON_REPLY = {
 }
 
 
-def test_properties(seadex_client: SeaDex):
-    assert seadex_client.base_url == "https://releases.moe"
+def test_properties(seadex_entry: SeaDexEntry):
+    assert seadex_entry.base_url == "https://releases.moe"
 
 
-def test_from_anilist_id(seadex_client: SeaDex, httpx_mock: HTTPXMock):
+def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=alID%3D20519&expand=trs",
         json=SAMPLE_JSON_REPLY,
     )
-    entry = seadex_client.from_id(20519)
+    entry = seadex_entry.from_id(20519)
     assert entry.anilist_id == 20519
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
@@ -103,12 +103,12 @@ def test_from_anilist_id(seadex_client: SeaDex, httpx_mock: HTTPXMock):
     assert isinstance(entry.updated_at, datetime)
 
 
-def test_from_seadex_id(seadex_client: SeaDex, httpx_mock: HTTPXMock):
+def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=id='c344w8ld7q1yppz'&expand=trs",
         json=SAMPLE_JSON_REPLY,
     )
-    entry = seadex_client.from_id("c344w8ld7q1yppz")
+    entry = seadex_entry.from_id("c344w8ld7q1yppz")
     assert entry.anilist_id == 20519
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
@@ -131,7 +131,7 @@ def test_from_seadex_id(seadex_client: SeaDex, httpx_mock: HTTPXMock):
     assert isinstance(entry.updated_at, datetime)
 
 
-def test_from_title(seadex_client: SeaDex, httpx_mock: HTTPXMock):
+def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         url="https://graphql.anilist.co",
         json={
@@ -144,7 +144,7 @@ def test_from_title(seadex_client: SeaDex, httpx_mock: HTTPXMock):
         json=SAMPLE_JSON_REPLY,
     )
 
-    entry = seadex_client.from_title("tamako love story")
+    entry = seadex_entry.from_title("tamako love story")
     assert entry.anilist_id == 20519
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
@@ -165,13 +165,13 @@ def test_from_title(seadex_client: SeaDex, httpx_mock: HTTPXMock):
     assert isinstance(entry.updated_at, datetime)
 
 
-def test_from_filename(seadex_client: SeaDex, httpx_mock: HTTPXMock):
+def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=trs.files%3F~%27%22name%22%3A%22Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv%22%27&expand=trs",
         json=SAMPLE_JSON_REPLY,
     )
 
-    entries = seadex_client.from_filename("Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv")
+    entries = seadex_entry.from_filename("Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv")
     entry = tuple(entries)[0]
     assert entry.anilist_id == 20519
     assert entry.collection_id == "3l2x9nxip35gqb5"
