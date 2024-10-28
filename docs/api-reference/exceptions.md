@@ -1,0 +1,2 @@
+::: seadex.SeaDexException
+::: seadex.EntryNotFoundError

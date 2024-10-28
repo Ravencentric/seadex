@@ -9,8 +9,7 @@ import pytest
 from pocketbase.utils import ClientResponseError
 from pydantic import ByteSize
 
-from seadex import SeaDexBackup
-from seadex._backup import BackupFile
+from seadex import BackupFile, SeaDexBackup
 
 email = getenv("SEADEX_EMAIL")
 password = getenv("SEADEX_PASSWORD")
