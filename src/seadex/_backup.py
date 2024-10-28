@@ -159,7 +159,7 @@ class SeaDexBackup:
 
         return outfile
 
-    def create(self, filename: StrPath | None = None) -> BackupFile: # pragma: no cover; TODO: Mock this in tests
+    def create(self, filename: StrPath | None = None) -> BackupFile:  # pragma: no cover; TODO: Mock this in tests
         """
         Creates a new backup with an optional filename.
 

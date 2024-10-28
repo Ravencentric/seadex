@@ -3,7 +3,6 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from os import getenv
 from pathlib import Path
-from uuid import uuid4
 
 import pytest
 from pocketbase.utils import ClientResponseError
@@ -79,6 +78,7 @@ def test_backup_download_with_pathlike(tmp_path: Path) -> None:
     client = SeaDexBackup(email, password)  # type: ignore
     latest_backup = client.latest_backup
     assert client.download(Path(latest_backup), destination=tmp_path).name == latest_backup.name
+
 
 # TODO: Mock this test
 # @skip_if_cannot_authenticate
