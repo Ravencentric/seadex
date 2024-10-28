@@ -1,7 +1,13 @@
 from __future__ import annotations
 
-from enum import StrEnum, unique
+import sys
+from enum import unique
 from typing import TYPE_CHECKING
+
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+    from strenum import StrEnum
 
 if TYPE_CHECKING:
     from typing_extensions import Self
