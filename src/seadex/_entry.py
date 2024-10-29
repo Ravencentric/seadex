@@ -124,12 +124,13 @@ class SeaDexEntry:
                 },
             )
             media = response.json()["data"]["Media"]
-            setattr(self, "__anilist_title", media["title"]["english"] or media["title"]["romaji"])
             anilist_id = media["id"]
             response = self._client.get(
                 self._endpoint, params={"filter": f"alID={anilist_id}", "expand": "trs"}
             ).raise_for_status()
-            return EntryRecord._from_dict(response.json()["items"][0])
+            entry_record = EntryRecord._from_dict(response.json()["items"][0])
+            setattr(entry_record, "__anilist_title", media["title"]["english"] or media["title"]["romaji"])
+            return entry_record
 
         except (KeyError, IndexError, TypeError):
             errmsg = f"No seadex entry found for title: {title}"

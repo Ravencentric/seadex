@@ -33,8 +33,6 @@
 
 Python wrapper for the [SeaDex API](https://releases.moe/about/).
 
-Currently, it only covers a single endpoint, i.e., the backup endpoint, intended for the SeaDex admins. I plan to support more but that'll have to wait till I have more time.
-
 ## Installation
 
 `seadex` is available on [PyPI](https://pypi.org/project/seadex/), and can be installed using [pip](https://pip.pypa.io/en/stable/installation/).

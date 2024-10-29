@@ -8,6 +8,7 @@ except ModuleNotFoundError:
     )
 
 from seadex._cli._backup import backup_app
+from seadex._cli._entry import entry_app
 from seadex._cli._torrent import torrent_app
 from seadex._version import __version__
 
@@ -20,6 +21,7 @@ app = App(
 
 app.command(backup_app)
 app.command(torrent_app)
+app.command(entry_app)
 
 if __name__ == "__main__":
     app()
