@@ -36,8 +36,8 @@ Homepage = "https://seadex.ravencentric.cc"
 Documentation = "https://seadex.ravencentric.cc"
 Repository = "https://github.com/Ravencentric/seadex"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "coverage>=7.6.1",
     "mkdocs-autorefs>=1.2.0",
     "mkdocs-material>=9.5.36",
@@ -45,7 +45,7 @@ dev-dependencies = [
     "mypy>=1.11.2",
     "pytest-httpx>=0.32.0",
     "pytest>=8.3.3",
-    "ruff>=0.6.7",
+    "ruff>=0.7.1",
 ]
 
 [tool.ruff]
