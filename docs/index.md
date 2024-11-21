@@ -18,7 +18,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/seadex/release.yml?" alt="GitHub Workflow Status">
-<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/seadex/test.yml?label=tests" alt="GitHub Workflow Status">
+<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/seadex/tests.yml?label=tests" alt="GitHub Workflow Status">
 <a href="https://codecov.io/gh/Ravencentric/seadex"><img src="https://codecov.io/gh/Ravencentric/seadex/graph/badge.svg?token=B45ODO7TEY" alt="Codecov"></a>
 </p>
 
