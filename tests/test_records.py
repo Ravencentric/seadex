@@ -27,22 +27,21 @@ def test_torrent_record():
     }
     record = TorrentRecord._from_dict(sample_data)
 
-    assert record.collection_id == sample_data["collectionId"]
-    assert record.collection_name == sample_data["collectionName"]
+    assert record.collection_id == "oiwizhmushn5qqh"
+    assert record.collection_name == "collectionName"
     assert isinstance(record.created_at, datetime)
-    assert record.is_dual_audio == sample_data["dualAudio"]
-
+    assert record.is_dual_audio
     assert len(record.files) == 1
-    assert record.files[0].name == sample_data["files"][0]["name"]
-    assert record.files[0].size == sample_data["files"][0]["length"]
+    assert record.files[0].name == "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"
+    assert record.files[0].size == 4636316199
 
-    assert record.id == sample_data["id"]
-    assert record.infohash == sample_data["infoHash"]
-    assert record.is_best == sample_data["isBest"]
-    assert record.release_group == sample_data["releaseGroup"]
-    assert record.tracker == Tracker(sample_data["tracker"])
+    assert record.id =="pcpina3ekbqk7a5"
+    assert record.infohash == "23f77120cfdf9df8b42a10216aa33e281c58b456"
+    assert record.is_best
+    assert record.release_group == "LYS1TH3A"
+    assert record.tracker is Tracker.NYAA
     assert isinstance(record.updated_at, datetime)
-    assert record.url == sample_data["url"]
+    assert record.url == "https://nyaa.si/view/1693872"
 
 
 def test_entry_record():
@@ -98,17 +97,18 @@ def test_entry_record():
 
     record = EntryRecord._from_dict(sample_data)
 
-    assert record.anilist_id == sample_data["alID"]
-    assert record.collection_id == sample_data["collectionId"]
-    assert record.collection_name == sample_data["collectionName"]
-    assert record.comparisons == (sample_data["comparison"],)  # Tuple with one element
+    assert record.anilist_id == 20519
+    assert record.collection_id == "oiwizhmushn5qqh"
+    assert record.collection_name == "torrents"
+    assert record.comparisons == ("https://slow.pics/c/rc6qrB1F",)  # Tuple with one element
     assert isinstance(record.created_at, datetime)
-    assert record.id == sample_data["id"]
+    assert record.id == "pcpina3ekbqk7a5"
     assert not record.is_incomplete
-    assert record.notes == sample_data["notes"]
+    assert record.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
     assert record.theoretical_best is None
     assert record.torrents[0].url == "https://nyaa.si/view/1693872"
     assert record.torrents[1].url == "https://animebytes.tv/torrents.php?id=20684&torrentid=1053072"
     assert record.torrents[0].infohash is not None
     assert record.torrents[1].infohash is None
     assert isinstance(record.updated_at, datetime)
+    assert record.url == "https://releases.moe/20519/"

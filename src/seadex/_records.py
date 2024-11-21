@@ -105,6 +105,11 @@ class EntryRecord(FrozenBaseModel):
     updated_at: UTCDateTime
     """The timestamp of when the entry was last updated."""
 
+    @property
+    def url(self) -> str:
+        """The URL of the entry."""
+        return f"https://releases.moe/{self.anilist_id}/"
+
     @classmethod
     def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
         """Parses the response from the SeaDex API into a `EntryRecord` object."""
