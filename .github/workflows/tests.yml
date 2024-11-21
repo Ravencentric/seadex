@@ -16,10 +16,15 @@ on:
       - 'tests/**'
       - '.github/workflows/test.yml'
   workflow_dispatch:
+  workflow_call:
 
 defaults:
   run:
     shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   test:

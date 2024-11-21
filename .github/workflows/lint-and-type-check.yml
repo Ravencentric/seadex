@@ -16,6 +16,7 @@ on:
       - 'tests/**'
       - '.github/workflows/lint-and-type-check.yml'
   workflow_dispatch:
+  workflow_call:
 
 defaults:
   run:

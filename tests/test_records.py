@@ -35,7 +35,7 @@ def test_torrent_record():
     assert record.files[0].name == "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"
     assert record.files[0].size == 4636316199
 
-    assert record.id =="pcpina3ekbqk7a5"
+    assert record.id == "pcpina3ekbqk7a5"
     assert record.infohash == "23f77120cfdf9df8b42a10216aa33e281c58b456"
     assert record.is_best
     assert record.release_group == "LYS1TH3A"
@@ -104,7 +104,9 @@ def test_entry_record():
     assert isinstance(record.created_at, datetime)
     assert record.id == "pcpina3ekbqk7a5"
     assert not record.is_incomplete
-    assert record.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+    assert (
+        record.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+    )
     assert record.theoretical_best is None
     assert record.torrents[0].url == "https://nyaa.si/view/1693872"
     assert record.torrents[1].url == "https://animebytes.tv/torrents.php?id=20684&torrentid=1053072"
