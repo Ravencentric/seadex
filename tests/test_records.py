@@ -28,7 +28,7 @@ def test_torrent_record():
     record = TorrentRecord._from_dict(sample_data)
 
     assert record.collection_id == "oiwizhmushn5qqh"
-    assert record.collection_name == "collectionName"
+    assert record.collection_name == "torrents"
     assert isinstance(record.created_at, datetime)
     assert record.is_dual_audio
     assert len(record.files) == 1
@@ -98,11 +98,11 @@ def test_entry_record():
     record = EntryRecord._from_dict(sample_data)
 
     assert record.anilist_id == 20519
-    assert record.collection_id == "oiwizhmushn5qqh"
-    assert record.collection_name == "torrents"
+    assert record.collection_id == "3l2x9nxip35gqb5"
+    assert record.collection_name == "entries"
     assert record.comparisons == ("https://slow.pics/c/rc6qrB1F",)  # Tuple with one element
     assert isinstance(record.created_at, datetime)
-    assert record.id == "pcpina3ekbqk7a5"
+    assert record.id == "c344w8ld7q1yppz"
     assert not record.is_incomplete
     assert (
         record.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
