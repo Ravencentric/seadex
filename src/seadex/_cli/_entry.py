@@ -52,7 +52,7 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
                 print(entry.model_dump_json())
                 return
 
-        body = f"Title: {entry.__anilist_title}\n"  # type: ignore
+        body = f"Title: {entry.__anilist_title}\n"  # type: ignore[attr-defined]
         body += f"URL: {urljoin(seadex_entry.base_url, str(entry.anilist_id))}\n"
         body += f"AniList: https://anilist.co/anime/{entry.anilist_id}\n"
         body += f"Incomplete: {entry.is_incomplete}\n"

@@ -64,6 +64,7 @@ required-imports = ["from __future__ import annotations"]
 [tool.mypy]
 strict = true
 pretty = true
+enable_error_code = ["ignore-without-code"]
 exclude = "tests/"
 
 [[tool.mypy.overrides]]
