@@ -8,12 +8,13 @@ from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
 from uuid import uuid4
-from zipfile import BadZipFile, ZipFile
+from zipfile import ZipFile
 
 from httpx import Client
 from pydantic import ByteSize
 from typing_extensions import assert_never
 
+from seadex._exceptions import BadBackupFileError
 from seadex._models import FrozenBaseModel
 from seadex._types import StrPath, UTCDateTime
 from seadex._utils import httpx_client, realpath
@@ -33,7 +34,7 @@ class BackupFile(FrozenBaseModel):
     """The last modified time of the backup file."""
 
     def __str__(self) -> str:
-        """String representation. Equivalent to `BackupFile.name`."""
+        """Implement the string representation. Equivalent to `BackupFile.name`."""
         return self.name
 
     def __fspath__(self) -> str:
@@ -48,12 +49,13 @@ class BackupFile(FrozenBaseModel):
         >>> backup = BackupFile(name="20240909041339-seadex-backup.zip", size=..., modified=..)
         >>> Path.home() / backup
         PosixPath('/home/raven/20240909041339-seadex-backup.zip')
+
         """
         return self.name
 
     @classmethod
     def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
-        """Parses the response from the SeaDex Backup API into a `BackupFile` object."""
+        """Parse the response from the SeaDex Backup API into a `BackupFile` object."""
         kwargs = {
             "name": dictionary["key"],
             "modified_time": dictionary["modified"],
@@ -67,7 +69,7 @@ class SeaDexBackup:
         self, email: str, password: str, base_url: str = "https://releases.moe", client: Client | None = None
     ) -> None:
         """
-        A class to interact with the SeaDex backup API.
+        Client to interact with the SeaDex backup API.
 
         Parameters
         ----------
@@ -91,6 +93,7 @@ class SeaDexBackup:
         Notes
         -----
         Only SeaDex admins can use this! Logging in with a non-admin account will result in failure.
+
         """
         self._base_url = base_url
         self._client = httpx_client() if client is None else client
@@ -99,7 +102,7 @@ class SeaDexBackup:
     @property
     def base_url(self) -> str:
         """
-        This is the base URL, used for constructing API queries.
+        Base URL, used for constructing API queries.
         """
         return self._base_url
 
@@ -111,7 +114,7 @@ class SeaDexBackup:
 
     def close(self) -> None:
         """
-        Closes the underlying HTTP client connection.
+        Close the underlying HTTP client connection.
         """
         self._client.close()
 
@@ -138,6 +141,7 @@ class SeaDexBackup:
         -------
         tuple[BackupFile, ...]
             A tuple of all backup files, sorted by the modified date.
+
         """
 
         response = self._client.get(
@@ -155,12 +159,13 @@ class SeaDexBackup:
         -------
         BackupFile
             The latest backup file.
+
         """
         return self.backups[-1]
 
     def download(self, file: str | BackupFile | None = None, *, destination: StrPath = Path.cwd()) -> Path:
         """
-        Downloads a specified backup file to the given destination directory.
+        Download the specified backup file to the given destination directory.
 
         Parameters
         ----------
@@ -178,8 +183,9 @@ class SeaDexBackup:
         ------
         NotADirectoryError
             If the destination is not a valid directory.
-        BadZipFile
+        BadBackupFileError
             if the downloaded backup file fails integrity check.
+
         """
         destination = realpath(destination)
 
@@ -209,7 +215,7 @@ class SeaDexBackup:
 
         if check is not None:
             outfile.unlink(missing_ok=True)
-            raise BadZipFile(f"{outfile} failed integrity check!")
+            raise BadBackupFileError(f"{outfile} failed integrity check!")
 
         return outfile
 
@@ -228,6 +234,7 @@ class SeaDexBackup:
         -------
         BackupFile
             The newly created backup file.
+
         """
         _filename = filename.removesuffix(".zip") + ".zip"
         _filename = datetime.now(timezone.utc).strftime(_filename).casefold()
@@ -256,6 +263,7 @@ class SeaDexBackup:
         Returns
         -------
         None
+
         """
         self._client.delete(
             self._url_for(f"/api/backups/{file}"), headers={"Authorization": self._admin_token}

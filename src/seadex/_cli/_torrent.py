@@ -30,6 +30,7 @@ def sanitize(src: ResolvedExistingPath, dst: ResolvedPath | None = None, /) -> N
         Path to the source torrent file or directory containing torrent files to sanitize.
     dst : ResolvedPath or None, optional
         Path to the destination where sanitized files will be stored.
+
     """
     console = Console()
 
@@ -64,6 +65,7 @@ def json(src: ResolvedExistingPath, /, *, pretty: bool = False, copy: bool = Tru
         If True, the JSON output will be pretty-printed.
     copy : bool, optional
         Copy the JSON output to clipboard.
+
     """
     filelist = SeaDexTorrent(src).filelist
 

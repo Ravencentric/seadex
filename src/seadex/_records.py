@@ -44,7 +44,7 @@ class TorrentRecord(FrozenBaseModel):
 
     @classmethod
     def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
-        """Parses the response from the SeaDex API into a `TorrentRecord` object."""
+        """Parse the response from the SeaDex API into a `TorrentRecord` object."""
         kwargs = {
             "collection_id": dictionary["collectionId"],
             "collection_name": dictionary["collectionName"],
@@ -75,7 +75,7 @@ class TorrentRecord(FrozenBaseModel):
     @field_validator("files")
     @classmethod
     def _sort_files(cls, value: tuple[File, ...]) -> tuple[File, ...]:
-        """Sort the files"""
+        """Sort the files."""
         return tuple(natsorted(value, key=lambda file: file.name, alg=ns.PATH))
 
 
@@ -112,7 +112,7 @@ class EntryRecord(FrozenBaseModel):
 
     @classmethod
     def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
-        """Parses the response from the SeaDex API into a `EntryRecord` object."""
+        """Parse the response from the SeaDex API into a `EntryRecord` object."""
         kwargs = {
             "anilist_id": dictionary["alID"],
             "collection_id": dictionary["collectionId"],

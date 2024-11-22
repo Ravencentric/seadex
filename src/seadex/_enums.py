@@ -23,23 +23,25 @@ class Tracker(CaseInsensitiveStrEnum):
 
     def is_private(self) -> bool:
         """
-        Checks if the current tracker is private.
+        Check if the current tracker is private.
 
         Returns
         -------
         bool
             `True` if the tracker is private, `False` otherwise.
+
         """
         return False if self.value in ("Nyaa", "AnimeTosho", "AniDex", "RuTracker") else True
 
     def is_public(self) -> bool:
         """
-        Checks if the current tracker is public.
+        Check if the current tracker is public.
 
         Returns
         -------
         bool
             `True` if the tracker is public, `False` otherwise.
+
         """
         return not self.is_private()
 
@@ -52,6 +54,7 @@ class Tracker(CaseInsensitiveStrEnum):
         -------
         str
             Domain name of the tracker, or an empty string for "Other".
+
         """
         return {
             # Public Trackers

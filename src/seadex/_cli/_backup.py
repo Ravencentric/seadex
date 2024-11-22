@@ -31,6 +31,7 @@ def _login(email: str, password: str) -> SeaDexBackup:
         The administrator email used for authentication.
     password : str
         The administrator password used for authentication.
+
     """
     from rich.console import Console
 
@@ -49,6 +50,7 @@ def _list(*, email: EmailType, password: PasswordType) -> None:
         The administrator email used for authentication.
     password : str
         The administrator password used for authentication.
+
     """
     from rich import print
     from rich.box import MARKDOWN
@@ -77,6 +79,7 @@ def create(*, email: EmailType, password: PasswordType, name: str | None = None)
         The name of the backup. If not provided, a default name is generated using the
         template `%Y%m%d%H%M%S-seadex-backup.zip`, which supports the full `datetime.strftime`
         formatting.
+
     """
     from rich.console import Console
 
@@ -114,6 +117,7 @@ def download(
     existing : bool, optional
         If `True`, download an existing backup. If `False`, create a temporary backup on the remote system,
         download it, and then delete it from the remote.
+
     """
     from rich.console import Console
 
@@ -155,6 +159,7 @@ def delete(*, email: EmailType, password: PasswordType, name: str) -> None:
         The administrator password used for authentication.
     name : str
         The name of the backup to delete.
+
     """
     from rich.console import Console
 

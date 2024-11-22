@@ -17,6 +17,6 @@ def realpath(path: StrPath) -> Path:
 
 def httpx_client() -> Client:
     """
-    Default HTTPX client.
+    Return an instance of an httpx.Client.
     """
     return Client(headers={"user-agent": f"seadex/{__version__}"})

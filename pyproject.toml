@@ -44,7 +44,7 @@ dev = [
     "mypy>=1.11.2",
     "pytest-httpx>=0.34.0",
     "pytest>=8.3.3",
-    "ruff>=0.7.1",
+    "ruff>=0.8.0",
     "tomli>=2.0.1",
 ]
 
@@ -52,8 +52,11 @@ dev = [
 line-length = 120
 
 [tool.ruff.lint]
-extend-select = ["I"]
+extend-select = ["I", "DTZ", "RUF", "UP", "N", "D4"]
 fixable = ["ALL"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["D", "RUF015", "TC"]
 
 [tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]

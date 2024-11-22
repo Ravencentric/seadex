@@ -33,6 +33,7 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
         If True, the output will be in JSON.
     pretty : bool, optional
         If True, the JSON output will be pretty-printed.
+
     """
     console = Console()
 

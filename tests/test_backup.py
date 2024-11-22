@@ -3,13 +3,13 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
-from zipfile import BadZipFile, ZipFile
+from zipfile import ZipFile
 
 import pytest
 from pydantic import ByteSize
 from pytest_httpx import HTTPXMock
 
-from seadex import BackupFile, SeaDexBackup
+from seadex import BackupFile, BadBackupFileError, SeaDexBackup
 
 
 def test_backupfile() -> None:
@@ -101,7 +101,7 @@ def test_backup_download(
     with pytest.raises(AssertionError):
         seadex_backup.download(1213123, destination=tmp_path_factory.mktemp("blah4"))
 
-    with pytest.raises(BadZipFile):
+    with pytest.raises(BadBackupFileError):
         seadex_backup.download(zip_with_bad_crc, destination=tmp_path_factory.mktemp("blah5"))
 
 

@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class SeaDexEntry:
     def __init__(self, base_url: str = "https://releases.moe", client: Client | None = None) -> None:
         """
-        A client to interact with the anime entries in SeaDex.
+        Client to interact with the anime entries in SeaDex.
 
         Parameters
         ----------
@@ -29,7 +29,7 @@ class SeaDexEntry:
             An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to SeaDex.
 
         Examples
-        -------
+        --------
         ```py
         with SeaDexEntry() as entry:
             tamako = entry.from_title("tamako love story")
@@ -39,6 +39,7 @@ class SeaDexEntry:
                     #> LYS1TH3A
                     #> Okay-Subs
         ```
+
         """
         self._base_url = base_url
         self._endpoint = urljoin(self._base_url, "/api/collections/entries/records")
@@ -47,7 +48,7 @@ class SeaDexEntry:
     @property
     def base_url(self) -> str:
         """
-        This is the base URL, used for constructing API queries.
+        Base URL, used for constructing API queries.
         """
         return self._base_url
 
@@ -59,13 +60,13 @@ class SeaDexEntry:
 
     def close(self) -> None:
         """
-        Closes the underlying HTTP client connection.
+        Close the underlying HTTP client connection.
         """
         self._client.close()
 
     def from_id(self, id: int | str, /) -> EntryRecord:
         """
-        Retrieves an entry by its ID.
+        Retrieve an entry by its ID.
 
         Parameters
         ----------
@@ -79,9 +80,10 @@ class SeaDexEntry:
             The retrieved entry.
 
         Raises
-        -------
+        ------
         EntryNotFoundError
             If no entry is found for the provided ID.
+
         """
         try:
             if isinstance(id, int):
@@ -98,7 +100,7 @@ class SeaDexEntry:
 
     def from_title(self, title: str, /) -> EntryRecord:
         """
-        Retrieves an entry by its anime title.
+        Retrieve an entry by its anime title.
 
         Parameters
         ----------
@@ -111,9 +113,10 @@ class SeaDexEntry:
             The retrieved entry.
 
         Raises
-        -------
+        ------
         EntryNotFoundError
             If no entry is found for the provided title.
+
         """
         try:
             response = self._client.post(
@@ -138,7 +141,7 @@ class SeaDexEntry:
 
     def from_filename(self, filename: StrPath, /) -> Iterator[EntryRecord]:
         """
-        Yields entries that may contain a file with the specified filename.
+        Yield entries that may contain a file with the specified filename.
 
         Parameters
         ----------
@@ -146,9 +149,10 @@ class SeaDexEntry:
             The filename to search for.
 
         Yields
-        -------
+        ------
         EntryRecord
             The retrieved entry.
+
         """
         basefilename = basename(filename)
         params = {"filter": f'trs.files?~\'"name":"{basefilename}"\'', "expand": "trs"}
@@ -164,6 +168,7 @@ class SeaDexEntry:
         ------
         EntryRecord
             The retrieved entry.
+
         """
         total_pages = (
             self._client.get(self._endpoint, params={"perPage": 500}).raise_for_status().json()["totalPages"] + 1

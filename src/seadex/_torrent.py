@@ -22,17 +22,17 @@ class File(FrozenBaseModel):
     """The size of the file in bytes."""
 
     def __str__(self) -> str:
-        """Stringify, equivalent to [`File.name`][File.name]"""
+        """Stringify, equivalent to [`File.name`][File.name]."""
         return self.name
 
     def __fspath__(self) -> str:
-        """Path representation, equivalent to [`File.name`][File.name]"""
+        """Path representation, equivalent to [`File.name`][File.name]."""
         return self.name
 
     @field_validator("name", mode="before")
     @classmethod
     def _as_posix(cls, v: str) -> str:
-        """ensure the names are posix compatible"""
+        """Ensure the names are posix compatible."""
         return Path(v).as_posix()
 
 
@@ -52,6 +52,7 @@ class FileList(tuple[File, ...]):
         -------
         str
             The file list in JSON format.
+
         """
         files = []
 
@@ -63,12 +64,13 @@ class FileList(tuple[File, ...]):
 class SeaDexTorrent:
     def __init__(self, file: StrPath) -> None:
         """
-        A class to deal with torrent files meant for SeaDex.
+        Create a class to handle torrent files for SeaDex.
 
         Parameters
         ----------
         file : StrPath
             The path to the torrent file.
+
         """
         self._file = realpath(file)
 
@@ -121,6 +123,7 @@ class SeaDexTorrent:
             - Created by field
             - Source field
         - The torrent's `infohash` is randomized.
+
         """
         torrent = TorfTorrent.read(self.file)
 

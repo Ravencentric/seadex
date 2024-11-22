@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from httpx import Response
 
 
-class SeaDexException(Exception):
+class SeaDexError(Exception):
     """Base Exception for all SeaDex related errors."""
 
     def __init__(self, message: str) -> None:
@@ -14,9 +14,13 @@ class SeaDexException(Exception):
         super().__init__(message)
 
 
-class EntryNotFoundError(SeaDexException):
+class EntryNotFoundError(SeaDexError):
     """The requested Entry was not found in SeaDex."""
 
     def __init__(self, message: str, *, response: Response) -> None:
         self.response = response
         super().__init__(message)
+
+
+class BadBackupFileError(SeaDexError):
+    """The backup file is broken."""
