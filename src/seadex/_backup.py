@@ -153,7 +153,7 @@ class SeaDexBackup:
     @property
     def latest_backup(self) -> BackupFile:
         """
-        Retrieves the most recent backup file.
+        Retrieve the latest backup file.
 
         Returns
         -------
