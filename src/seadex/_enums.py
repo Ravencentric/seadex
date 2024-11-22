@@ -1,35 +1,9 @@
 from __future__ import annotations
 
-import sys
-from enum import unique
-from typing import TYPE_CHECKING
-
-if sys.version_info >= (3, 11):
-    from enum import StrEnum
-else:
-    from strenum import StrEnum
-
-if TYPE_CHECKING:
-    from typing_extensions import Self
+from stringenum import CaseInsensitiveStrEnum
 
 
-class BaseStrEnum(StrEnum):
-    """StrEnum with case-insensitive double-sided lookup"""
-
-    @classmethod
-    def _missing_(cls, value: object) -> Self:
-        errmsg = f"'{value}' is not a valid {cls.__name__}"
-
-        if isinstance(value, str):
-            for member in cls:
-                if (member.value.casefold() == value.casefold()) or (member.name.casefold() == value.casefold()):
-                    return member
-            raise ValueError(errmsg)
-        raise ValueError(errmsg)
-
-
-@unique
-class Tracker(BaseStrEnum):
+class Tracker(CaseInsensitiveStrEnum):
     """Enum of public and private trackers."""
 
     # Public Trackers

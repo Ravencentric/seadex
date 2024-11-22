@@ -156,7 +156,7 @@ class SeaDexEntry:
         for entry in response.json()["items"]:
             yield EntryRecord._from_dict(entry)
 
-    def iterator(self) -> Iterator[EntryRecord]:  # pragma: no cover; Testing this is annoying
+    def iterator(self) -> Iterator[EntryRecord]:
         """
         Lazily get all the entries from SeaDex.
 
