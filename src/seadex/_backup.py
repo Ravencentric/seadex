@@ -135,12 +135,12 @@ class SeaDexBackup:
     @property
     def backups(self) -> tuple[BackupFile, ...]:
         """
-        Retrieves a sorted tuple of all backup files.
+        Retrieve a tuple of backup files.
 
         Returns
         -------
         tuple[BackupFile, ...]
-            A tuple of all backup files, sorted by the modified date.
+            A tuple of backup files, sorted by the modified date.
 
         """
 
