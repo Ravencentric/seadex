@@ -26,14 +26,11 @@
 
 * [About](#about)
 * [Installation](#installation)
-* [Docs](#docs)
 * [License](#license)
 
 ## About
 
 Python wrapper for the [SeaDex API](https://releases.moe/about/).
-
-Currently, it only covers a single endpoint, i.e., the backup endpoint, intended for the SeaDex admins. I plan to support more but that'll have to wait till I have more time.
 
 ## Installation
 
@@ -61,10 +58,6 @@ Currently, it only covers a single endpoint, i.e., the backup endpoint, intended
         ```sh
         pip install "seadex[cli]"
         ```
-
-## Docs
-
-Checkout the complete documentation [here](https://seadex.ravencentric.cc/).
 
 ## License
 
