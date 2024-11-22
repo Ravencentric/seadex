@@ -7,14 +7,14 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/tests.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/tests.yml'
   workflow_dispatch:
   workflow_call:
 
@@ -29,7 +29,6 @@ concurrency:
 jobs:
   test:
     name: Tests
-    environment: tests
     strategy:
       fail-fast: false
       matrix:
@@ -50,9 +49,6 @@ jobs:
         run: uv sync --all-extras --python ${{ matrix.python-version }}
 
       - name: Run tests and generate coverage
-        env:
-          SEADEX_EMAIL: ${{ secrets.SEADEX_EMAIL }}
-          SEADEX_PASSWORD: ${{ secrets.SEADEX_PASSWORD }}
         run: |
           uv run coverage run -m pytest -vv
           uv run coverage xml

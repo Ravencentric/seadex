@@ -6,11 +6,18 @@ on:
       - 'v*.*.*'
 
 jobs:
+  tests:
+    name: Tests
+    uses: ./.github/workflows/tests.yml
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint-and-type-check.yml
   release:
+    needs: [tests, lint]
     name: Release
     environment:
       name: release
-      url: https://pypi.org/p/seadex
+      url: https://pypi.org/project/seadex
     permissions:
       id-token: write
       contents: write
@@ -30,7 +37,9 @@ jobs:
         run: uv python install 3.12
 
       - name: Build
-        run: uv build
+        run: | 
+          uv build
+          rm dist/.gitignore
 
       - uses: actions/attest-build-provenance@v1
         with:
@@ -54,5 +63,3 @@ jobs:
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          attestations: true

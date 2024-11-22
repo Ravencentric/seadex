@@ -4,8 +4,8 @@ from pathlib import Path
 
 from httpx import Client
 
+from seadex import __version__
 from seadex._types import StrPath
-from seadex._version import __version__
 
 
 def realpath(path: StrPath) -> Path:

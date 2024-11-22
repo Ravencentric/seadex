@@ -45,6 +45,7 @@ dev = [
     "pytest-httpx>=0.34.0",
     "pytest>=8.3.3",
     "ruff>=0.7.1",
+    "tomli>=2.0.1",
 ]
 
 [tool.ruff]
@@ -63,11 +64,11 @@ pretty = true
 exclude = "tests/"
 
 [[tool.mypy.overrides]]
-module = ["pocketbase", "pocketbase.*", "torf", "torf.*", "pyperclip", "pyperclip.*"]
+module = ["torf", "torf.*", "pyperclip", "pyperclip.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]
-omit = ["src/seadex/_version.py", "tests/*"]
+omit = ["tests/*"]
 
 [tool.coverage.report]
 exclude_also = [

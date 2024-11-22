@@ -7,9 +7,9 @@ from rich import box, print_json
 from rich.console import Console, Group
 from rich.table import Table
 
+from seadex import __version__
 from seadex._entry import SeaDexEntry
 from seadex._exceptions import EntryNotFoundError
-from seadex._version import __version__
 
 entry_app = App(
     "entry",

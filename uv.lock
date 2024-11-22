@@ -993,6 +993,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-httpx" },
     { name = "ruff" },
+    { name = "tomli" },
 ]
 
 [package.metadata]
@@ -1018,6 +1019,7 @@ dev = [
     { name = "pytest", specifier = ">=8.3.3" },
     { name = "pytest-httpx", specifier = ">=0.34.0" },
     { name = "ruff", specifier = ">=0.7.1" },
+    { name = "tomli", specifier = ">=2.0.1" },
 ]
 
 [[package]]
