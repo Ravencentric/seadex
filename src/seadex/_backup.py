@@ -16,7 +16,7 @@ from typing_extensions import assert_never
 
 from seadex._models import FrozenBaseModel
 from seadex._types import StrPath, UTCDateTime
-from seadex._utils import realpath
+from seadex._utils import httpx_client, realpath
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -63,7 +63,9 @@ class BackupFile(FrozenBaseModel):
 
 
 class SeaDexBackup:
-    def __init__(self, email: str, password: str, url: str = "https://releases.moe") -> None:
+    def __init__(
+        self, email: str, password: str, base_url: str = "https://releases.moe", client: Client | None = None
+    ) -> None:
         """
         A class to interact with the SeaDex backup API.
 
@@ -73,8 +75,10 @@ class SeaDexBackup:
             The email address for authentication.
         password : str
             The password for authentication.
-        url : str, optional
-            The URL of SeaDex (default is "https://releases.moe").
+        base_url : str, optional
+            The base URL of SeaDex, used for constructing API queries.
+        client : Client, optional
+            An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to SeaDex.
 
         Examples
         --------
@@ -88,9 +92,16 @@ class SeaDexBackup:
         -----
         Only SeaDex admins can use this! Logging in with a non-admin account will result in failure.
         """
-        self._url = url
-        self._client = Client()
+        self._base_url = base_url
+        self._client = httpx_client() if client is None else client
         self._admin_token = self._auth_with_password(email, password)
+
+    @property
+    def base_url(self) -> str:
+        """
+        This is the base URL, used for constructing API queries.
+        """
+        return self._base_url
 
     def __enter__(self) -> Self:
         return self
@@ -105,7 +116,7 @@ class SeaDexBackup:
         self._client.close()
 
     def _url_for(self, endpoint: str) -> str:
-        return urljoin(self._url, endpoint)
+        return urljoin(self._base_url, endpoint)
 
     def _auth_with_password(self, email: str, password: str) -> str:
         response = self._client.post(
