@@ -19,4 +19,4 @@ def httpx_client() -> Client:
     """
     Default HTTPX client.
     """
-    return Client(headers={"user-agent": f"seadex/{__version__} (https://pypi.org/project/seadex)"})
+    return Client(headers={"user-agent": f"seadex/{__version__}"})

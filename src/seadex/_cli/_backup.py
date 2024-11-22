@@ -82,9 +82,10 @@ def create(*, email: EmailType, password: PasswordType, name: str | None = None)
 
     console = Console()
     client = _login(email, password)
+    filename = "%Y%m%d%H%M%S-seadex-backup.zip" if name is None else name
 
     with console.status("Creating a backup"):
-        backup = client.create(name)
+        backup = client.create(filename)
     console.print(f":package: Created {backup}", emoji=True, highlight=False)
 
 
@@ -120,6 +121,9 @@ def download(
     client = _login(email, password)
 
     if not existing:
+        if name is None:
+            console.print("[red]error:[/] The `--name` option is required when using `--no-existing`.")
+            return
         with console.status("Creating a temporary backup on remote"):
             _backup = client.create(name)
         console.print(f":white_check_mark: Created [cyan]{_backup}[/cyan] on remote", emoji=True)

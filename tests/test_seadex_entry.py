@@ -191,3 +191,38 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
     assert isinstance(entry.updated_at, datetime)
+
+
+def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500",
+        json={"totalPages": 1},
+    )
+
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?page=1&perPage=500&expand=trs",
+        json=SAMPLE_JSON_REPLY,
+    )
+
+    for entry in seadex_entry.iterator():
+        assert entry.anilist_id == 20519
+        assert entry.collection_id == "3l2x9nxip35gqb5"
+        assert entry.collection_name == "entries"
+        assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
+        assert isinstance(entry.created_at, datetime)
+        assert entry.id == "c344w8ld7q1yppz"
+        assert not entry.is_incomplete
+        assert (
+            entry.notes
+            == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+        )
+        assert entry.theoretical_best is None
+        assert entry.torrents[0].url == "https://nyaa.si/view/1693872"
+        assert entry.torrents[1].url == "https://animebytes.tv/torrents.php?id=20684&torrentid=1053072"
+        assert entry.torrents[0].infohash is not None
+        assert entry.torrents[1].infohash is None
+        assert entry.torrents[0].tracker == Tracker.NYAA
+        assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+        assert entry.torrents[0].infohash is not None
+        assert entry.torrents[1].infohash is None
+        assert isinstance(entry.updated_at, datetime)

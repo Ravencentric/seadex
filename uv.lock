@@ -622,18 +622,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pocketbase"
-version = "0.12.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "httpx" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/84/7b/de9b768cf6c89ea0c4b1fefa6cac6677662f48ecae21263e6e4995d9e280/pocketbase-0.12.2.tar.gz", hash = "sha256:7503e92551c0e69c40ad1432b4fe39d24b91f9357020112c99ef1a315d6c13e9", size = 16606 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ec/49/85597f6a0727bf16250bb6dbf80ff9af5336dc5a1c6335a1264920ba34d9/pocketbase-0.12.2-py3-none-any.whl", hash = "sha256:4402fda737a813309ac15b8343d7bd58e89eae5b67b59df338703802c265ba2f", size = 25933 },
-]
-
-[[package]]
 name = "pydantic"
 version = "2.9.2"
 source = { registry = "https://pypi.org/simple" }
@@ -761,15 +749,15 @@ wheels = [
 
 [[package]]
 name = "pytest-httpx"
-version = "0.32.0"
+version = "0.34.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/aa/0b/162d006764896837cd31297610bf8d14333088fe7fce0cc1851efda254d0/pytest_httpx-0.32.0.tar.gz", hash = "sha256:7807647e8254e5cff79bf2041ae272449ce915d3cf1bbecaa581c384163adb87", size = 43824 }
+sdist = { url = "https://files.pythonhosted.org/packages/86/08/d0be3fe5645c6cd9396093a9ddf97d60814a3b066fd5b38ddced34a13d14/pytest_httpx-0.34.0.tar.gz", hash = "sha256:3ca4b0975c0f93b985f17df19e76430c1086b5b0cce32b1af082d8901296a735", size = 54108 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ce/bc/40125bd2f1b22707bac1b5fcaeca27299e2bc7429bd3aff41924a8f5fa18/pytest_httpx-0.32.0-py3-none-any.whl", hash = "sha256:685d93ce5e5edb5e52310b72342cdc190bebf83aab058328943dd8bd8f6ac790", size = 17951 },
+    { url = "https://files.pythonhosted.org/packages/2c/72/7138a0faf5d780d6b9ceedef22da0b66ae8e22a676a12fd55a05c0cdd979/pytest_httpx-0.34.0-py3-none-any.whl", hash = "sha256:42cf0a66f7b71b9111db2897e8b38a903abd33a27b11c48aff4a3c7650313af2", size = 19440 },
 ]
 
 [[package]]
@@ -982,9 +970,8 @@ source = { editable = "." }
 dependencies = [
     { name = "httpx" },
     { name = "natsort" },
-    { name = "pocketbase" },
     { name = "pydantic" },
-    { name = "strenum", marker = "python_full_version < '3.11'" },
+    { name = "stringenum" },
     { name = "torf" },
     { name = "typing-extensions" },
 ]
@@ -1013,11 +1000,10 @@ requires-dist = [
     { name = "cyclopts", marker = "extra == 'cli'", specifier = ">=2.9.9" },
     { name = "httpx", specifier = ">=0.27.2" },
     { name = "natsort", specifier = ">=8.4.0" },
-    { name = "pocketbase", specifier = ">=0.12.2" },
     { name = "pydantic", specifier = ">=2.9.2" },
     { name = "pyperclip", marker = "extra == 'cli'", specifier = ">=1.9.0" },
     { name = "rich", marker = "extra == 'cli'", specifier = ">=13.8.1" },
-    { name = "strenum", marker = "python_full_version < '3.11'", specifier = ">=0.4.15" },
+    { name = "stringenum", specifier = ">=0.5.0" },
     { name = "torf", specifier = ">=4.2.7" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
@@ -1030,7 +1016,7 @@ dev = [
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26.1" },
     { name = "mypy", specifier = ">=1.11.2" },
     { name = "pytest", specifier = ">=8.3.3" },
-    { name = "pytest-httpx", specifier = ">=0.32.0" },
+    { name = "pytest-httpx", specifier = ">=0.34.0" },
     { name = "ruff", specifier = ">=0.7.1" },
 ]
 
@@ -1053,12 +1039,12 @@ wheels = [
 ]
 
 [[package]]
-name = "strenum"
-version = "0.4.15"
+name = "stringenum"
+version = "0.5.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/85/ad/430fb60d90e1d112a62ff57bdd1f286ec73a2a0331272febfddd21f330e1/StrEnum-0.4.15.tar.gz", hash = "sha256:878fb5ab705442070e4dd1929bb5e2249511c0bcf2b0eeacf3bcd80875c82eff", size = 23384 }
+sdist = { url = "https://files.pythonhosted.org/packages/12/74/b32bbcd5279fb2f8d14513a3b30b256603c3988b408f666ac60992c483d3/stringenum-0.5.0.tar.gz", hash = "sha256:c80a702877cf815bb6b15c840d3a97e8994db32e2ac2998dc7e0cf8769632aa1", size = 24266 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/69/297302c5f5f59c862faa31e6cb9a4cd74721cd1e052b38e464c5b402df8b/StrEnum-0.4.15-py3-none-any.whl", hash = "sha256:a30cda4af7cc6b5bf52c8055bc4bf4b2b6b14a93b574626da33df53cf7740659", size = 8851 },
+    { url = "https://files.pythonhosted.org/packages/e6/d5/3c352e2f2260b757309804ee7d14c5aa3c00bb9be64d2d2914adea363335/stringenum-0.5.0-py3-none-any.whl", hash = "sha256:3f3541693d9915669f590a3bd12bb00322097d5ce97a363f287618bb9bf48223", size = 6129 },
 ]
 
 [[package]]
