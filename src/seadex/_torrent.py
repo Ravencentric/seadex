@@ -64,7 +64,7 @@ class FileList(tuple[File, ...]):
 class SeaDexTorrent:
     def __init__(self, file: StrPath) -> None:
         """
-        Create a class to handle torrent files for SeaDex.
+        Class to handle torrent files for SeaDex.
 
         Parameters
         ----------
