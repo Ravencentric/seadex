@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import tomli
 
-from seadex import __version__
+from seadex._version import __version__
 
 
 def test_versions_match() -> None:

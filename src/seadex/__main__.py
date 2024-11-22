@@ -7,10 +7,10 @@ except ModuleNotFoundError:
         "Missing required dependencies for the CLI, run 'pip install seadex[cli]' to install them."
     )
 
-from seadex import __version__
 from seadex._cli._backup import backup_app
 from seadex._cli._entry import entry_app
 from seadex._cli._torrent import torrent_app
+from seadex._version import __version__
 
 app = App(
     "seadex",

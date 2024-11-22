@@ -7,8 +7,8 @@ from rich import print_json
 from rich.console import Console
 from rich.progress import track
 
-from seadex import __version__
 from seadex._torrent import SeaDexTorrent
+from seadex._version import __version__
 
 torrent_app = App(
     "torrent",

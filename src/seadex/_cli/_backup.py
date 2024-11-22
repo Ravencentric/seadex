@@ -6,8 +6,8 @@ from typing import Annotated, TypeAlias
 from cyclopts import App, Parameter
 from cyclopts.types import ResolvedExistingDirectory
 
-from seadex import __version__
 from seadex._backup import SeaDexBackup
+from seadex._version import __version__
 
 backup_app = App(
     "backup",
