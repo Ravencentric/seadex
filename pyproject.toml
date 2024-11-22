@@ -1,6 +1,6 @@
 [project]
 name = "seadex"
-version = "0.3.0"
+version = "0.4.0"
 description = "Python wrapper for the SeaDex API"
 authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
