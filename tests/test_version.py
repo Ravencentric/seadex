@@ -6,5 +6,6 @@ from seadex._version import __version__
 
 
 def test_versions_match() -> None:
-    pyproject_version = tomli.load(open("pyproject.toml", "rb"))["project"]["version"]
+    with open("pyproject.toml", "rb") as f:
+        pyproject_version = tomli.load(f)["project"]["version"]
     assert pyproject_version == __version__
