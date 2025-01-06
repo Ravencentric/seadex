@@ -173,7 +173,7 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
     )
 
     entries = seadex_entry.from_filename("Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv")
-    entry = tuple(entries)[0]
+    entry = tuple(entries)[0]  # noqa: RUF015
     assert entry.anilist_id == 20519
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
