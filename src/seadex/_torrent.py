@@ -74,7 +74,7 @@ class SeaDexTorrent:
         """
         self._file = realpath(file)
 
-    @cached_property
+    @property
     def file(self) -> Path:
         """Resolved path to the torrent file."""
         return self._file

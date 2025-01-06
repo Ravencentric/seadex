@@ -85,18 +85,19 @@ class SeaDexEntry:
             If no entry is found for the provided ID.
 
         """
+
+        if isinstance(id, int):
+            params = {"filter": f"alID={id}", "expand": "trs"}  # Anilist IDs are integers
+        else:
+            params = {"filter": f"id='{id}'", "expand": "trs"}  # Database IDs are strings
+
+        response = self._client.get(self._endpoint, params=params).raise_for_status()
+
         try:
-            if isinstance(id, int):
-                params = {"filter": f"alID={id}", "expand": "trs"}  # Anilist IDs are integers
-            else:
-                params = {"filter": f"id='{id}'", "expand": "trs"}  # Database IDs are strings
-
-            response = self._client.get(self._endpoint, params=params).raise_for_status()
             return EntryRecord._from_dict(response.json()["items"][0])
-
         except (KeyError, IndexError):
             errmsg = f"No seadex entry found for id: {id}"
-            raise EntryNotFoundError(errmsg, response=response)
+            raise EntryNotFoundError(errmsg)
 
     def from_title(self, title: str, /) -> EntryRecord:
         """
@@ -125,19 +126,22 @@ class SeaDexEntry:
                     "query": "query ($search: String!) { Media(search: $search, type: ANIME) { id title { english romaji } } }",
                     "variables": {"search": title},
                 },
-            )
+            ).raise_for_status()
+
             media = response.json()["data"]["Media"]
             anilist_id = media["id"]
+
             response = self._client.get(
                 self._endpoint, params={"filter": f"alID={anilist_id}", "expand": "trs"}
             ).raise_for_status()
+
             entry_record = EntryRecord._from_dict(response.json()["items"][0])
-            setattr(entry_record, "__anilist_title", media["title"]["english"] or media["title"]["romaji"])
+            entry_record._anilist_title = media["title"]["english"] or media["title"]["romaji"]  # type: ignore[attr-defined]
             return entry_record
 
         except (KeyError, IndexError, TypeError):
             errmsg = f"No seadex entry found for title: {title}"
-            raise EntryNotFoundError(errmsg, response=response)
+            raise EntryNotFoundError(errmsg)
 
     def from_filename(self, filename: StrPath, /) -> Iterator[EntryRecord]:
         """
@@ -162,7 +166,7 @@ class SeaDexEntry:
 
     def iterator(self) -> Iterator[EntryRecord]:
         """
-        Lazily get all the entries from SeaDex.
+        Lazily iterate over all the entries in SeaDex.
 
         Yields
         ------

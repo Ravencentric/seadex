@@ -39,7 +39,7 @@ def test_backup_properties(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -
     assert len(seadex_backup.backups) == 7
     assert seadex_backup.latest_backup == BackupFile(
         name="@auto_pb_backup_sea_dex_20241122000000.zip",
-        size=65847001,
+        size=65847001,  # type: ignore[arg-type]
         modified_time=datetime(2024, 11, 22, 0, 0, 3, 487000, tzinfo=timezone.utc),
     )
 
@@ -99,7 +99,7 @@ def test_backup_download(
     assert backup3.name == latest_backup.name
 
     with pytest.raises(AssertionError):
-        seadex_backup.download(1213123, destination=tmp_path_factory.mktemp("blah4"))
+        seadex_backup.download(1213123, destination=tmp_path_factory.mktemp("blah4"))  # type: ignore[arg-type]
 
     with pytest.raises(BadBackupFileError):
         seadex_backup.download(zip_with_bad_crc, destination=tmp_path_factory.mktemp("blah5"))

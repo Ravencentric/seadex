@@ -5,7 +5,7 @@ from datetime import datetime
 from seadex import EntryRecord, TorrentRecord, Tracker
 
 
-def test_torrent_record():
+def test_torrent_record() -> None:
     """
     Tests that `_from_dict` correctly parses a dictionary into a TorrentRecord object.
     """
@@ -44,7 +44,7 @@ def test_torrent_record():
     assert record.url == "https://nyaa.si/view/1693872"
 
 
-def test_entry_record():
+def test_entry_record() -> None:
     sample_data = {
         "alID": 20519,
         "collectionId": "3l2x9nxip35gqb5",

@@ -65,7 +65,6 @@ required-imports = ["from __future__ import annotations"]
 strict = true
 pretty = true
 enable_error_code = ["ignore-without-code"]
-exclude = "tests/"
 
 [[tool.mypy.overrides]]
 module = ["torf", "torf.*", "pyperclip", "pyperclip.*"]

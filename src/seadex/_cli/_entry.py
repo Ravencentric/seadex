@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from urllib.parse import urljoin
-
 from cyclopts import App
 from rich import box, print_json
 from rich.console import Console, Group
@@ -52,8 +50,8 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
                 print(entry.model_dump_json())
                 return
 
-        body = f"Title: {entry.__anilist_title}\n"  # type: ignore[attr-defined]
-        body += f"URL: {urljoin(seadex_entry.base_url, str(entry.anilist_id))}\n"
+        body = f"Title: {entry._anilist_title}\n"  # type: ignore[attr-defined]
+        body += f"URL: {entry.url}\n"
         body += f"AniList: https://anilist.co/anime/{entry.anilist_id}\n"
         body += f"Incomplete: {entry.is_incomplete}\n"
         body += f"Updated At: {entry.updated_at.strftime('%Y-%m-%d')}"

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from pytest_httpx import HTTPXMock
 
@@ -71,11 +71,11 @@ SAMPLE_JSON_REPLY = {
 }
 
 
-def test_properties(seadex_entry: SeaDexEntry):
+def test_properties(seadex_entry: SeaDexEntry) -> None:
     assert seadex_entry.base_url == "https://releases.moe"
 
 
-def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=alID%3D20519&expand=trs",
         json=SAMPLE_JSON_REPLY,
@@ -85,7 +85,7 @@ def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
     assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
-    assert isinstance(entry.created_at, datetime)
+    assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
     assert entry.id == "c344w8ld7q1yppz"
     assert not entry.is_incomplete
     assert (
@@ -103,7 +103,7 @@ def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert isinstance(entry.updated_at, datetime)
 
 
-def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=id='c344w8ld7q1yppz'&expand=trs",
         json=SAMPLE_JSON_REPLY,
@@ -113,7 +113,7 @@ def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
     assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
-    assert isinstance(entry.created_at, datetime)
+    assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
     assert entry.id == "c344w8ld7q1yppz"
     assert not entry.is_incomplete
     assert (
@@ -128,10 +128,10 @@ def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert isinstance(entry.updated_at, datetime)
+    assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
 
 
-def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://graphql.anilist.co",
         json={
@@ -146,10 +146,11 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
 
     entry = seadex_entry.from_title("tamako love story")
     assert entry.anilist_id == 20519
+    assert entry._anilist_title == "Tamako -love story-"  # type: ignore[attr-defined]
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
     assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
-    assert isinstance(entry.created_at, datetime)
+    assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
     assert entry.id == "c344w8ld7q1yppz"
     assert not entry.is_incomplete
     assert (
@@ -162,10 +163,10 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert isinstance(entry.updated_at, datetime)
+    assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
 
 
-def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?filter=trs.files%3F~%27%22name%22%3A%22Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv%22%27&expand=trs",
         json=SAMPLE_JSON_REPLY,
@@ -177,7 +178,7 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
     assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
-    assert isinstance(entry.created_at, datetime)
+    assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
     assert entry.id == "c344w8ld7q1yppz"
     assert not entry.is_incomplete
     assert (
@@ -190,10 +191,10 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
     assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert isinstance(entry.updated_at, datetime)
+    assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
 
 
-def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
+def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?perPage=500",
         json={"totalPages": 1},
@@ -209,7 +210,7 @@ def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
         assert entry.collection_id == "3l2x9nxip35gqb5"
         assert entry.collection_name == "entries"
         assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
-        assert isinstance(entry.created_at, datetime)
+        assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
         assert entry.id == "c344w8ld7q1yppz"
         assert not entry.is_incomplete
         assert (
@@ -225,4 +226,4 @@ def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock):
         assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
         assert entry.torrents[0].infohash is not None
         assert entry.torrents[1].infohash is None
-        assert isinstance(entry.updated_at, datetime)
+        assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)

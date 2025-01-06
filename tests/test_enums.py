@@ -22,7 +22,7 @@ from seadex import Tracker
         (Tracker.OTHER, "Other"),
     ],
 )
-def test_tracker_values(tracker, value) -> None:
+def test_tracker_values(tracker: Tracker, value: str) -> None:
     assert tracker == value
 
 
@@ -43,7 +43,7 @@ def test_tracker_values(tracker, value) -> None:
         ("Other", True, False),
     ],
 )
-def test_tracker_is_private(tracker, is_private, is_public) -> None:
+def test_tracker_is_private(tracker: str, is_private: bool, is_public: bool) -> None:
     assert Tracker(tracker).is_private() == is_private
     assert Tracker(tracker).is_public() == is_public
 
@@ -65,7 +65,7 @@ def test_tracker_is_private(tracker, is_private, is_public) -> None:
         ("Other", ""),
     ],
 )
-def test_tracker_domain(tracker, domain) -> None:
+def test_tracker_domain(tracker: str, domain: str) -> None:
     assert Tracker(tracker).domain == domain
 
 

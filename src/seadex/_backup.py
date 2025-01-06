@@ -46,7 +46,7 @@ class BackupFile(FrozenBaseModel):
         --------
         >>> from pathlib import Path
         >>> from seadex import BackupFile
-        >>> backup = BackupFile(name="20240909041339-seadex-backup.zip", size=..., modified=..)
+        >>> backup = BackupFile(name="20240909041339-seadex-backup.zip", size=..., modified=...)
         >>> Path.home() / backup
         PosixPath('/home/raven/20240909041339-seadex-backup.zip')
 
