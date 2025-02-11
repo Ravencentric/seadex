@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import base64
+
 from stringenum import CaseInsensitiveStrEnum
 
 
@@ -12,7 +14,7 @@ class Tracker(CaseInsensitiveStrEnum):
     ANIDEX = "AniDex"
     RUTRACKER = "RuTracker"
     # Private Trackers
-    ANIMEBYTES = "AnimeBytes"
+    PRIVATE_TRACKER = "PT"
     BEYONDHD = "BeyondHD"
     PASSTHEPOPCORN = "PassThePopcorn"
     BROADCASTTHENET = "BroadcastTheNet"
@@ -56,19 +58,21 @@ class Tracker(CaseInsensitiveStrEnum):
             Domain name of the tracker, or an empty string for "Other".
 
         """
-        return {
+        _map = {
             # Public Trackers
-            "NYAA": "nyaa.si",
-            "ANIMETOSHO": "animetosho.org",
-            "ANIDEX": "anidex.info",
-            "RUTRACKER": "rutracker.org",
+            "NYAA": b"bnlhYS5zaQ==",
+            "ANIMETOSHO": b"YW5pbWV0b3Noby5vcmc=",
+            "ANIDEX": b"YW5pZGV4LmluZm8=",
+            "RUTRACKER": b"cnV0cmFja2VyLm9yZw==",
             # Private Trackers
-            "ANIMEBYTES": "animebytes.tv",
-            "BEYONDHD": "beyond-hd.me",
-            "PASSTHEPOPCORN": "passthepopcorn.me",
-            "BROADCASTTHENET": "broadcasthe.net",
-            "HDBITS": "hdbits.org",
-            "BLUTOPIA": "blutopia.cc",
-            "AITHER": "aither.cc",
-            "OTHER": "",
-        }[self.name]
+            "PRIVATE_TRACKER": b"YW5pbWVieXRlcy50dg==",
+            "BEYONDHD": b"YmV5b25kLWhkLm1l",
+            "PASSTHEPOPCORN": b"cGFzc3RoZXBvcGNvcm4ubWU=",
+            "BROADCASTTHENET": b"YnJvYWRjYXN0aGUubmV0",
+            "HDBITS": b"aGRiaXRzLm9yZw==",
+            "BLUTOPIA": b"Ymx1dG9waWEuY2M=",
+            "AITHER": b"YWl0aGVyLmNj",
+            "OTHER": b"",
+        }
+
+        return base64.b64decode(_map[self.name]).decode()

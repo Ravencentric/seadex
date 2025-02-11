@@ -81,9 +81,9 @@ def test_entry_record() -> None:
                     "infoHash": "<redacted>",
                     "isBest": True,
                     "releaseGroup": "LYS1TH3A",
-                    "tracker": "AnimeBytes",
+                    "tracker": "PT",
                     "updated": "2024-01-30 19:28:09.461Z",
-                    "url": "https://animebytes.tv/torrents.php?id=20684&torrentid=1053072",
+                    "url": "/torrents.php?id=20684&torrentid=1053072",
                 },
             ]
         },
@@ -109,7 +109,7 @@ def test_entry_record() -> None:
     )
     assert record.theoretical_best is None
     assert record.torrents[0].url == "https://nyaa.si/view/1693872"
-    assert record.torrents[1].url == "https://animebytes.tv/torrents.php?id=20684&torrentid=1053072"
+    assert record.torrents[1].url == "/torrents.php?id=20684&torrentid=1053072"
     assert record.torrents[0].infohash is not None
     assert record.torrents[1].infohash is None
     assert isinstance(record.updated_at, datetime)
