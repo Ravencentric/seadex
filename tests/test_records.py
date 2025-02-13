@@ -81,7 +81,7 @@ def test_entry_record() -> None:
                     "infoHash": "<redacted>",
                     "isBest": True,
                     "releaseGroup": "LYS1TH3A",
-                    "tracker": "PT",
+                    "tracker": "AB",
                     "updated": "2024-01-30 19:28:09.461Z",
                     "url": "/torrents.php?id=20684&torrentid=1053072",
                 },

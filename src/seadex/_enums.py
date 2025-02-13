@@ -14,7 +14,7 @@ class Tracker(CaseInsensitiveStrEnum):
     ANIDEX = "AniDex"
     RUTRACKER = "RuTracker"
     # Private Trackers
-    PRIVATE_TRACKER = "PT"
+    ANIMEBYTES = "AB"
     BEYONDHD = "BeyondHD"
     PASSTHEPOPCORN = "PassThePopcorn"
     BROADCASTTHENET = "BroadcastTheNet"
@@ -22,6 +22,7 @@ class Tracker(CaseInsensitiveStrEnum):
     BLUTOPIA = "Blutopia"
     AITHER = "Aither"
     OTHER = "Other"
+    OTHER_PRIVATE = "OtherPrivate"
 
     def is_private(self) -> bool:
         """
@@ -33,7 +34,7 @@ class Tracker(CaseInsensitiveStrEnum):
             `True` if the tracker is private, `False` otherwise.
 
         """
-        return False if self.value in ("Nyaa", "AnimeTosho", "AniDex", "RuTracker") else True
+        return False if self.value in ("Nyaa", "AnimeTosho", "AniDex", "RuTracker", "Other") else True
 
     def is_public(self) -> bool:
         """
@@ -65,7 +66,7 @@ class Tracker(CaseInsensitiveStrEnum):
             "ANIDEX": b"YW5pZGV4LmluZm8=",
             "RUTRACKER": b"cnV0cmFja2VyLm9yZw==",
             # Private Trackers
-            "PRIVATE_TRACKER": b"YW5pbWVieXRlcy50dg==",
+            "ANIMEBYTES": b"YW5pbWVieXRlcy50dg==",
             "BEYONDHD": b"YmV5b25kLWhkLm1l",
             "PASSTHEPOPCORN": b"cGFzc3RoZXBvcGNvcm4ubWU=",
             "BROADCASTTHENET": b"YnJvYWRjYXN0aGUubmV0",
@@ -73,6 +74,7 @@ class Tracker(CaseInsensitiveStrEnum):
             "BLUTOPIA": b"Ymx1dG9waWEuY2M=",
             "AITHER": b"YWl0aGVyLmNj",
             "OTHER": b"",
+            "OTHER_PRIVATE": b"",
         }
 
         return base64.b64decode(_map[self.name]).decode()

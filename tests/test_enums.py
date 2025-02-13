@@ -12,7 +12,7 @@ from seadex import Tracker
         (Tracker.ANIMETOSHO, "AnimeTosho"),
         (Tracker.ANIDEX, "AniDex"),
         (Tracker.RUTRACKER, "RuTracker"),
-        (Tracker.PRIVATE_TRACKER, "PT"),
+        (Tracker.ANIMEBYTES, "AB"),
         (Tracker.BEYONDHD, "BeyondHD"),
         (Tracker.PASSTHEPOPCORN, "PassThePopcorn"),
         (Tracker.BROADCASTTHENET, "BroadcastTheNet"),
@@ -33,14 +33,14 @@ def test_tracker_values(tracker: Tracker, value: str) -> None:
         ("AnimeTosho", False, True),
         ("AniDex", False, True),
         ("RuTracker", False, True),
-        ("PT", True, False),
+        ("AB", True, False),
         ("BeyondHD", True, False),
         ("PassThePopcorn", True, False),
         ("BroadcastTheNet", True, False),
         ("HDBits", True, False),
         ("Blutopia", True, False),
         ("Aither", True, False),
-        ("Other", True, False),
+        ("Other", False, True),
     ],
 )
 def test_tracker_is_private(tracker: str, is_private: bool, is_public: bool) -> None:
@@ -79,4 +79,4 @@ def test_bad_value() -> None:
 def test_case_insensitive_lookup() -> None:
     assert Tracker("nyAA") is Tracker.NYAA
     assert Tracker("ANIMETOSHO") is Tracker.ANIMETOSHO
-    assert Tracker("pt") is Tracker.PRIVATE_TRACKER
+    assert Tracker("Ab") is Tracker.ANIMEBYTES
