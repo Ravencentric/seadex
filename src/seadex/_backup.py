@@ -222,8 +222,11 @@ class SeaDexBackup:
         -------
         BackupFile
             The newly created backup file.
+
+        Raises
+        ------
         ValueError
-            If the filename does not match the required criteria.
+            If the filename is invalid.
 
         """
         _filename = filename.removesuffix(".zip") + ".zip"

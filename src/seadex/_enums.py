@@ -53,7 +53,10 @@ class Tracker(CaseInsensitiveStrEnum):
         """
         URL of the current tracker.
 
-        Returns an empty string for [`Tracker.OTHER`][Tracker.OTHER] and [`Tracker.OTHER_PRIVATE`][Tracker.OTHER_PRIVATE].
+        Returns an empty string for [`Tracker.OTHER`][] and [`Tracker.OTHER_PRIVATE`][].
+        
+        [`Tracker.OTHER`]: seadex.Tracker.OTHER
+        [`Tracker.OTHER_PRIVATE`]: seadex.Tracker.OTHER_PRIVATE
 
         Returns
         -------
