@@ -1,37 +1,45 @@
-name: Build docs
+name: Deploy docs
 
 on:
   push:
     branches:
       - main
     paths:
-      - docs/**/*.*
-      - src/**/*.*
-      - .github/workflows/docs.yml
-      - mkdocs.yml
+      - 'src/**'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+      - 'mkdocs.yml'
   workflow_dispatch:
 
+env:
+  FORCE_COLOR: 1
+  UV_LOCKED: 1
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  docs:
     permissions:
-      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - uses: astral-sh/setup-uv@v5
+      - run: uv run mkdocs build --strict
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          python-version: "3.13"
+          path: './site'
 
-      - name: Install the project
-        run: uv sync --all-extras --locked
-
-      - name: Deploy docs
-        run: uv run mkdocs gh-deploy --force
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
