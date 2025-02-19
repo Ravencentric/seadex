@@ -20,7 +20,6 @@ def test_backupfile() -> None:
     )
 
     assert str(backupfile) == backupfile.name
-    assert Path(backupfile) == Path(backupfile.name)
     assert backupfile.size == ByteSize(1024)
     assert backupfile.modified_time == datetime(2024, 9, 12, 18, 14, 33, 816632, tzinfo=timezone.utc)
 
@@ -98,7 +97,7 @@ def test_backup_download(
     assert backup2.name == latest_backup.name
     assert backup3.name == latest_backup.name
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(TypeError):
         seadex_backup.download(1213123, destination=tmp_path_factory.mktemp("blah4"))  # type: ignore[arg-type]
 
     with pytest.raises(BadBackupFileError):

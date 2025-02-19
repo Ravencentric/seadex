@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from datetime import datetime
 
 from seadex import EntryRecord, TorrentRecord, Tracker
@@ -109,7 +110,12 @@ def test_entry_record() -> None:
     )
     assert record.theoretical_best is None
     assert record.torrents[0].url == "https://nyaa.si/view/1693872"
-    assert record.torrents[1].url == "/torrents.php?id=20684&torrentid=1053072"
+    assert (
+        record.torrents[1].url
+        == base64.b64decode(
+            b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2L3RvcnJlbnRzLnBocD9pZD0yMDY4NCZ0b3JyZW50aWQ9MTA1MzA3Mg=="
+        ).decode()
+    )
     assert record.torrents[0].infohash is not None
     assert record.torrents[1].infohash is None
     assert isinstance(record.updated_at, datetime)

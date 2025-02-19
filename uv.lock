@@ -30,6 +30,54 @@ wheels = [
 ]
 
 [[package]]
+name = "atomicwriter"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/32/cc/fb8cea2907165a2f0977dbcb4255413b85ffbebe83522236ad220bd675c4/atomicwriter-0.2.0.tar.gz", hash = "sha256:49d7c8662e805a0fc27b549ea7fb608940a5bc0c214ee1698f825f8eb29ba43e", size = 65757 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/83/34/a1319c0b6e21827a65fcf252be9f13e1980ab6baf9d763d5749a2d8abde1/atomicwriter-0.2.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:949d4eb5b61fd44b92fb179a442f1fa4e9e3be1583b0c39ddf25f2830d4fc9e2", size = 230445 },
+    { url = "https://files.pythonhosted.org/packages/74/4c/735c15aa4507997b88d304aa6507792c533e7b15e73f9dc249d94379aff1/atomicwriter-0.2.0-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:ae912300fbd9695a430f83a039304acb1319d24d263ad77704f8323434977c34", size = 238889 },
+    { url = "https://files.pythonhosted.org/packages/d0/cf/7d431fec285077e61ac35d6fa619b61aebbe5741ffc933f1e3a1e0c49f22/atomicwriter-0.2.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:52ec28b45c91837bcd426f34e1b96678c584803099b0d019f40e3e4e7e3d6b48", size = 253840 },
+    { url = "https://files.pythonhosted.org/packages/94/1e/0350669cf5339b86787ea03cb617c5c4b9f85a38030f4f81bac99f584194/atomicwriter-0.2.0-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:df970a83c44585fc2630409311806bb2b5358f19a1e1e2c1562312e07a14b740", size = 256952 },
+    { url = "https://files.pythonhosted.org/packages/c5/9a/41d6d71e9fecf2b09c971a0e5cc8d865cda1aec97da318a2d9ae14ee479d/atomicwriter-0.2.0-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:d6295ede5b00963ea9dbc41f5ec87d6bd7955c73ae7afdff0d224c4621b995ed", size = 301235 },
+    { url = "https://files.pythonhosted.org/packages/58/07/27b195f64b99361312d43887de835ad65d35bb719e774a6a83118981aaaa/atomicwriter-0.2.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:4d11ecf534e61859fc29961b9153fc996ecb6a3a1f31ac588c3fccca28444ffa", size = 318725 },
+    { url = "https://files.pythonhosted.org/packages/73/25/2a8f6cb43b3b8562d3ff4b0639027914b1106d9fecc95e671817b5de73ab/atomicwriter-0.2.0-cp310-cp310-win_amd64.whl", hash = "sha256:64be08cb05a1cc1064219a7aa32cb1e72d244558a5d220e59b5c73bf574e1cc8", size = 146583 },
+    { url = "https://files.pythonhosted.org/packages/9b/c1/8a005ca374ba7cd787a12247a2b74834065b9a6b97598eae543fcb32bd5b/atomicwriter-0.2.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:cfca7942b4222d25dbe793a33939a8625a23ae8eac8c092be2c9ddb76a75cba9", size = 230329 },
+    { url = "https://files.pythonhosted.org/packages/ae/82/4417c02dbaa995468958ab834572ae3549dfd8a542fc1dba1887fc7d899e/atomicwriter-0.2.0-cp311-cp311-macosx_11_0_x86_64.whl", hash = "sha256:ef132aac8ccb5e84ab142b9c8a99b8557e2180e1f6b1c8aa274b47c6cf733747", size = 238790 },
+    { url = "https://files.pythonhosted.org/packages/5e/cf/a2f42aeef7800c85cef7b57f8f74761c6a1aa8aba4cc181e13fc0bc2e24e/atomicwriter-0.2.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:34e6628771aad1d19b52215c82e0fff1dbd45f1f65b137dfb6984db6fc707a49", size = 253710 },
+    { url = "https://files.pythonhosted.org/packages/e9/85/cc11f2055fe9f5c99a4d374b45a1af87024c904e40856a069d944529a757/atomicwriter-0.2.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:8bcd3eab55e1ffc55a9fa6ec5d9617586d050a2e80f0d4cb47cc5d70abe062ae", size = 256861 },
+    { url = "https://files.pythonhosted.org/packages/27/f4/70175bc417d3ea13e4d408ce25a8bb1d5d2d311622bc416f72ab1bbfe08c/atomicwriter-0.2.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:acf9fe2954fa0904558fba73ae6159887a957b81c8062ea37cd37ce288320198", size = 301152 },
+    { url = "https://files.pythonhosted.org/packages/7e/40/ea03dd15293a18c742114a4d9b1b2b4078247f45b550a284ede76254450c/atomicwriter-0.2.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:12be70578a6b20a4e14e518f5a8fe8eeeee96081076d29e260e8aec73ab4957f", size = 318607 },
+    { url = "https://files.pythonhosted.org/packages/3f/69/f446bc45d0087b3e900733f18342374baf20bd65234b77160a5063239524/atomicwriter-0.2.0-cp311-cp311-win_amd64.whl", hash = "sha256:c1d82e7160d7388953b75bf8418fb8f368c5df2c597579bed097a6e59350fb4d", size = 146472 },
+    { url = "https://files.pythonhosted.org/packages/32/e3/b090f28aba7ba79f3e0831ecb97f9839772d52149725a756b617bc506bd9/atomicwriter-0.2.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:615d51e00f4c1f73918aed4c57dca7d24244e7d5ff5de4ed31ceb0df30ffaa07", size = 229035 },
+    { url = "https://files.pythonhosted.org/packages/c2/ca/8f38e193fc63f95d7f6e53c81c8189de0c398457361d644c439ce82f4a23/atomicwriter-0.2.0-cp312-cp312-macosx_11_0_x86_64.whl", hash = "sha256:0865708a3f1b505e56b1694e01a3c242211dc165f77646dfe8cbc19007fcaadd", size = 236965 },
+    { url = "https://files.pythonhosted.org/packages/17/c7/648ee97b8e80556edaa887917309a05b9f60aaf214a42daec8ed96fcf3cc/atomicwriter-0.2.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:7d646581447c96d15a6d8061a3df31c65060d6354ef6fec2efc99c4c88efc797", size = 251970 },
+    { url = "https://files.pythonhosted.org/packages/33/e0/eb3a87851b09063463d3ce77c34fd11a69c44538b2c5f0c3268365d0fca8/atomicwriter-0.2.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:27696fc574d3afc7a3edb86eb825062a72413227cc958d6f87cd6c16c8a5ba2e", size = 255304 },
+    { url = "https://files.pythonhosted.org/packages/1d/bd/f090d785f219beacecbe5659959dc5274cd5f8c22c0689d110c71df64f55/atomicwriter-0.2.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:036327471891340310149898a46ddd94c707941b2269ffd33c729f089863d809", size = 299395 },
+    { url = "https://files.pythonhosted.org/packages/87/2b/1b776baf1f23beae0be2880dbf8c136984d746d74d5fffb52462f966b246/atomicwriter-0.2.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:778c0e0013dbef382eef4c02659dcb034f2c3e67d3dd8486147123dab512b2e3", size = 316963 },
+    { url = "https://files.pythonhosted.org/packages/a5/ee/6782cd82bab2bb0d53a7c61710c53f30398e509ae2307b0ed624b2f518b1/atomicwriter-0.2.0-cp312-cp312-win_amd64.whl", hash = "sha256:ed0ddb34f803cf02dc18949e4519d322b823867a957e4941001b9c3e80760308", size = 146236 },
+    { url = "https://files.pythonhosted.org/packages/b1/02/2fe9aa43262a3a991aa059887efb498192ef7150801ca0171966b05013a6/atomicwriter-0.2.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:b4b740155ba7551b4335b0161cba6c80c049c4515a50b0f1b4e6f7500f36cd38", size = 228856 },
+    { url = "https://files.pythonhosted.org/packages/fb/2f/c60eb7fa598420da94d26143885f3811192e1a97ba65276b13dffccb845a/atomicwriter-0.2.0-cp313-cp313-macosx_11_0_x86_64.whl", hash = "sha256:ce172ac32f51ddf29676e14fb2f924aebd8222c80efa391462a4e54b680e5f26", size = 236454 },
+    { url = "https://files.pythonhosted.org/packages/fc/56/a7c0dd35ea1062aa50facdd189a532cab98d4be21f071cabd6636564f39f/atomicwriter-0.2.0-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:a254dc74d87d7c78339988b6b33c8ccf24597b470d23801f206815bfeeab5f61", size = 251332 },
+    { url = "https://files.pythonhosted.org/packages/0f/9f/1c3bf5eb049fcaef91232fc734666048ff160278911ae84a3bd65d8fc3bb/atomicwriter-0.2.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:4101af9d3cd30cd21b50b5606f777a7866d4d922619634aeb492ff88f12be946", size = 254810 },
+    { url = "https://files.pythonhosted.org/packages/73/8d/791282042cd9c86df7fa3257adfdcc7a8fa23264d620672fde198b8b09ee/atomicwriter-0.2.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:c2f6324e4a3c7b2626e996191e2b93d9522a35fdd8f6ad78734d42ccf50985c5", size = 298957 },
+    { url = "https://files.pythonhosted.org/packages/77/92/980050efd72a9d5a792d89e76cdb173ae1aa6fb1109f39bd456500a1b4c2/atomicwriter-0.2.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:8877ec5ad62278a8385c5c8fbacab2d45acd42bb233ffbf9ece0306c1b04740b", size = 316408 },
+    { url = "https://files.pythonhosted.org/packages/74/8c/237a787b15011fe1bc1615a68f1f0da65f9f44412f5e3848da588fbd181b/atomicwriter-0.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:b5e2bea74300ffa559d31f07aaaa66dd06510e9104fc6866e2465ea2118d6b86", size = 145862 },
+    { url = "https://files.pythonhosted.org/packages/92/f0/03795e7981aa4ec277a63ab57dec24af5ccf27b30323bbc48dd1f1878fbc/atomicwriter-0.2.0-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:52311d2644563dac2a4bed0f7d61457b93fc959b87a67add8b35a287cf7a0ad7", size = 227589 },
+    { url = "https://files.pythonhosted.org/packages/4b/27/e86b68929cec10a7c2ea6c4aa2da3414410239f4f2e099c53bc0ec1f1d25/atomicwriter-0.2.0-cp313-cp313t-macosx_11_0_x86_64.whl", hash = "sha256:e0447e491933a60f9a05fd3eb5b537757d676914a051b094cf411f5b92034f87", size = 235695 },
+    { url = "https://files.pythonhosted.org/packages/0a/0f/4170d7f222e2ddee15f88948ca0df618359f4dd90e16f9baaaa1c32a5c08/atomicwriter-0.2.0-cp313-cp313t-manylinux_2_28_aarch64.whl", hash = "sha256:eb51040042493f6a23808e2f77dc695df095a1964f52511ac3250325a4eb6b79", size = 250677 },
+    { url = "https://files.pythonhosted.org/packages/d2/0f/669191e9e9219f43d421b7ee78d9a35a8a08fcf6304dae6a4a316d75fa51/atomicwriter-0.2.0-cp313-cp313t-manylinux_2_28_x86_64.whl", hash = "sha256:8a337052e7b671dbec6cd54634aa8723eb3af115ca988b3be4b4c718e2eddcd7", size = 254428 },
+    { url = "https://files.pythonhosted.org/packages/84/a1/9e7fb890efdacd8599a813afc8695bcac1537e07e99a2b55751677f90553/atomicwriter-0.2.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:d0c513f95b10674112c1f6d81a3c2c10c20ac846a4499db6262ac6a17c9ae06c", size = 298230 },
+    { url = "https://files.pythonhosted.org/packages/c8/0f/5b8ec0b2f2b08af2f8866cdfb9155ba9393a7cfce3ca2e0ed9485835f92c/atomicwriter-0.2.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:2832ead30450eb03ac11562d318971fd0a35e793983ba411e93c2036b4e76de2", size = 315980 },
+    { url = "https://files.pythonhosted.org/packages/15/9e/dab0a27c763e46d3a2ef328237cae23de80ec477da32863982372e1d7c79/atomicwriter-0.2.0-cp313-cp313t-win_amd64.whl", hash = "sha256:a1583a088ef95d90bfb29ebc8964548500f2759279936534af39fa45d319841a", size = 145544 },
+    { url = "https://files.pythonhosted.org/packages/a3/e4/8732c451382875a291bf2e819630b380d5322aaf216f221d5a39008accea/atomicwriter-0.2.0-pp310-pypy310_pp73-macosx_11_0_arm64.whl", hash = "sha256:b6e685fb46d45cd1192892510ff526d18d97e1afa3959d3d003e674d77cf1169", size = 230658 },
+    { url = "https://files.pythonhosted.org/packages/21/ed/04cfc0de209dbc5890827920c338719963b0bf8244e6d1e1131a4f4b1630/atomicwriter-0.2.0-pp310-pypy310_pp73-macosx_11_0_x86_64.whl", hash = "sha256:c3716449e83835e6f270f07de3b7b999a88f1522f98d7e817a6fa5c1f2c26881", size = 239159 },
+    { url = "https://files.pythonhosted.org/packages/6b/e8/7e20620ac8a5c9681498884b1a53d1011b4aef1e4517c5eac29a31ab37c4/atomicwriter-0.2.0-pp310-pypy310_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:d305500c5aef603ed8cf694c1195ebb0855d0f712c3885d9b6d3999b47585050", size = 253966 },
+    { url = "https://files.pythonhosted.org/packages/73/44/61967e56cbeb7cd3f169f9c6cd190cfdeffa1ff8f9fd85d1c284f97df919/atomicwriter-0.2.0-pp310-pypy310_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:2274480265684413b85fcf4e602484c996770216f160b409a734a5d0fb167cab", size = 257117 },
+    { url = "https://files.pythonhosted.org/packages/58/9b/5f4aea08855153167e5aa4ef93ff19a67d3abdcbe73404604496ea60c06a/atomicwriter-0.2.0-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:5fe132144dc3aba2738f74e965ed1dcfa42d4f65ed8821d6d204c1a250d3e695", size = 146572 },
+]
+
+[[package]]
 name = "attrs"
 version = "24.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -968,12 +1016,12 @@ name = "seadex"
 version = "0.6.0"
 source = { editable = "." }
 dependencies = [
+    { name = "atomicwriter" },
     { name = "httpx" },
     { name = "natsort" },
     { name = "pydantic" },
     { name = "stringenum" },
     { name = "torf" },
-    { name = "typing-extensions" },
 ]
 
 [package.optional-dependencies]
@@ -994,10 +1042,12 @@ dev = [
     { name = "pytest-httpx" },
     { name = "ruff" },
     { name = "tomli" },
+    { name = "typing-extensions" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "atomicwriter", specifier = ">=0.2.0" },
     { name = "cyclopts", marker = "extra == 'cli'", specifier = ">=2.9.9" },
     { name = "httpx", specifier = ">=0.27.2" },
     { name = "natsort", specifier = ">=8.4.0" },
@@ -1006,7 +1056,6 @@ requires-dist = [
     { name = "rich", marker = "extra == 'cli'", specifier = ">=13.8.1" },
     { name = "stringenum", specifier = ">=0.5.0" },
     { name = "torf", specifier = ">=4.2.7" },
-    { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
 
 [package.metadata.requires-dev]
@@ -1020,6 +1069,7 @@ dev = [
     { name = "pytest-httpx", specifier = ">=0.34.0" },
     { name = "ruff", specifier = ">=0.8.0" },
     { name = "tomli", specifier = ">=2.0.1" },
+    { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
 
 [[package]]

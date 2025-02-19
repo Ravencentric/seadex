@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import base64
+
 import pytest
 
 from seadex import Tracker
@@ -20,6 +22,7 @@ from seadex import Tracker
         (Tracker.BLUTOPIA, "Blutopia"),
         (Tracker.AITHER, "Aither"),
         (Tracker.OTHER, "Other"),
+        (Tracker.OTHER_PRIVATE, "OtherPrivate"),
     ],
 )
 def test_tracker_values(tracker: Tracker, value: str) -> None:
@@ -41,6 +44,7 @@ def test_tracker_values(tracker: Tracker, value: str) -> None:
         ("Blutopia", True, False),
         ("Aither", True, False),
         ("Other", False, True),
+        ("OtherPrivate", True, False),
     ],
 )
 def test_tracker_is_private(tracker: str, is_private: bool, is_public: bool) -> None:
@@ -49,23 +53,25 @@ def test_tracker_is_private(tracker: str, is_private: bool, is_public: bool) -> 
 
 
 @pytest.mark.parametrize(
-    "tracker, domain",
+    "tracker, url",
     [
-        ("Nyaa", "nyaa.si"),
-        ("AnimeTosho", "animetosho.org"),
-        ("AniDex", "anidex.info"),
-        ("RuTracker", "rutracker.org"),
-        ("BeyondHD", "beyond-hd.me"),
-        ("PassThePopcorn", "passthepopcorn.me"),
-        ("BroadcastTheNet", "broadcasthe.net"),
-        ("HDBits", "hdbits.org"),
-        ("Blutopia", "blutopia.cc"),
-        ("Aither", "aither.cc"),
-        ("Other", ""),
+        ("Nyaa", b"aHR0cHM6Ly9ueWFhLnNp"),
+        ("AnimeTosho", b"aHR0cHM6Ly9hbmltZXRvc2hvLm9yZw=="),
+        ("AniDex", b"aHR0cHM6Ly9hbmlkZXguaW5mbw=="),
+        ("RuTracker", b"aHR0cHM6Ly9ydXRyYWNrZXIub3Jn"),
+        ("AB", b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2"),
+        ("BeyondHD", b"aHR0cHM6Ly9iZXlvbmQtaGQubWU="),
+        ("PassThePopcorn", b"aHR0cHM6Ly9wYXNzdGhlcG9wY29ybi5tZQ=="),
+        ("BroadcastTheNet", b"aHR0cHM6Ly9icm9hZGNhc3RoZS5uZXQ="),
+        ("HDBits", b"aHR0cHM6Ly9oZGJpdHMub3Jn"),
+        ("Blutopia", b"aHR0cHM6Ly9ibHV0b3BpYS5jYw=="),
+        ("Aither", b"aHR0cHM6Ly9haXRoZXIuY2M="),
+        ("Other", b""),
+        ("OtherPrivate", b""),
     ],
 )
-def test_tracker_domain(tracker: str, domain: str) -> None:
-    assert Tracker(tracker).domain == domain
+def test_tracker_domain(tracker: str, url: bytes) -> None:
+    assert Tracker(tracker).url == base64.b64decode(url).decode()
 
 
 def test_bad_value() -> None:

@@ -24,18 +24,6 @@ class Tracker(CaseInsensitiveStrEnum):
     OTHER = "Other"
     OTHER_PRIVATE = "OtherPrivate"
 
-    def is_private(self) -> bool:
-        """
-        Check if the current tracker is private.
-
-        Returns
-        -------
-        bool
-            `True` if the tracker is private, `False` otherwise.
-
-        """
-        return False if self.value in ("Nyaa", "AnimeTosho", "AniDex", "RuTracker", "Other") else True
-
     def is_public(self) -> bool:
         """
         Check if the current tracker is public.
@@ -46,33 +34,45 @@ class Tracker(CaseInsensitiveStrEnum):
             `True` if the tracker is public, `False` otherwise.
 
         """
-        return not self.is_private()
+        return self.value in ("Nyaa", "AnimeTosho", "AniDex", "RuTracker", "Other")
+
+    def is_private(self) -> bool:
+        """
+        Check if the current tracker is private.
+
+        Returns
+        -------
+        bool
+            `True` if the tracker is private, `False` otherwise.
+
+        """
+        return not self.is_public()
 
     @property
-    def domain(self) -> str:
+    def url(self) -> str:
         """
-        Returns the domain name associated with the current tracker.
+        URL of the current tracker.
+
+        Returns an empty string for [`Tracker.OTHER`][Tracker.OTHER] and [`Tracker.OTHER_PRIVATE`][Tracker.OTHER_PRIVATE].
 
         Returns
         -------
         str
-            Domain name of the tracker, or an empty string for "Other".
+            URL of the tracker.
 
         """
         _map = {
-            # Public Trackers
-            "NYAA": b"bnlhYS5zaQ==",
-            "ANIMETOSHO": b"YW5pbWV0b3Noby5vcmc=",
-            "ANIDEX": b"YW5pZGV4LmluZm8=",
-            "RUTRACKER": b"cnV0cmFja2VyLm9yZw==",
-            # Private Trackers
-            "ANIMEBYTES": b"YW5pbWVieXRlcy50dg==",
-            "BEYONDHD": b"YmV5b25kLWhkLm1l",
-            "PASSTHEPOPCORN": b"cGFzc3RoZXBvcGNvcm4ubWU=",
-            "BROADCASTTHENET": b"YnJvYWRjYXN0aGUubmV0",
-            "HDBITS": b"aGRiaXRzLm9yZw==",
-            "BLUTOPIA": b"Ymx1dG9waWEuY2M=",
-            "AITHER": b"YWl0aGVyLmNj",
+            "NYAA": b"aHR0cHM6Ly9ueWFhLnNp",
+            "ANIMETOSHO": b"aHR0cHM6Ly9hbmltZXRvc2hvLm9yZw==",
+            "ANIDEX": b"aHR0cHM6Ly9hbmlkZXguaW5mbw==",
+            "RUTRACKER": b"aHR0cHM6Ly9ydXRyYWNrZXIub3Jn",
+            "ANIMEBYTES": b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2",
+            "BEYONDHD": b"aHR0cHM6Ly9iZXlvbmQtaGQubWU=",
+            "PASSTHEPOPCORN": b"aHR0cHM6Ly9wYXNzdGhlcG9wY29ybi5tZQ==",
+            "BROADCASTTHENET": b"aHR0cHM6Ly9icm9hZGNhc3RoZS5uZXQ=",
+            "HDBITS": b"aHR0cHM6Ly9oZGJpdHMub3Jn",
+            "BLUTOPIA": b"aHR0cHM6Ly9ibHV0b3BpYS5jYw==",
+            "AITHER": b"aHR0cHM6Ly9haXRoZXIuY2M=",
             "OTHER": b"",
             "OTHER_PRIVATE": b"",
         }

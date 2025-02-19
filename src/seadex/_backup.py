@@ -1,18 +1,15 @@
 from __future__ import annotations
 
 import re
-import shutil
 from datetime import datetime, timezone
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
-from uuid import uuid4
 from zipfile import ZipFile
 
+from atomicwriter import AtomicWriter
 from httpx import Client
 from pydantic import ByteSize
-from typing_extensions import assert_never
 
 from seadex._exceptions import BadBackupFileError
 from seadex._models import FrozenBaseModel
@@ -24,7 +21,7 @@ if TYPE_CHECKING:
 
 
 class BackupFile(FrozenBaseModel):
-    """A model representing a backup file."""
+    """Represents a backup file."""
 
     name: str
     """The name of the backup file."""
@@ -35,22 +32,6 @@ class BackupFile(FrozenBaseModel):
 
     def __str__(self) -> str:
         """Implement the string representation. Equivalent to `BackupFile.name`."""
-        return self.name
-
-    def __fspath__(self) -> str:
-        """
-        Path representation. Equivalent to `BackupFile.name`.
-        Allows for compatibility with `PathLike` objects.
-
-        Examples
-        --------
-        >>> from pathlib import Path
-        >>> from seadex import BackupFile
-        >>> backup = BackupFile(name="20240909041339-seadex-backup.zip", size=..., modified=...)
-        >>> Path.home() / backup
-        PosixPath('/home/raven/20240909041339-seadex-backup.zip')
-
-        """
         return self.name
 
     @classmethod
@@ -163,7 +144,9 @@ class SeaDexBackup:
         """
         return self.backups[-1]
 
-    def download(self, file: str | BackupFile | None = None, *, destination: StrPath = Path.cwd()) -> Path:
+    def download(
+        self, file: str | BackupFile | None = None, *, destination: StrPath = Path.cwd(), overwrite: bool = False
+    ) -> Path:
         """
         Download the specified backup file to the given destination directory.
 
@@ -173,6 +156,8 @@ class SeaDexBackup:
             The backup file to download. If `None`, downloads the [latest existing backup][seadex.SeaDexBackup.latest_backup].
         destination : StrPath, optional
             The destination directory to save the backup.
+        overwrite : bool, optional
+            Whether to overwrite the file if it already exists.
 
         Returns
         -------
@@ -184,7 +169,9 @@ class SeaDexBackup:
         NotADirectoryError
             If the destination is not a valid directory.
         BadBackupFileError
-            if the downloaded backup file fails integrity check.
+            If the downloaded backup file fails integrity check.
+        TypeError
+            If the provided `file` argument has an invalid type.
 
         """
         destination = realpath(destination)
@@ -200,15 +187,16 @@ class SeaDexBackup:
             case BackupFile():
                 key = file.name
             case _:
-                assert_never(file)
+                raise TypeError(f"Invalid type for `file`: {type(file)!r}")
 
         outfile = destination / key
 
-        with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
-            tmpfile = Path(tmpdir).resolve() / str(uuid4())
-            response = self._client.get(self._url_for(f"/api/backups/{key}"), params={"token": self._get_file_token()})
-            tmpfile.write_bytes(response.content)
-            shutil.move(tmpfile, outfile)
+        with AtomicWriter(outfile, overwrite=overwrite) as f:
+            url = self._url_for(f"/api/backups/{key}")
+            params = {"token": self._get_file_token()}
+            with self._client.stream("GET", url, params=params) as response:
+                for chunk in response.iter_bytes(1024 * 1024):
+                    f.write_bytes(chunk)
 
         with ZipFile(outfile) as archive:
             check = archive.testzip()
@@ -227,13 +215,15 @@ class SeaDexBackup:
         ----------
         filename : str
             The name to assign to the backup file.
-            This can include full formatting options as supported by
-            [`datetime.strftime`][datetime.datetime.strftime].
+            The filename must contain only lowercase alphabets, numbers, hyphens, or underscores.
+            It may also include formatting options as supported by [`datetime.strftime`][datetime.datetime.strftime].
 
         Returns
         -------
         BackupFile
             The newly created backup file.
+        ValueError
+            If the filename does not match the required criteria.
 
         """
         _filename = filename.removesuffix(".zip") + ".zip"
@@ -242,7 +232,7 @@ class SeaDexBackup:
         if re.match(r"^([a-z0-9_-]+\.zip)$", _filename) is None:
             # The API forbids anything else, so we need to enforce it.
             raise ValueError(
-                f"Invalid filename: {_filename!r}. The filename may only contain alphanumeric characters, hyphens, or underscores."
+                f"Invalid filename: {_filename!r}. The filename may only contain lowercase alphabets, numbers, hyphens, or underscores."
             )
 
         self._client.post(

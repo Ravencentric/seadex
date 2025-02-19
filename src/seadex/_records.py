@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
+from urllib.parse import urljoin
 
 from natsort import natsorted, ns
-from pydantic import field_validator
+from pydantic import ValidationInfo, field_validator
 
 from seadex._enums import Tracker
 from seadex._models import FrozenBaseModel
@@ -77,6 +78,15 @@ class TorrentRecord(FrozenBaseModel):
     def _sort_files(cls, value: tuple[File, ...]) -> tuple[File, ...]:
         """Sort the files."""
         return tuple(natsorted(value, key=lambda file: file.name, alg=ns.PATH))
+
+    @field_validator("url", mode="after")
+    @classmethod
+    def _resolve_url(cls, value: str, info: ValidationInfo) -> str:
+        tracker: Tracker = info.data["tracker"]
+
+        if not value.startswith(tracker.url):
+            return urljoin(tracker.url, value)
+        return value
 
 
 class EntryRecord(FrozenBaseModel):

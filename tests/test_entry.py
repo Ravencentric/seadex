@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from datetime import datetime, timezone
 
 from pytest_httpx import HTTPXMock
@@ -93,11 +94,16 @@ def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> No
     )
     assert entry.theoretical_best is None
     assert entry.torrents[0].url == "https://nyaa.si/view/1693872"
-    assert entry.torrents[1].url == "/torrents.php?id=20684&torrentid=1053072"
+    assert (
+        entry.torrents[1].url
+        == base64.b64decode(
+            b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2L3RvcnJlbnRzLnBocD9pZD0yMDY4NCZ0b3JyZW50aWQ9MTA1MzA3Mg=="
+        ).decode()
+    )
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert entry.torrents[0].tracker == Tracker.NYAA
-    assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+    assert entry.torrents[0].tracker is Tracker.NYAA
+    assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
     assert isinstance(entry.updated_at, datetime)
@@ -121,11 +127,16 @@ def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> Non
     )
     assert entry.theoretical_best is None
     assert entry.torrents[0].url == "https://nyaa.si/view/1693872"
-    assert entry.torrents[1].url == "/torrents.php?id=20684&torrentid=1053072"
+    assert (
+        entry.torrents[1].url
+        == base64.b64decode(
+            b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2L3RvcnJlbnRzLnBocD9pZD0yMDY4NCZ0b3JyZW50aWQ9MTA1MzA3Mg=="
+        ).decode()
+    )
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert entry.torrents[0].tracker == Tracker.NYAA
-    assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+    assert entry.torrents[0].tracker is Tracker.NYAA
+    assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
     assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
@@ -159,8 +170,8 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     assert entry.theoretical_best is None
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert entry.torrents[0].tracker == Tracker.NYAA
-    assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+    assert entry.torrents[0].tracker is Tracker.NYAA
+    assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
     assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
@@ -187,8 +198,8 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
     assert entry.theoretical_best is None
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
-    assert entry.torrents[0].tracker == Tracker.NYAA
-    assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+    assert entry.torrents[0].tracker is Tracker.NYAA
+    assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
     assert entry.torrents[0].infohash is not None
     assert entry.torrents[1].infohash is None
     assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
@@ -219,11 +230,16 @@ def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
         )
         assert entry.theoretical_best is None
         assert entry.torrents[0].url == "https://nyaa.si/view/1693872"
-        assert entry.torrents[1].url == "/torrents.php?id=20684&torrentid=1053072"
+        assert (
+            entry.torrents[1].url
+            == base64.b64decode(
+                b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2L3RvcnJlbnRzLnBocD9pZD0yMDY4NCZ0b3JyZW50aWQ9MTA1MzA3Mg=="
+            ).decode()
+        )
         assert entry.torrents[0].infohash is not None
         assert entry.torrents[1].infohash is None
-        assert entry.torrents[0].tracker == Tracker.NYAA
-        assert entry.torrents[1].tracker == Tracker.ANIMEBYTES
+        assert entry.torrents[0].tracker is Tracker.NYAA
+        assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
         assert entry.torrents[0].infohash is not None
         assert entry.torrents[1].infohash is None
         assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
