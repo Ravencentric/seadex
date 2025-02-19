@@ -13,8 +13,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/seadex?link=https%3A%2F%2Fpypi.org%2Fproject%2Fseadex%2F)](https://pypi.org/project/seadex/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/seadex)
 ![License](https://img.shields.io/github/license/Ravencentric/seadex)
-![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)
-![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)
+![PyPI - Types](https://img.shields.io/pypi/types/seadex)
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/seadex/release.yml)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/seadex/tests.yml?label=tests)

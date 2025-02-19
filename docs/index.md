@@ -12,8 +12,7 @@
 <a href="https://pypi.org/project/seadex/"><img src="https://img.shields.io/pypi/v/seadex" alt="PyPI - Version" ></a>
 <img src="https://img.shields.io/pypi/pyversions/seadex" alt="PyPI - Python Version">
 <img src="https://img.shields.io/github/license/Ravencentric/seadex" alt="License">
-<img src="https://www.mypy-lang.org/static/mypy_badge.svg" alt="Checked with mypy">
-<img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+<img src="https://img.shields.io/pypi/types/seadex" alt="PyPI - Types">
 </p>
 
 <p align="center">

@@ -9,6 +9,7 @@ repo_url: https://github.com/Ravencentric/seadex
 edit_uri: edit/main/docs/
 
 theme:
+  language: en
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil 
@@ -81,5 +82,4 @@ nav:
       - Entry: api-reference/entry.md
       - Records: api-reference/records.md
       - Enums: api-reference/enums.md
-      - Types: api-reference/types.md
       - Exceptions: api-reference/exceptions.md
