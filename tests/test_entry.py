@@ -9,7 +9,7 @@ from seadex import SeaDexEntry, Tracker
 
 SAMPLE_JSON_REPLY = {
     "page": 1,
-    "perPage": 30,
+    "perPage": 500,
     "totalItems": 1,
     "totalPages": 1,
     "items": [
@@ -59,6 +59,34 @@ SAMPLE_JSON_REPLY = {
                         "updated": "2024-01-30 19:28:09.461Z",
                         "url": "/torrents.php?id=20684&torrentid=1053072",
                     },
+                    {
+                        "collectionId": "oiwizhmushn5qqh",
+                        "collectionName": "torrents",
+                        "created": "2024-01-30 19:28:09.803Z",
+                        "dualAudio": False,
+                        "files": [{"length": 4555215904, "name": "[Okay-Subs] Tamako Love Story [45C10FA7].mkv"}],
+                        "id": "qhcmujh4dsw55j2",
+                        "infoHash": "cfb670c2261701b060b708a16743cf6658c47b62",
+                        "isBest": True,
+                        "releaseGroup": "Okay-Subs",
+                        "tracker": "Nyaa",
+                        "updated": "2024-01-30 19:28:09.803Z",
+                        "url": "https://nyaa.si/view/1656471",
+                    },
+                    {
+                        "collectionId": "oiwizhmushn5qqh",
+                        "collectionName": "torrents",
+                        "created": "2024-01-30 19:28:10.159Z",
+                        "dualAudio": False,
+                        "files": [{"length": 4555215904, "name": "[Okay-Subs] Tamako Love Story [45C10FA7].mkv"}],
+                        "id": "enytf1g1cxf0k47",
+                        "infoHash": "<redacted>",
+                        "isBest": True,
+                        "releaseGroup": "Okay-Subs",
+                        "tracker": "AB",
+                        "updated": "2024-01-30 19:28:10.159Z",
+                        "url": "/torrents.php?id=20684&torrentid=1031817",
+                    },
                 ]
             },
             "id": "c344w8ld7q1yppz",
@@ -78,7 +106,7 @@ def test_properties(seadex_entry: SeaDexEntry) -> None:
 
 def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?filter=alID%3D20519&expand=trs",
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID%3D20519&skipTotal=true",
         json=SAMPLE_JSON_REPLY,
     )
     entry = seadex_entry.from_id(20519)
@@ -111,7 +139,7 @@ def test_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> No
 
 def test_from_seadex_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?filter=id='c344w8ld7q1yppz'&expand=trs",
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=id%3D%27c344w8ld7q1yppz%27&skipTotal=true",
         json=SAMPLE_JSON_REPLY,
     )
     entry = seadex_entry.from_id("c344w8ld7q1yppz")
@@ -151,7 +179,7 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     )
 
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?filter=alID%3D20519&expand=trs",
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID%3D20519&skipTotal=true",
         json=SAMPLE_JSON_REPLY,
     )
 
@@ -179,7 +207,7 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
 
 def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?filter=trs.files%3F~%27%22name%22%3A%22Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv%22%27&expand=trs",
+        url="https://releases.moe/api/collections/entries/records?filter=trs.files%3F~%27%22name%22%3A%22Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv%22%27&perPage=500&expand=trs&&skipTotal=true",
         json=SAMPLE_JSON_REPLY,
     )
 
@@ -207,12 +235,12 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
 
 def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?perPage=500",
-        json={"totalPages": 1},
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs",
+        json={"totalPages": 1},  # We don't need to provide the full JSON response here
     )
 
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?page=1&perPage=500&expand=trs",
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&page=1",
         json=SAMPLE_JSON_REPLY,
     )
 
@@ -243,3 +271,22 @@ def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
         assert entry.torrents[0].infohash is not None
         assert entry.torrents[1].infohash is None
         assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
+
+
+def test_from_filter(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID=20519",
+        json=SAMPLE_JSON_REPLY,
+    )
+
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID=20519&page=1",
+        json=SAMPLE_JSON_REPLY,
+    )
+
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID%3D20519&skipTotal=true",
+        json=SAMPLE_JSON_REPLY,
+    )
+
+    assert next(seadex_entry.from_filter(f"alID={20519}")) == seadex_entry.from_id(20519)

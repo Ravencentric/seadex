@@ -35,6 +35,7 @@ def test_backup_properties(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -
         {"key": "@auto_pb_backup_sea_dex_20241122000000.zip", "size": 65847001, "modified": "2024-11-22 00:00:03.487Z"},
     ]
     httpx_mock.add_response(url="https://releases.moe/api/backups", json=sample, is_reusable=True)
+    assert seadex_backup.base_url == "https://releases.moe"
     assert len(seadex_backup.backups) == 7
     assert seadex_backup.latest_backup == BackupFile(
         name="@auto_pb_backup_sea_dex_20241122000000.zip",
