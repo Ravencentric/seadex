@@ -3,9 +3,11 @@ from __future__ import annotations
 try:
     from cyclopts import App
 except ModuleNotFoundError:
-    raise ModuleNotFoundError(
-        "Missing required dependencies for the CLI, run 'pip install seadex[cli]' to install them."
-    )
+    import sys
+
+    print("Error: Required dependencies for the CLI are missing. Install `seadex[cli]` to fix this.")
+    sys.exit(1)
+
 
 from seadex._cli._backup import backup_app
 from seadex._cli._entry import entry_app

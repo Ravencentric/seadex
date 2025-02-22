@@ -145,7 +145,7 @@ class SeaDexBackup:
         return self.backups[-1]
 
     def download(
-        self, file: str | BackupFile | None = None, *, destination: StrPath = Path.cwd(), overwrite: bool = False
+        self, file: str | BackupFile | None = None, *, destination: StrPath | None = None, overwrite: bool = False
     ) -> Path:
         """
         Download the specified backup file to the given destination directory.
@@ -154,7 +154,7 @@ class SeaDexBackup:
         ----------
         file : str | BackupFile | None, optional
             The backup file to download. If `None`, downloads the [latest existing backup][seadex.SeaDexBackup.latest_backup].
-        destination : StrPath, optional
+        destination : StrPath | None, optional
             The destination directory to save the backup.
         overwrite : bool, optional
             Whether to overwrite the file if it already exists.
@@ -174,7 +174,7 @@ class SeaDexBackup:
             If the provided `file` argument has an invalid type.
 
         """
-        destination = realpath(destination)
+        destination = Path.cwd() if destination is None else realpath(destination)
 
         if not destination.is_dir():
             raise NotADirectoryError(f"{destination} must be an existing directory!")
@@ -187,7 +187,8 @@ class SeaDexBackup:
             case BackupFile():
                 key = file.name
             case _:
-                raise TypeError(f"Invalid type for `file`: {type(file)!r}")
+                errmsg = f"'file' must be a string or path-like, not {type(file).__name__}."
+                raise TypeError(errmsg)
 
         outfile = destination / key
 

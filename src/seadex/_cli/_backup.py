@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Annotated, TypeAlias
 
 from cyclopts import App, Parameter
@@ -98,7 +97,7 @@ def download(
     email: EmailType,
     password: PasswordType,
     name: str | None = None,
-    destination: ResolvedExistingDirectory = Path.cwd(),
+    destination: ResolvedExistingDirectory | None = None,
     existing: bool = True,
 ) -> None:
     """
@@ -112,7 +111,7 @@ def download(
         The administrator password used for authentication.
     name : str, optional
         The name of the backup to download. If not provided, the latest backup is downloaded.
-    destination : ResolvedExistingDirectory, optional
+    destination : ResolvedExistingDirectory | None, optional
         The destination directory for the backup. Defaults to the current working directory.
     existing : bool, optional
         If `True`, download an existing backup. If `False`, create a temporary backup on the remote system,

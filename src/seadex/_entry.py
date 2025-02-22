@@ -149,7 +149,7 @@ class SeaDexEntry:
             return next(entries)
         except StopIteration:
             errmsg = f"No seadex entry found for id: {id}"
-            raise EntryNotFoundError(errmsg)
+            raise EntryNotFoundError(errmsg) from None
 
     def from_title(self, title: str, /) -> EntryRecord:
         """
@@ -190,7 +190,7 @@ class SeaDexEntry:
 
         except (StopIteration, TypeError):
             errmsg = f"No seadex entry found for title: {title}"
-            raise EntryNotFoundError(errmsg)
+            raise EntryNotFoundError(errmsg) from None
 
     def from_filename(self, filename: StrPath, /) -> Iterator[EntryRecord]:
         """
