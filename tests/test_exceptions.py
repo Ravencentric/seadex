@@ -40,5 +40,19 @@ def test_entry_not_found_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPX
 
 
 def test_from_filter_invalid_type(seadex_entry: SeaDexEntry) -> None:
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match="'filter' must be a string, not object."):
         next(seadex_entry.from_filter(object()))  # type: ignore[arg-type]
+
+
+def test_from_infohash_type(seadex_entry: SeaDexEntry) -> None:
+    with pytest.raises(TypeError, match="'infohash' must be a string, not object."):
+        next(seadex_entry.from_infohash(object()))  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "infohash",
+    ["certainly not a infohash", "2120e6faea8860ffa07bf535ea89a150b4fda773a", "2120e6faea8860ffa07bf535ea89a150b4fda7"],
+)
+def test_from_infohash_format(seadex_entry: SeaDexEntry, infohash: str) -> None:
+    with pytest.raises(ValueError, match="Invalid infohash format. Must be a 40-character hexadecimal string."):
+        next(seadex_entry.from_infohash(infohash))

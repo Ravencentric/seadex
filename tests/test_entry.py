@@ -233,6 +233,35 @@ def test_from_filename(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
     assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
 
 
+def test_from_infohash(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=trs.infoHash%3F%3D%2723f77120cfdf9df8b42a10216aa33e281c58b456%27&skipTotal=true",
+        json=SAMPLE_JSON_REPLY,
+    )
+
+    entries = tuple(seadex_entry.from_infohash("23f77120cfdf9df8b42a10216aa33e281c58b456"))
+    assert len(entries) == 1
+    entry = tuple(entries)[0]  # noqa: RUF015
+    assert entry.anilist_id == 20519
+    assert entry.collection_id == "3l2x9nxip35gqb5"
+    assert entry.collection_name == "entries"
+    assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)
+    assert entry.created_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
+    assert entry.id == "c344w8ld7q1yppz"
+    assert not entry.is_incomplete
+    assert (
+        entry.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+    )
+    assert entry.theoretical_best is None
+    assert entry.torrents[0].infohash is not None
+    assert entry.torrents[1].infohash is None
+    assert entry.torrents[0].tracker is Tracker.NYAA
+    assert entry.torrents[1].tracker is Tracker.ANIMEBYTES
+    assert entry.torrents[0].infohash is not None
+    assert entry.torrents[1].infohash is None
+    assert entry.updated_at == datetime(2024, 1, 30, 19, 28, 10, 337000, tzinfo=timezone.utc)
+
+
 def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs",

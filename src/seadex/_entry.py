@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from os.path import basename
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
@@ -115,7 +116,8 @@ class SeaDexEntry:
 
         """
         if not isinstance(filter, str):
-            raise TypeError(f"'filter' must be a string, not {type(filter).__name__}.")
+            errmsg = f"'filter' must be a string, not {type(filter).__name__}."
+            raise TypeError(errmsg)
 
         yield from self.__from_filter(filter, paginate=True)
 
@@ -206,6 +208,40 @@ class SeaDexEntry:
 
         """
         yield from self.__from_filter(f'trs.files?~\'"name":"{basename(filename)}"\'', paginate=False)
+
+    def from_infohash(self, infohash: str, /) -> Iterator[EntryRecord]:
+        """
+        Yield entries that contain a torrent with the specified infohash.
+
+        Parameters
+        ----------
+        infohash : str
+            The infohash to search for.
+
+        Yields
+        ------
+        EntryRecord
+            The retrieved entry.
+
+        Raises
+        ------
+        TypeError
+            If `infohash` is not a string.
+        ValueError
+            If `infohash` is not a 40-character hexadecimal string.
+
+        """
+        if not isinstance(infohash, str):
+            errmsg = f"'infohash' must be a string, not {type(infohash).__name__}."
+            raise TypeError(errmsg)
+
+        infohash = infohash.lower().strip()
+
+        if not re.match(r"^[0-9a-f]{40}$", infohash):
+            errmsg = "Invalid infohash format. Must be a 40-character hexadecimal string."
+            raise ValueError(errmsg)
+
+        yield from self.__from_filter(f"trs.infoHash?='{infohash}'", paginate=False)
 
     def iterator(self) -> Iterator[EntryRecord]:
         """
