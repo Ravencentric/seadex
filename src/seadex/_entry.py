@@ -71,9 +71,14 @@ class SeaDexEntry:
             params.update({"perPage": 500, "expand": "trs", "filter": filter})
 
         if paginate:
-            total_pages = self._client.get(self._endpoint, params=params).raise_for_status().json()["totalPages"] + 1
+            first_page = self._client.get(self._endpoint, params=params).raise_for_status()
+            data = first_page.json()
+            total_pages = data["totalPages"]
 
-            for page in range(1, total_pages):
+            for item in data["items"]:  # Page 1
+                yield EntryRecord._from_dict(item)
+
+            for page in range(2, total_pages + 1):  # Page 2 to total_pages
                 params.update({"page": page})
                 response = self._client.get(self._endpoint, params=params).raise_for_status()
                 for item in response.json()["items"]:

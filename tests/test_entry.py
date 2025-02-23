@@ -265,11 +265,6 @@ def test_from_infohash(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
 def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs",
-        json={"totalPages": 1},  # We don't need to provide the full JSON response here
-    )
-
-    httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&page=1",
         json=SAMPLE_JSON_REPLY,
     )
 
@@ -305,11 +300,6 @@ def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
 def test_from_filter(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID=20519",
-        json=SAMPLE_JSON_REPLY,
-    )
-
-    httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID=20519&page=1",
         json=SAMPLE_JSON_REPLY,
     )
 
