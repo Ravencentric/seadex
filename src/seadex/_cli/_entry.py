@@ -4,6 +4,7 @@ from cyclopts import App
 from rich import box, print_json
 from rich.console import Console, Group
 from rich.table import Table
+from rich.theme import Theme
 
 from seadex._entry import SeaDexEntry
 from seadex._exceptions import EntryNotFoundError
@@ -33,7 +34,7 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
         If True, the JSON output will be pretty-printed.
 
     """
-    console = Console()
+    console = Console(theme=Theme({"repr.number": ""}))
 
     with SeaDexEntry() as seadex_entry:
         try:
@@ -53,8 +54,8 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
         body = f"Title: {entry._anilist_title}\n"  # type: ignore[attr-defined]
         body += f"URL: {entry.url}\n"
         body += f"AniList: https://anilist.co/anime/{entry.anilist_id}\n"
-        body += f"Incomplete: {entry.is_incomplete}\n"
-        body += f"Updated At: {entry.updated_at.strftime('%Y-%m-%d')}"
+        body += f"Incomplete: {'Yes' if entry.is_incomplete else 'No'}\n"
+        body += f"Updated At: {entry.updated_at.strftime('%b %d, %Y')}"
         if entry.theoretical_best is not None:
             body += f"\nTheoretical Best: {entry.theoretical_best}"
 
