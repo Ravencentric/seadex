@@ -46,9 +46,9 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
             if pretty:
                 print_json(entry.model_dump_json())
                 return
-            else:
-                print(entry.model_dump_json())
-                return
+
+            print(entry.model_dump_json())
+            return
 
         body = f"Title: {entry._anilist_title}\n"  # type: ignore[attr-defined]
         body += f"URL: {entry.url}\n"

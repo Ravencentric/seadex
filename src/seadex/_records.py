@@ -51,7 +51,7 @@ class TorrentRecord(FrozenBaseModel):
             "collection_name": dictionary["collectionName"],
             "created_at": dictionary["created"],
             "is_dual_audio": dictionary["dualAudio"],
-            "files": (dict(name=file["name"], size=file["length"]) for file in dictionary["files"]),
+            "files": ({"name": file["name"], "size": file["length"]} for file in dictionary["files"]),
             "id": dictionary["id"],
             "infohash": dictionary["infoHash"],
             "is_best": dictionary["isBest"],

@@ -143,11 +143,9 @@ class SeaDexTorrent:
 
         if destination is None:
             if overwrite is False:
-                raise FileExistsError(f"{self.file} already exists!")
-            else:
-                torrent.write(self.file, overwrite=True)
-                return self.file
-        else:
-            destination = realpath(destination)
-            torrent.write(destination, overwrite=overwrite)
-            return destination
+                raise FileExistsError(self.file)
+            torrent.write(self.file, overwrite=True)
+            return self.file
+        destination = realpath(destination)
+        torrent.write(destination, overwrite=overwrite)
+        return destination

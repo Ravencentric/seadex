@@ -177,7 +177,8 @@ class SeaDexBackup:
         destination = Path.cwd() if destination is None else realpath(destination)
 
         if not destination.is_dir():
-            raise NotADirectoryError(f"{destination} must be an existing directory!")
+            errmsg = f"{destination} must be an existing directory!"
+            raise NotADirectoryError(errmsg)
 
         match file:
             case None:
@@ -204,7 +205,8 @@ class SeaDexBackup:
 
         if check is not None:
             outfile.unlink(missing_ok=True)
-            raise BadBackupFileError(f"{outfile} failed integrity check!")
+            errmsg = f"{outfile} failed integrity check!"
+            raise BadBackupFileError(errmsg)
 
         return outfile
 
@@ -235,9 +237,8 @@ class SeaDexBackup:
 
         if re.match(r"^([a-z0-9_-]+\.zip)$", _filename) is None:
             # The API forbids anything else, so we need to enforce it.
-            raise ValueError(
-                f"Invalid filename: {_filename!r}. The filename may only contain lowercase alphabets, numbers, hyphens, or underscores."
-            )
+            errmsg = f"Invalid filename: {_filename!r}. The filename may only contain lowercase alphabets, numbers, hyphens, or underscores."
+            raise ValueError(errmsg)
 
         self._client.post(
             self._url_for("/api/backups"), json={"name": _filename}, headers={"Authorization": self._admin_token}
