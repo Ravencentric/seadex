@@ -79,7 +79,7 @@ def test_bad_value() -> None:
         Tracker("kasdjsahdjshdahdakjds")
 
     with pytest.raises(ValueError):
-        Tracker(121212)
+        Tracker(121212)  # type: ignore[arg-type]
 
 
 def test_case_insensitive_lookup() -> None:
