@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import copy
 from datetime import datetime, timezone
 
 from pytest_httpx import HTTPXMock
@@ -263,9 +264,25 @@ def test_from_infohash(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None
 
 
 def test_iterator(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
+    # Mimic multi page response
+    SAMPLE_JSON_REPLY_PAGE_1 = copy.deepcopy(SAMPLE_JSON_REPLY)  # noqa: N806
+    SAMPLE_JSON_REPLY_PAGE_2 = copy.deepcopy(SAMPLE_JSON_REPLY)  # noqa: N806
+
+    # First page should report 2 total pages
+    SAMPLE_JSON_REPLY_PAGE_1["totalPages"] = 2
+
+    # Second page should report itself as page 2
+    SAMPLE_JSON_REPLY_PAGE_2["page"] = 2
+    SAMPLE_JSON_REPLY_PAGE_2["totalPages"] = 2
+
     httpx_mock.add_response(
         url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs",
-        json=SAMPLE_JSON_REPLY,
+        json=SAMPLE_JSON_REPLY_PAGE_1,
+    )
+
+    httpx_mock.add_response(
+        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&page=2",
+        json=SAMPLE_JSON_REPLY_PAGE_2,
     )
 
     for entry in seadex_entry.iterator():

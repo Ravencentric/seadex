@@ -16,7 +16,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "atomicwriter>=0.2.1",
+    "atomicwriter>=0.2.3",
     "httpx>=0.27.2",
     "natsort>=8.4.0",
     "pydantic>=2.10.6",

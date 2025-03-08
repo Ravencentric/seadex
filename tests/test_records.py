@@ -35,6 +35,7 @@ def test_torrent_record() -> None:
     assert len(record.files) == 1
     assert record.files[0].name == "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"
     assert record.files[0].size == 4636316199
+    assert record.size == 4636316199
 
     assert record.id == "pcpina3ekbqk7a5"
     assert record.infohash == "23f77120cfdf9df8b42a10216aa33e281c58b456"

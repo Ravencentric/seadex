@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from functools import cached_property
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
 
 from natsort import natsorted, ns
-from pydantic import ValidationInfo, field_validator
+from pydantic import ByteSize, ValidationInfo, field_validator
 
 from seadex._enums import Tracker
 from seadex._models import FrozenBaseModel
@@ -42,6 +43,11 @@ class TorrentRecord(FrozenBaseModel):
     """The timestamp of when the torrent record was last updated."""
     url: str
     """The URL of the torrent."""
+
+    @cached_property
+    def size(self) -> ByteSize:
+        """The total size of the torrent, calculated by summing the sizes of all files."""
+        return ByteSize(sum(f.size for f in self.files))
 
     @classmethod
     def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
