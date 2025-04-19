@@ -1,64 +1,12 @@
 from __future__ import annotations
 
-import json
 from functools import cached_property
-from os.path import basename
 from pathlib import Path
 
-from pydantic import ByteSize, field_validator
 from torf import Torrent as TorfTorrent
 
-from seadex._models import FrozenBaseModel
-from seadex._types import StrPath
+from seadex._types import File, StrPath
 from seadex._utils import realpath
-
-
-class File(FrozenBaseModel):
-    """Represents a file in the torrent."""
-
-    name: str
-    """The name of the file."""
-    size: ByteSize
-    """The size of the file in bytes."""
-
-    def __str__(self) -> str:
-        """Stringify, equivalent to [`File.name`][File.name]."""
-        return self.name
-
-    def __fspath__(self) -> str:
-        """Path representation, equivalent to [`File.name`][File.name]."""
-        return self.name
-
-    @field_validator("name", mode="before")
-    @classmethod
-    def _as_posix(cls, v: str) -> str:
-        """Ensure the names are posix compatible."""
-        return Path(v).as_posix()
-
-
-class FileList(tuple[File, ...]):
-    """A tuple-based collection of `File` objects."""
-
-    def to_json(self, indent: int | None = None) -> str:
-        """
-        Convert the file list to a JSON string that's compatible with SeaDex.
-
-        Parameters
-        ----------
-        indent : int | None, optional
-            Number of spaces for indentation in the output JSON string.
-
-        Returns
-        -------
-        str
-            The file list in JSON format.
-
-        """
-        files = []
-
-        for file in self:
-            files.append({"filename": basename(file.name), "size": int(file.size)})
-        return json.dumps(files, indent=indent)
 
 
 class SeaDexTorrent:
@@ -73,6 +21,7 @@ class SeaDexTorrent:
 
         """
         self._file = realpath(file)
+        self._torrent = TorfTorrent.read(self._file)
 
     @property
     def file(self) -> Path:
@@ -80,13 +29,12 @@ class SeaDexTorrent:
         return self._file
 
     @cached_property
-    def filelist(self) -> FileList:
+    def filelist(self) -> tuple[File, ...]:
         """List of files within the torrent."""
-        torrent = TorfTorrent.read(self.file)
         files = []
-        for file in torrent.files:
-            files.append(File(name=file, size=file.size))
-        return FileList(files)
+        for file in self._torrent.files:
+            files.append(File(name=Path(file).as_posix(), size=file.size))
+        return tuple(files)
 
     def sanitize(self, *, destination: StrPath | None = None, overwrite: bool = False) -> Path:
         """
@@ -125,27 +73,26 @@ class SeaDexTorrent:
         - The torrent's `infohash` is randomized.
 
         """
-        torrent = TorfTorrent.read(self.file)
 
-        if not torrent.private:
+        if not self._torrent.private:
             # Public torrent
             return self.file
 
-        torrent.trackers = None
-        torrent.webseeds = None
-        torrent.httpseeds = None
-        torrent.private = None
-        torrent.comment = None
-        torrent.creation_date = None
-        torrent.created_by = None
-        torrent.source = None
-        torrent.randomize_infohash = True
+        self._torrent.trackers = None
+        self._torrent.webseeds = None
+        self._torrent.httpseeds = None
+        self._torrent.private = None
+        self._torrent.comment = None
+        self._torrent.creation_date = None
+        self._torrent.created_by = None
+        self._torrent.source = None
+        self._torrent.randomize_infohash = True
 
         if destination is None:
             if overwrite is False:
                 raise FileExistsError(self.file)
-            torrent.write(self.file, overwrite=True)
+            self._torrent.write(self.file, overwrite=overwrite)
             return self.file
         destination = realpath(destination)
-        torrent.write(destination, overwrite=overwrite)
+        self._torrent.write(destination, overwrite=overwrite)
         return destination

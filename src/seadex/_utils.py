@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from httpx import Client
+import httpx
 
 from seadex._types import StrPath
 from seadex._version import __version__
@@ -15,8 +15,12 @@ def realpath(path: StrPath) -> Path:
     return Path(path).expanduser().resolve()
 
 
-def httpx_client() -> Client:
+def httpx_client(*, timeout: httpx.Timeout | None = None) -> httpx.Client:
     """
     Return an instance of an httpx.Client.
     """
-    return Client(headers={"user-agent": f"seadex/{__version__}"})
+    headers = {"User-Agent": f"seadex/{__version__}"}
+
+    if timeout is not None:
+        return httpx.Client(headers=headers, timeout=timeout)
+    return httpx.Client(headers=headers)

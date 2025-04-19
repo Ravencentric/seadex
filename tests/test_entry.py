@@ -186,7 +186,6 @@ def test_from_title(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:
 
     entry = seadex_entry.from_title("tamako love story")
     assert entry.anilist_id == 20519
-    assert entry._anilist_title == "Tamako -love story-"  # type: ignore[attr-defined]
     assert entry.collection_id == "3l2x9nxip35gqb5"
     assert entry.collection_name == "entries"
     assert entry.comparisons == ("https://slow.pics/c/rc6qrB1F",)

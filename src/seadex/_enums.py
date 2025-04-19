@@ -1,8 +1,35 @@
 from __future__ import annotations
 
 import base64
+import sys
+from typing import TYPE_CHECKING
 
-from stringenum import CaseInsensitiveStrEnum
+if TYPE_CHECKING:
+    from typing_extensions import Self
+
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+    from enum import Enum
+
+    class StrEnum(str, Enum):
+        pass
+
+
+class CaseInsensitiveStrEnum(StrEnum):
+    """StrEnum with case-insensitive lookup."""
+
+    @classmethod
+    def _missing_(cls, value: object) -> Self:
+        # https://docs.python.org/3/library/enum.html#enum.Enum._missing_
+        msg = f"'{value}' is not a valid {cls.__name__}"
+
+        if isinstance(value, str):
+            for member in cls:
+                if member.value.lower() == value.lower():
+                    return member
+            raise ValueError(msg)
+        raise ValueError(msg)
 
 
 class Tracker(CaseInsensitiveStrEnum):

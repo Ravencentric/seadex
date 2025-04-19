@@ -7,27 +7,27 @@ from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
 from zipfile import ZipFile
 
+import httpx
+import msgspec
 from atomicwriter import AtomicWriter
 from httpx import Client
-from pydantic import ByteSize
 
 from seadex._exceptions import BadBackupFileError
-from seadex._models import FrozenBaseModel
-from seadex._types import StrPath, UTCDateTime
+from seadex._types import Base, StrPath
 from seadex._utils import httpx_client, realpath
 
 if TYPE_CHECKING:
     from typing_extensions import Self
 
 
-class BackupFile(FrozenBaseModel):
+class BackupFile(Base, frozen=True, kw_only=True):
     """Represents a backup file."""
 
     name: str
     """The name of the backup file."""
-    size: ByteSize
+    size: int
     """The size of the backup file in bytes."""
-    modified_time: UTCDateTime
+    modified_time: datetime
     """The last modified time of the backup file."""
 
     def __str__(self) -> str:
@@ -35,19 +35,44 @@ class BackupFile(FrozenBaseModel):
         return self.name
 
     @classmethod
-    def _from_dict(cls, dictionary: dict[str, Any], /) -> Self:
-        """Parse the response from the SeaDex Backup API into a `BackupFile` object."""
-        kwargs = {
-            "name": dictionary["key"],
-            "modified_time": dictionary["modified"],
-            "size": dictionary["size"],
-        }
-        return cls.model_validate(kwargs)
+    def from_dict(cls, data: dict[str, Any], /) -> Self:
+        """
+        Create an instance of this class from a dictionary.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            Dictionary representing the instance of this class.
+
+        Returns
+        -------
+        Self
+            An instance of this class.
+
+        """
+        try:
+            # Attempt a strict conversion, assuming data
+            # comes from TorrentRecord.to_dict()
+            return msgspec.convert(data, type=cls)
+        except msgspec.ValidationError:
+            # Failed, let's attempt a laxer conversion,
+            # assuming the data comes from the SeaDex API.
+            kwargs = {
+                "name": data["key"],
+                "modified_time": data["modified"],
+                "size": data["size"],
+            }
+            return msgspec.convert(kwargs, type=cls, strict=False)
 
 
 class SeaDexBackup:
     def __init__(
-        self, email: str, password: str, base_url: str = "https://releases.moe", client: Client | None = None
+        self,
+        email: str,
+        password: str,
+        *,
+        base_url: str = "https://releases.moe",
+        client: Client | None = None,
     ) -> None:
         """
         Client to interact with the SeaDex backup API.
@@ -77,7 +102,10 @@ class SeaDexBackup:
 
         """
         self._base_url = base_url
-        self._client = httpx_client() if client is None else client
+        # Increase client timeout to 60s for backup operations.
+        # Their large and growing size (>= 160 MB) can cause
+        # methods like create() to exceed the default 5s timeout.
+        self._client = httpx_client(timeout=httpx.Timeout(60)) if client is None else client
         self._admin_token = self._auth_with_password(email, password)
 
     @property
@@ -113,8 +141,7 @@ class SeaDexBackup:
         response = self._client.post(self._url_for("/api/files/token"), headers={"Authorization": self._admin_token})
         return response.raise_for_status().json()["token"]  # type: ignore[no-any-return]
 
-    @property
-    def backups(self) -> tuple[BackupFile, ...]:
+    def get_backups(self) -> tuple[BackupFile, ...]:
         """
         Retrieve a tuple of backup files.
 
@@ -128,11 +155,10 @@ class SeaDexBackup:
         response = self._client.get(
             "https://releases.moe/api/backups", headers={"Authorization": self._admin_token}
         ).json()
-        backups = (BackupFile._from_dict(backup) for backup in response)
+        backups = [BackupFile.from_dict(backup) for backup in response]
         return tuple(sorted(backups, key=lambda f: f.modified_time))
 
-    @property
-    def latest_backup(self) -> BackupFile:
+    def get_latest_backup(self) -> BackupFile:
         """
         Retrieve the latest backup file.
 
@@ -142,7 +168,7 @@ class SeaDexBackup:
             The latest backup file.
 
         """
-        return self.backups[-1]
+        return self.get_backups()[-1]
 
     def download(
         self, file: str | BackupFile | None = None, *, destination: StrPath | None = None, overwrite: bool = False
@@ -182,7 +208,7 @@ class SeaDexBackup:
 
         match file:
             case None:
-                key = self.latest_backup.name
+                key = self.get_latest_backup().name
             case str():
                 key = file
             case BackupFile():
@@ -237,14 +263,21 @@ class SeaDexBackup:
 
         if re.match(r"^([a-z0-9_-]+\.zip)$", _filename) is None:
             # The API forbids anything else, so we need to enforce it.
-            errmsg = f"Invalid filename: {_filename!r}. The filename may only contain lowercase alphabets, numbers, hyphens, or underscores."
+            errmsg = (
+                f"Invalid filename: {_filename!r}. "
+                "The filename may only contain lowercase alphabets, "
+                "numbers, hyphens, or underscores."
+            )
             raise ValueError(errmsg)
 
         self._client.post(
-            self._url_for("/api/backups"), json={"name": _filename}, headers={"Authorization": self._admin_token}
+            self._url_for("/api/backups"),
+            json={"name": _filename},
+            headers={"Authorization": self._admin_token},
         ).raise_for_status()
 
-        return next(filter(lambda member: member.name == _filename, self.backups))
+        # https://boltons.readthedocs.io/en/latest/iterutils.html#boltons.iterutils.first
+        return next(filter(lambda member: member.name == _filename, self.get_backups()))
 
     def delete(self, file: str | BackupFile) -> None:
         """

@@ -3,7 +3,7 @@ from __future__ import annotations
 import base64
 from datetime import datetime
 
-from seadex import EntryRecord, TorrentRecord, Tracker
+from seadex import EntryRecord, File, TorrentRecord, Tracker
 
 
 def test_torrent_record() -> None:
@@ -26,8 +26,9 @@ def test_torrent_record() -> None:
         "updated": "2024-01-30 19:28:09.110Z",
         "url": "https://nyaa.si/view/1693872",
     }
-    record = TorrentRecord._from_dict(sample_data)
+    record = TorrentRecord.from_dict(sample_data)
 
+    assert TorrentRecord.from_json(record.to_json()) == TorrentRecord.from_dict(record.to_dict())
     assert record.collection_id == "oiwizhmushn5qqh"
     assert record.collection_name == "torrents"
     assert isinstance(record.created_at, datetime)
@@ -35,8 +36,8 @@ def test_torrent_record() -> None:
     assert len(record.files) == 1
     assert record.files[0].name == "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"
     assert record.files[0].size == 4636316199
+    assert File.from_json(record.files[0].to_json()) == File.from_dict(record.files[0].to_dict())
     assert record.size == 4636316199
-
     assert record.id == "pcpina3ekbqk7a5"
     assert record.infohash == "23f77120cfdf9df8b42a10216aa33e281c58b456"
     assert record.is_best
@@ -97,8 +98,9 @@ def test_entry_record() -> None:
         "updated": "2024-01-30 19:28:10.337Z",
     }
 
-    record = EntryRecord._from_dict(sample_data)
+    record = EntryRecord.from_dict(sample_data)
 
+    assert EntryRecord.from_json(record.to_json()) == EntryRecord.from_dict(record.to_dict())
     assert record.anilist_id == 20519
     assert record.collection_id == "3l2x9nxip35gqb5"
     assert record.collection_name == "entries"
@@ -106,8 +108,8 @@ def test_entry_record() -> None:
     assert isinstance(record.created_at, datetime)
     assert record.id == "c344w8ld7q1yppz"
     assert not record.is_incomplete
-    assert (
-        record.notes == "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+    assert record.notes == (
+        "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
     )
     assert record.theoretical_best is None
     assert record.torrents[0].url == "https://nyaa.si/view/1693872"
@@ -121,3 +123,4 @@ def test_entry_record() -> None:
     assert record.torrents[1].infohash is None
     assert isinstance(record.updated_at, datetime)
     assert record.url == "https://releases.moe/20519/"
+    assert record.size == sum(tr.size for tr in record.torrents)
