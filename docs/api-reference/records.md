@@ -1,2 +1,0 @@
-::: seadex.EntryRecord
-::: seadex.TorrentRecord
