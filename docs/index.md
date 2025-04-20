@@ -41,7 +41,7 @@ Python wrapper for the [SeaDex API](https://releases.moe/about/).
     pip install seadex
     ```
 
-2. To install with the CLI tools:
+2. To install the CLI:
 
     - With [`pipx`](https://pipx.pypa.io/stable/) or [`uv`](https://docs.astral.sh/uv/guides/tools/#installing-tools) (recommended)
 
