@@ -1,26 +1,16 @@
 from __future__ import annotations
 
 from cyclopts import App
-from rich import box, print_json
-from rich.console import Console, Group
-from rich.table import Table
-from rich.theme import Theme
-
-from seadex._entry import SeaDexEntry
-from seadex._exceptions import EntryNotFoundError
-from seadex._version import __version__
 
 entry_app = App(
     "entry",
-    version=__version__,
     help="Get a SeaDex entry.",
     help_format="plaintext",
-    version_flags=None,
 )
 
 
 @entry_app.default
-def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> None:
+def get_entry(title: str, /, *, json: bool = False) -> None:
     """
     Get the seadex entry for the given title.
 
@@ -29,29 +19,36 @@ def get_entry(title: str, /, *, json: bool = False, pretty: bool = False) -> Non
     title : str
         Title of the anime.
     json : bool, optional
-        If True, the output will be in JSON.
-    pretty : bool, optional
-        If True, the JSON output will be pretty-printed.
+        If True, the output will be a JSON string.
 
     """
+    from rich import box
+    from rich.console import Console, Group
+    from rich.table import Table
+    from rich.theme import Theme
+
+    from seadex._entry import SeaDexEntry
+    from seadex._exceptions import EntryNotFoundError
+
     console = Console(theme=Theme({"repr.number": ""}))
 
     with SeaDexEntry() as seadex_entry:
         try:
             entry = seadex_entry.from_title(title)
-        except EntryNotFoundError as error:
-            console.print(f"[red]error:[/] {error.message}")
+            # Grab the anilist title from internal cache
+            # This saves us from hitting AniList again
+            anilist_title = (
+                seadex_entry._al_cache[title]["title"]["english"] or seadex_entry._al_cache[title]["title"]["romaji"]
+            )
+        except EntryNotFoundError:
+            console.print(f"[red]error:[/] no seadex entry found for {title!r}")
             return
 
         if json:
-            if pretty:
-                print_json(entry.model_dump_json())
-                return
-
-            print(entry.model_dump_json())
+            print(entry.to_json())
             return
 
-        body = f"Title: {entry._anilist_title}\n"  # type: ignore[attr-defined]
+        body = f"Title: {anilist_title}\n"
         body += f"URL: {entry.url}\n"
         body += f"AniList: https://anilist.co/anime/{entry.anilist_id}\n"
         body += f"Incomplete: {'Yes' if entry.is_incomplete else 'No'}\n"

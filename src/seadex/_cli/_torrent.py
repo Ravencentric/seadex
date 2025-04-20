@@ -2,82 +2,92 @@ from __future__ import annotations
 
 from cyclopts import App
 from cyclopts.types import ResolvedExistingPath, ResolvedPath
-from natsort import natsorted, ns
-from rich import print_json
-from rich.console import Console
-from rich.progress import track
-
-from seadex._torrent import SeaDexTorrent
-from seadex._version import __version__
 
 torrent_app = App(
     "torrent",
-    version=__version__,
     help="Perform torrent operations.",
     help_format="plaintext",
-    version_flags=None,
 )
 
 
 @torrent_app.command
-def sanitize(src: ResolvedExistingPath, dst: ResolvedPath | None = None, /) -> None:
+def sanitize(
+    src: ResolvedExistingPath,
+    dst: ResolvedPath | None = None,
+    /,
+    *,
+    overwrite: bool = False,
+) -> None:
     """
     Sanitize torrent files by removing sensitive data.
 
     Parameters
     ----------
     src : ResolvedExistingPath
-        Path to the source torrent file or directory containing torrent files to sanitize.
+        Path to the source torrent file to sanitize.
     dst : ResolvedPath or None, optional
-        Path to the destination where sanitized files will be stored.
+        Path where the sanitized file will be stored.
+    overwrite: bool, optional
+        If True, overwrites the destination file if it exists.
 
     """
+    from rich.console import Console
+
+    from seadex._torrent import SeaDexTorrent
+
     console = Console()
 
-    if src.is_file():
-        path = SeaDexTorrent(src).sanitize(destination=dst, overwrite=True)
-        console.print(f":white_check_mark: Saved sanitized torrent to [cyan]{path}[/cyan]", emoji=True)
-    else:
-        if dst is None:
-            console.print("[red]error:[/] destination must be an existing directory.")
+    if src.is_file() and src.suffix.lower() == ".torrent":
+        try:
+            destination = SeaDexTorrent(src).sanitize(destination=dst, overwrite=overwrite)
+        except FileExistsError:
+            console.print(
+                "[red]error:[/] destination file already exists and overwrite is false. "
+                "Use the --overwrite flag to replace it."
+            )
             return
-
-        if not dst.is_dir():
-            console.print(f"[red]error:[/] {dst} must be an existing directory.")
-            return
-
-        files = natsorted(src.rglob("*.torrent"), alg=ns.PATH)
-        for file in track(files, description="Sanitizing...", total=len(files), transient=True, console=console):
-            path = SeaDexTorrent(file).sanitize(destination=dst / file.name, overwrite=True)
-            console.print(f":white_check_mark: Saved sanitized torrent to [cyan]{path}[/]", emoji=True)
+        console.print(f":white_check_mark: Saved sanitized torrent to [cyan]{destination}[/cyan]", emoji=True)
+        return
+    console.print("[red]error:[/] src must be an existing torrent file.")
 
 
 @torrent_app.command
-def json(src: ResolvedExistingPath, /, *, pretty: bool = False, copy: bool = True) -> None:
+def filelist(src: ResolvedExistingPath, /, *, json: bool = False) -> None:
     """
-    Output the list of files in a torrent as a SeaDex compatible JSON string.
+    Output the list of files in a torrent.
 
     Parameters
     ----------
     src : ResolvedExistingPath
         Path to the torrent file.
-    pretty : bool, optional
-        If True, the JSON output will be pretty-printed.
-    copy : bool, optional
-        Copy the JSON output to clipboard.
+    json : bool, optional
+        If True, the output will be a SeaDex compatible JSON string.
 
     """
+    import os
+
+    from humanize import naturalsize
+    from rich import box
+
+    from seadex._torrent import SeaDexTorrent
+
     filelist = SeaDexTorrent(src).filelist
+    parent = os.path.commonpath(file.name for file in filelist)
 
-    if copy:  # pragma: no cover
-        try:
-            import pyperclip
+    if json:
+        import msgspec
 
-            pyperclip.copy(filelist.to_json())
-        except Exception:
-            pass
+        jsonified = msgspec.json.encode(filelist)
+        formatted = msgspec.json.format(jsonified).decode()
+        print(formatted)
+        return
 
-    if pretty:
-        print_json(filelist.to_json())
-    else:
-        print(filelist.to_json())
+    from rich import print as rprint
+    from rich.table import Table
+
+    table = Table("Filename", "Size", box=box.ROUNDED)
+
+    for file in filelist:
+        table.add_row(os.path.relpath(file.name, start=parent), naturalsize(file.size))
+
+    rprint(table)
