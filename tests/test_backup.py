@@ -40,7 +40,7 @@ def test_backup_properties(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -
     assert len(seadex_backup.get_backups()) == 7
     assert seadex_backup.get_latest_backup() == BackupFile(
         name="@auto_pb_backup_sea_dex_20241122000000.zip",
-        size=65847001,  # type: ignore[arg-type]
+        size=65847001,
         modified_time=datetime(2024, 11, 22, 0, 0, 3, 487000, tzinfo=timezone.utc),
     )
 

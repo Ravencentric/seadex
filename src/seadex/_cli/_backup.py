@@ -154,7 +154,7 @@ def download(
 
         return
 
-    backup = name or client.get_latest_backup()
+    backup = name or client.get_latest_backup()  # type: ignore[assignment]
     with console.status(f"Downloading [cyan]{backup}[/cyan]"):
         dest = client.download(backup, destination=destination)
     console.print(f":package: Saved to [cyan]{dest}[/cyan]", emoji=True, highlight=False)

@@ -8,8 +8,7 @@ from urllib.parse import urljoin
 import httpx
 
 from seadex._exceptions import EntryNotFoundError
-from seadex._records import EntryRecord
-from seadex._types import StrPath
+from seadex._types import EntryRecord, StrPath
 from seadex._utils import httpx_client
 
 if TYPE_CHECKING:
@@ -51,7 +50,7 @@ class SeaDexEntry:
         self._client = httpx_client() if client is None else client
         # Internal cache for AniList ID and title lookup by search term.
         # Used to avoid repeated AniList API calls for the same title search.
-        self._al_cache = {}
+        self._al_cache: dict[str, dict[str, Any]] = {}
 
     @property
     def base_url(self) -> str:

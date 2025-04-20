@@ -4,8 +4,8 @@ from seadex._backup import BackupFile, SeaDexBackup
 from seadex._entry import SeaDexEntry
 from seadex._enums import Tracker
 from seadex._exceptions import BadBackupFileError, EntryNotFoundError, SeaDexError
-from seadex._records import EntryRecord, TorrentRecord
-from seadex._torrent import File, SeaDexTorrent
+from seadex._torrent import SeaDexTorrent
+from seadex._types import EntryRecord, File, TorrentRecord
 from seadex._version import __version__
 
 __all__ = (
