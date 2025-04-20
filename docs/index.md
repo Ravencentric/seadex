@@ -43,7 +43,7 @@ Python wrapper for the [SeaDex API](https://releases.moe/about/).
 
 2. `seadex` includes optional dependencies that enable additional features. You can install these extras alongside the core library.
 
-    - To enable the `SeaDexTorrent` class, which handles `.torrent` files.
+    - To enable the `SeaDexTorrent` class, which handles `.torrent` files:
 
         ```sh
         pip install "seadex[torrent]"
