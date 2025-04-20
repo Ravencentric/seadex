@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import json
 import shutil
-from os import fspath
 from pathlib import Path
 
 import pytest
@@ -119,9 +117,8 @@ def test_filelist_public() -> None:
     original_files = [{"filename": Path(file).as_posix(), "size": int(file.size)} for file in original.files]
     seadex_filelist = [{"filename": file.name, "size": file.size} for file in seadex.filelist]
     seadex_filelist_str = [{"filename": str(file), "size": file.size} for file in seadex.filelist]
-    seadex_filelist_fspath = [{"filename": fspath(file), "size": file.size} for file in seadex.filelist]
 
-    assert original_files == seadex_filelist == seadex_filelist_str == seadex_filelist_fspath
+    assert original_files == seadex_filelist == seadex_filelist_str
 
 
 def test_filelist_private() -> None:
@@ -133,28 +130,5 @@ def test_filelist_private() -> None:
     original_files = [{"filename": Path(file).as_posix(), "size": int(file.size)} for file in original.files]
     seadex_filelist = [{"filename": file.name, "size": file.size} for file in seadex.filelist]
     seadex_filelist_str = [{"filename": str(file), "size": file.size} for file in seadex.filelist]
-    seadex_filelist_fspath = [{"filename": fspath(file), "size": file.size} for file in seadex.filelist]
 
-    assert original_files == seadex_filelist == seadex_filelist_str == seadex_filelist_fspath
-
-
-def test_filelist_json_private() -> None:
-    file = "tests/__torrents__/private-ubuntu-24.04.1-desktop-amd64.iso.torrent"
-
-    original = Torrent.read(file)
-    seadex = SeaDexTorrent(file)
-
-    original_files = json.dumps([{"filename": Path(file).name, "size": int(file.size)} for file in original.files])
-
-    assert original_files == seadex.filelist.to_json()
-
-
-def test_filelist_json_public() -> None:
-    file = "tests/__torrents__/public-ubuntu-24.04.1-desktop-amd64.iso.torrent"
-
-    original = Torrent.read(file)
-    seadex = SeaDexTorrent(file)
-
-    original_files = json.dumps([{"filename": Path(file).name, "size": int(file.size)} for file in original.files])
-
-    assert original_files == seadex.filelist.to_json()
+    assert original_files == seadex_filelist == seadex_filelist_str

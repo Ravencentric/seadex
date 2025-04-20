@@ -5,9 +5,10 @@ from os.path import basename
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin
 
+import httpx
+
 from seadex._exceptions import EntryNotFoundError
-from seadex._records import EntryRecord
-from seadex._types import StrPath
+from seadex._types import EntryRecord, StrPath
 from seadex._utils import httpx_client
 
 if TYPE_CHECKING:
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class SeaDexEntry:
-    def __init__(self, base_url: str = "https://releases.moe", client: Client | None = None) -> None:
+    def __init__(self, base_url: str = "https://releases.moe", *, client: Client | None = None) -> None:
         """
         Client to interact with SeaDex entries.
 
@@ -47,6 +48,9 @@ class SeaDexEntry:
         self._base_url = base_url
         self._endpoint = urljoin(self._base_url, "/api/collections/entries/records")
         self._client = httpx_client() if client is None else client
+        # Internal cache for AniList ID and title lookup by search term.
+        # Used to avoid repeated AniList API calls for the same title search.
+        self._al_cache: dict[str, dict[str, Any]] = {}
 
     @property
     def base_url(self) -> str:
@@ -76,18 +80,18 @@ class SeaDexEntry:
             total_pages = data["totalPages"]
 
             for item in data["items"]:  # Page 1
-                yield EntryRecord._from_dict(item)
+                yield EntryRecord.from_dict(item)
 
             for page in range(2, total_pages + 1):  # Page 2 to total_pages
                 params.update({"page": page})
                 response = self._client.get(self._endpoint, params=params).raise_for_status()
                 for item in response.json()["items"]:
-                    yield EntryRecord._from_dict(item)
+                    yield EntryRecord.from_dict(item)
         else:
             params.update({"skipTotal": True})
             response = self._client.get(self._endpoint, params=params).raise_for_status()
             for item in response.json()["items"]:
-                yield EntryRecord._from_dict(item)
+                yield EntryRecord.from_dict(item)
 
     def close(self) -> None:
         """
@@ -176,24 +180,29 @@ class SeaDexEntry:
             If no entry is found for the provided title.
 
         """
+        title = title.strip()
         try:
-            response = self._client.post(
-                "https://graphql.anilist.co",
-                json={
-                    "query": "query ($search: String!) { Media(search: $search, type: ANIME) { id title { english romaji } } }",
-                    "variables": {"search": title},
-                },
-            ).raise_for_status()
+            try:
+                # Attempt to retrieve AniList ID from cache
+                anilist_id = self._al_cache[title]["id"]
+            except KeyError:
+                # If not in cache, query the AniList GraphQL API
+                response = self._client.post(
+                    "https://graphql.anilist.co",
+                    json={
+                        "query": "query ($search: String!) { Media(search: $search, type: ANIME) { id title { english romaji } } }",
+                        "variables": {"search": title},
+                    },
+                ).raise_for_status()
 
-            media = response.json()["data"]["Media"]
-            anilist_id = media["id"]
+                # Cache the response
+                self._al_cache[title] = media = response.json()["data"]["Media"]
+                anilist_id = media["id"]
 
             entries = self.__from_filter(f"alID={anilist_id}", paginate=False)
-            entry_record = next(entries)
-            entry_record._anilist_title = media["title"]["english"] or media["title"]["romaji"]  # type: ignore[attr-defined]
-            return entry_record
+            return next(entries)
 
-        except (StopIteration, TypeError):
+        except (StopIteration, TypeError, httpx.HTTPStatusError):
             errmsg = f"No seadex entry found for title: {title}"
             raise EntryNotFoundError(errmsg) from None
 

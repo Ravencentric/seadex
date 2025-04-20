@@ -80,6 +80,6 @@ nav:
       - Backup: api-reference/backup.md
       - Torrent: api-reference/torrent.md
       - Entry: api-reference/entry.md
-      - Records: api-reference/records.md
+      - Types: api-reference/types.md
       - Enums: api-reference/enums.md
       - Exceptions: api-reference/exceptions.md

@@ -6,7 +6,6 @@ from uuid import uuid4
 from zipfile import ZipFile
 
 import pytest
-from pydantic import ByteSize
 from pytest_httpx import HTTPXMock
 
 from seadex import BackupFile, BadBackupFileError, SeaDexBackup
@@ -15,12 +14,14 @@ from seadex import BackupFile, BadBackupFileError, SeaDexBackup
 def test_backupfile() -> None:
     backupfile = BackupFile(
         name="test.zip",
-        size=ByteSize(1024),
+        size=1024,
         modified_time=datetime(2024, 9, 12, 18, 14, 33, 816632, tzinfo=timezone.utc),
     )
 
+    assert BackupFile.from_json(backupfile.to_json()) == BackupFile.from_dict(backupfile.to_dict())
+
     assert str(backupfile) == backupfile.name
-    assert backupfile.size == ByteSize(1024)
+    assert backupfile.size == 1024
     assert backupfile.modified_time == datetime(2024, 9, 12, 18, 14, 33, 816632, tzinfo=timezone.utc)
 
 
@@ -36,10 +37,10 @@ def test_backup_properties(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -
     ]
     httpx_mock.add_response(url="https://releases.moe/api/backups", json=sample, is_reusable=True)
     assert seadex_backup.base_url == "https://releases.moe"
-    assert len(seadex_backup.backups) == 7
-    assert seadex_backup.latest_backup == BackupFile(
+    assert len(seadex_backup.get_backups()) == 7
+    assert seadex_backup.get_latest_backup() == BackupFile(
         name="@auto_pb_backup_sea_dex_20241122000000.zip",
-        size=65847001,  # type: ignore[arg-type]
+        size=65847001,
         modified_time=datetime(2024, 11, 22, 0, 0, 3, 487000, tzinfo=timezone.utc),
     )
 
@@ -59,7 +60,7 @@ def test_backup_download(
     ]
     httpx_mock.add_response(url="https://releases.moe/api/backups", json=sample, is_reusable=True)
 
-    latest_backup = seadex_backup.latest_backup
+    latest_backup = seadex_backup.get_latest_backup()
     sample_backup_file = tmp_path_factory.mktemp("blah") / "sample_backup.zip"
 
     with ZipFile(sample_backup_file, "w") as f:
