@@ -42,22 +42,30 @@ Python wrapper for the [SeaDex API](https://releases.moe/about/).
     pip install seadex
     ```
 
-2. To install the CLI:
+2. `seadex` includes optional dependencies that enable additional features. You can install these extras alongside the core library.
 
-    - With [`pipx`](https://pipx.pypa.io/stable/) or [`uv`](https://docs.astral.sh/uv/guides/tools/#installing-tools) (recommended)
-
-        ```sh
-        pipx install "seadex[cli]"
-        ```
-        ```sh
-        uv tool install "seadex[cli]"
-        ```
-
-    - With [`pip`](https://pip.pypa.io/en/stable/installation/)
+    - To enable the `SeaDexTorrent` class, which handles `.torrent` files.
 
         ```sh
-        pip install "seadex[cli]"
+        pip install "seadex[torrent]"
         ```
+
+    - To enable the CLI:
+
+        - With [`pipx`](https://pipx.pypa.io/stable/) or [`uv`](https://docs.astral.sh/uv/guides/tools/#installing-tools) (recommended for CLIs):
+
+            ```sh
+            pipx install "seadex[cli]"
+            ```
+            ```sh
+            uv tool install "seadex[cli]"
+            ```
+
+        - With `pip`:
+
+            ```sh
+            pip install "seadex[cli]"
+            ```
 
 ## Docs
 

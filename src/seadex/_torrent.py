@@ -3,8 +3,6 @@ from __future__ import annotations
 from functools import cached_property
 from pathlib import Path
 
-from torf import Torrent as TorfTorrent
-
 from seadex._types import File, StrPath
 from seadex._utils import realpath
 
@@ -20,8 +18,18 @@ class SeaDexTorrent:
             The path to the torrent file.
 
         """
+        try:
+            import torf
+        except ModuleNotFoundError:  # pragma: no cover
+            msg = (
+                "The 'torf' library is required to use the SeaDexTorrent class.\n"
+                "Please ensure you have installed SeaDex with the 'torrent' extra, "
+                "typically specified as 'seadex[torrent]'."
+            )
+            raise ModuleNotFoundError(msg) from None
+
         self._file = realpath(file)
-        self._torrent = TorfTorrent.read(self._file)
+        self._torrent = torf.Torrent.read(self._file)
 
     @property
     def file(self) -> Path:
