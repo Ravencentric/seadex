@@ -1004,10 +1004,10 @@ requires-dist = [
     { name = "msgspec", specifier = ">=0.19.0" },
     { name = "natsort", specifier = ">=8.4.0" },
     { name = "rich", marker = "extra == 'cli'", specifier = ">=13.9.4" },
-    { name = "seadex", extras = ["torrent"], marker = "extra == 'cli'" },
+    { name = "torf", marker = "extra == 'cli'", specifier = ">=4.2.7" },
     { name = "torf", marker = "extra == 'torrent'", specifier = ">=4.2.7" },
 ]
-provides-extras = ["torrent", "cli"]
+provides-extras = ["cli", "torrent"]
 
 [package.metadata.requires-dev]
 dev = [
