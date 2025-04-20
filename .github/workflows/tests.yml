@@ -18,6 +18,10 @@ on:
   workflow_dispatch:
   workflow_call:
 
+env:
+  FORCE_COLOR: 1
+  UV_LOCKED: 1
+
 defaults:
   run:
     shell: bash
@@ -44,7 +48,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install the project
-        run: uv sync --all-extras --locked
+        run: uv sync --all-extras
 
       - name: Run tests and generate coverage
         run: |

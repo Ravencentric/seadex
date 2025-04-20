@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  FORCE_COLOR: 1
+  UV_LOCKED: 1
+
 jobs:
   tests:
     name: Tests
