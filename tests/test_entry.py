@@ -3,10 +3,12 @@ from __future__ import annotations
 import base64
 import copy
 from datetime import datetime, timezone
-
-from pytest_httpx import HTTPXMock
+from typing import TYPE_CHECKING
 
 from seadex import SeaDexEntry, Tracker
+
+if TYPE_CHECKING:
+    from pytest_httpx import HTTPXMock
 
 SAMPLE_JSON_REPLY = {
     "page": 1,

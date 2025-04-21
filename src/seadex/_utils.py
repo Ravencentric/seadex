@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import httpx
 
-from seadex._types import StrPath
 from seadex._version import __version__
+
+if TYPE_CHECKING:
+    from seadex._types import StrPath
 
 
 def realpath(path: StrPath) -> Path:

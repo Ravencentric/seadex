@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
-from pytest_httpx import HTTPXMock
 
 from seadex import EntryNotFoundError, SeaDexEntry
+
+if TYPE_CHECKING:
+    from pytest_httpx import HTTPXMock
 
 
 def test_entry_not_found_from_anilist_id(seadex_entry: SeaDexEntry, httpx_mock: HTTPXMock) -> None:

@@ -87,7 +87,8 @@ class Tracker(CaseInsensitiveStrEnum):
 
         Notes
         -----
-        Returns an empty string for [`Tracker.OTHER`][seadex.Tracker.OTHER] and [`Tracker.OTHER_PRIVATE`][seadex.Tracker.OTHER_PRIVATE].
+        Returns an empty string for [`Tracker.OTHER`][seadex.Tracker.OTHER]
+        and [`Tracker.OTHER_PRIVATE`][seadex.Tracker.OTHER_PRIVATE].
 
         """
         _map = {

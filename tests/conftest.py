@@ -1,11 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
 import pytest
-from pytest_httpx import HTTPXMock
 
 from seadex import SeaDexBackup, SeaDexEntry
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from pytest_httpx import HTTPXMock
 
 
 @pytest.fixture

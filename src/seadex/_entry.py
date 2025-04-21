@@ -190,7 +190,10 @@ class SeaDexEntry:
                 response = self._client.post(
                     "https://graphql.anilist.co",
                     json={
-                        "query": "query ($search: String!) { Media(search: $search, type: ANIME) { id title { english romaji } } }",
+                        "query": (
+                            "query ($search: String!) "
+                            "{ Media(search: $search, type: ANIME) { id title { english romaji } } }"
+                        ),
                         "variables": {"search": title},
                     },
                 ).raise_for_status()

@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from pathlib import Path
+from typing import TYPE_CHECKING
 from uuid import uuid4
 from zipfile import ZipFile
 
 import pytest
-from pytest_httpx import HTTPXMock
 
 from seadex import BackupFile, BadBackupFileError, SeaDexBackup
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from pytest_httpx import HTTPXMock
 
 
 def test_backupfile() -> None:

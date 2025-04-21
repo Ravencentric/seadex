@@ -179,7 +179,8 @@ class SeaDexBackup:
         Parameters
         ----------
         file : str | BackupFile | None, optional
-            The backup file to download. If `None`, downloads the [latest existing backup][seadex.SeaDexBackup.get_latest_backup].
+            The backup file to download.
+            If `None`, downloads the [latest existing backup][seadex.SeaDexBackup.get_latest_backup].
         destination : StrPath | None, optional
             The destination directory to save the backup.
         overwrite : bool, optional
