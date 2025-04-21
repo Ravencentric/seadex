@@ -86,7 +86,9 @@ class SeaDexBackup:
         base_url : str, optional
             The base URL of SeaDex, used for constructing API queries.
         client : Client, optional
-            An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to SeaDex.
+            An [`httpx.Client`][httpx.Client] instance used to make requests to SeaDex.
+
+            [httpx.Client]: https://www.python-httpx.org/advanced/#client
 
         Examples
         --------
