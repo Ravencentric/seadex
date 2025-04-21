@@ -43,7 +43,7 @@ def sanitize(
         except FileExistsError:
             console.print(
                 "[red]error:[/] destination file already exists and overwrite is false. "
-                "Use the --overwrite flag to replace it."
+                "Use the `--overwrite` flag to replace it."
             )
             return
         console.print(f":white_check_mark: Saved sanitized torrent to [cyan]{destination}[/cyan]", emoji=True)
@@ -64,30 +64,29 @@ def filelist(src: ResolvedExistingPath, /, *, json: bool = False) -> None:
         If True, the output will be a SeaDex compatible JSON string.
 
     """
-    import os
 
-    from humanize import naturalsize
-    from rich import box
+    from rich import box, print, print_json
 
     from seadex._torrent import SeaDexTorrent
 
     filelist = SeaDexTorrent(src).filelist
-    parent = os.path.commonpath(file.name for file in filelist)
 
     if json:
         import msgspec
 
-        jsonified = msgspec.json.encode(filelist)
-        formatted = msgspec.json.format(jsonified).decode()
-        print(formatted)
+        jsonified = msgspec.json.encode(filelist).decode()
+        print_json(jsonified)
         return
 
-    from rich import print as rprint
+    import os
+
+    from humanize import naturalsize
     from rich.table import Table
 
     table = Table("Filename", "Size", box=box.ROUNDED)
+    parent = os.path.commonpath(file.name for file in filelist)
 
     for file in filelist:
         table.add_row(os.path.relpath(file.name, start=parent), naturalsize(file.size))
 
-    rprint(table)
+    print(table)

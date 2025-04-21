@@ -54,7 +54,7 @@ def _list(*, email: EmailType, password: PasswordType, json: bool = False) -> No
 
     """
     from humanize import naturalsize
-    from rich import box, print
+    from rich import box, print, print_json
     from rich.table import Table
 
     client = _login(email, password)
@@ -63,9 +63,8 @@ def _list(*, email: EmailType, password: PasswordType, json: bool = False) -> No
     if json:
         import msgspec
 
-        jsonified = msgspec.json.encode(backups)
-        formatted = msgspec.json.format(jsonified).decode()
-        print(formatted)
+        jsonified = msgspec.json.encode(backups).decode()
+        print_json(jsonified)
         return
 
     table = Table("Name", "Size", "Date Modified", box=box.ROUNDED)

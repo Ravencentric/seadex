@@ -22,7 +22,7 @@ def get_entry(title: str, /, *, json: bool = False) -> None:
         If True, the output will be a JSON string.
 
     """
-    from rich import box
+    from rich import box, print_json
     from rich.console import Console, Group
     from rich.table import Table
     from rich.theme import Theme
@@ -45,7 +45,7 @@ def get_entry(title: str, /, *, json: bool = False) -> None:
             return
 
         if json:
-            print(entry.to_json())
+            print_json(entry.to_json())
             return
 
         body = f"Title: {anilist_title}\n"
@@ -56,7 +56,7 @@ def get_entry(title: str, /, *, json: bool = False) -> None:
         if entry.theoretical_best is not None:
             body += f"\nTheoretical Best: {entry.theoretical_best}"
 
-        table = Table(box=box.MARKDOWN)
+        table = Table(box=box.ROUNDED)
         table.add_column("Group")
         table.add_column("Best")
         table.add_column("Dual")
