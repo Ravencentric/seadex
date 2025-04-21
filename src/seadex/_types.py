@@ -21,7 +21,6 @@ StrPath: TypeAlias = str | PathLike[str]
 class Base(
     msgspec.Struct,
     forbid_unknown_fields=True,
-    repr_omit_defaults=True,
     frozen=True,
     kw_only=True,
 ):

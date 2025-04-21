@@ -92,7 +92,7 @@ class SeaDexBackup:
         --------
         ```py
         with SeaDexBackup("me@email.com", "password") as seadex_backup:
-            print(seadex_backup.latest_backup)
+            print(seadex_backup.get_latest_backup())
             #> @auto_pb_backup_sea_dex_20241122000000.zip
         ```
 

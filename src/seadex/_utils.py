@@ -19,7 +19,7 @@ def httpx_client(*, timeout: httpx.Timeout | None = None) -> httpx.Client:
     """
     Return an instance of an httpx.Client.
     """
-    headers = {"User-Agent": f"seadex/{__version__}"}
+    headers = {"User-Agent": f"seadex/{__version__} (https://pypi.org/project/seadex/)"}
 
     if timeout is not None:
         return httpx.Client(headers=headers, timeout=timeout)
