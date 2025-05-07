@@ -161,7 +161,7 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
         except msgspec.ValidationError:
             # Failed, let's attempt a laxer conversion,
             # assuming the data comes from the SeaDex API.
-            files = set()
+            files: set[File] = set()
             size = 0
 
             for file in data["files"]:
@@ -184,7 +184,7 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
                 "collection_name": data["collectionName"],
                 "created_at": data["created"],
                 "is_dual_audio": data["dualAudio"],
-                "files": natsorted(files, alg=ns.PATH),
+                "files": natsorted(files, alg=ns.PATH, key=lambda f: f.name),
                 "id": data["id"],
                 "infohash": infohash,
                 "is_best": data["isBest"],
