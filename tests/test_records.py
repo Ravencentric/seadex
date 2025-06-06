@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import base64
-from datetime import datetime
+from datetime import datetime, timezone
 
 from seadex import EntryRecord, File, TorrentRecord, Tracker
 
 
-def test_torrent_record() -> None:
+def test_torrent_record_movie() -> None:
     """
     Tests that `_from_dict` correctly parses a dictionary into a TorrentRecord object.
     """
@@ -45,6 +45,141 @@ def test_torrent_record() -> None:
     assert record.tracker is Tracker.NYAA
     assert isinstance(record.updated_at, datetime)
     assert record.url == "https://nyaa.si/view/1693872"
+
+
+def test_torrent_record_tv() -> None:
+    """
+    Tests that `_from_dict` correctly parses a dictionary into a TorrentRecord object.
+    """
+    # ruff: noqa: E501
+    sample_data = {
+        "collectionId": "oiwizhmushn5qqh",
+        "collectionName": "torrents",
+        "created": "2025-04-24 12:45:04.500Z",
+        "dualAudio": True,
+        "files": [
+            {
+                "length": 7104731698,
+                "name": "DAN.DA.DAN.S01E01.That's.How.Love.Starts.Ya.Know.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6806413318,
+                "name": "DAN.DA.DAN.S01E02.That's.a.Space.Alien.Ain't.It.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6870896112,
+                "name": "DAN.DA.DAN.S01E03.It's.a.Granny.vs.Granny.Clash.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 7083129160,
+                "name": "DAN.DA.DAN.S01E04.Kicking.Turbo.Granny's.Ass.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6836508162,
+                "name": "DAN.DA.DAN.S01E05.Like.Where.Are.Your.Balls.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6813577317,
+                "name": "DAN.DA.DAN.S01E06.A.Dangerous.Woman.Arrives.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6808794549,
+                "name": "DAN.DA.DAN.S01E07.To.a.Kinder.World.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 7070929817,
+                "name": "DAN.DA.DAN.S01E08.I've.Got.This.Funny.Feeling.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6857504844,
+                "name": "DAN.DA.DAN.S01E09.Merge.Serpo.Dover.Demon.Nessie.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 7001167363,
+                "name": "DAN.DA.DAN.S01E10.Have.You.Ever.Seen.a.Cattle.Mutilation.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6803425880,
+                "name": "DAN.DA.DAN.S01E11.First.Love.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+            {
+                "length": 6722527363,
+                "name": "DAN.DA.DAN.S01E12.Let's.Go.to.the.Cursed.House.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            },
+        ],
+        "groupedUrl": "",
+        "id": "qppmbbhxkwe6xkx",
+        "infoHash": "<redacted>",
+        "isBest": True,
+        "releaseGroup": "CRUCiBLE",
+        "tracker": "AB",
+        "updated": "2025-04-30 22:57:07.177Z",
+        "url": "/torrents.php?id=94649&torrentid=1168369",
+    }
+    record = TorrentRecord.from_dict(sample_data)
+
+    assert TorrentRecord.from_json(record.to_json()) == TorrentRecord.from_dict(record.to_dict())
+    assert record.collection_id == "oiwizhmushn5qqh"
+    assert record.collection_name == "torrents"
+    assert record.created_at == datetime(2025, 4, 24, 12, 45, 4, 500000, tzinfo=timezone.utc)
+    assert record.is_dual_audio
+    assert record.files == (
+        File(
+            name="DAN.DA.DAN.S01E01.That's.How.Love.Starts.Ya.Know.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=7104731698,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E02.That's.a.Space.Alien.Ain't.It.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6806413318,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E03.It's.a.Granny.vs.Granny.Clash.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6870896112,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E04.Kicking.Turbo.Granny's.Ass.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=7083129160,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E05.Like.Where.Are.Your.Balls.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6836508162,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E06.A.Dangerous.Woman.Arrives.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6813577317,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E07.To.a.Kinder.World.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6808794549,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E08.I've.Got.This.Funny.Feeling.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=7070929817,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E09.Merge.Serpo.Dover.Demon.Nessie.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6857504844,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E10.Have.You.Ever.Seen.a.Cattle.Mutilation.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=7001167363,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E11.First.Love.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6803425880,
+        ),
+        File(
+            name="DAN.DA.DAN.S01E12.Let's.Go.to.the.Cursed.House.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
+            size=6722527363,
+        ),
+    )
+    assert record.size == 82779605583
+    assert record.id == "qppmbbhxkwe6xkx"
+    assert record.infohash is None
+    assert record.is_best
+    assert record.release_group == "CRUCiBLE"
+    assert record.tracker is Tracker.ANIMEBYTES
+    assert record.updated_at == datetime(2025, 4, 30, 22, 57, 7, 177000, tzinfo=timezone.utc)
 
 
 def test_entry_record() -> None:

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 from urllib.parse import urljoin
 
 import msgspec
-from natsort import natsorted, ns
 
 from seadex._enums import Tracker
 
@@ -161,12 +160,13 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
         except msgspec.ValidationError:
             # Failed, let's attempt a laxer conversion,
             # assuming the data comes from the SeaDex API.
-            files: set[File] = set()
+            files: list[File] = []
             size = 0
 
             for file in data["files"]:
-                files.add(File(name=file["name"], size=file["length"]))
-                size += file["length"]
+                f = File(name=file["name"], size=file["length"])
+                files.append(f)
+                size += f.size
 
             # SeaDex API uses "<redacted>" to indicate that the torrent has no infohash (because it's private).
             # This replaces it with None for a more pythonic approach.
@@ -184,7 +184,7 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
                 "collection_name": data["collectionName"],
                 "created_at": data["created"],
                 "is_dual_audio": data["dualAudio"],
-                "files": natsorted(files, alg=ns.PATH, key=lambda f: f.name),
+                "files": files,
                 "id": data["id"],
                 "infohash": infohash,
                 "is_best": data["isBest"],
@@ -258,12 +258,11 @@ class EntryRecord(Base, frozen=True, kw_only=True):
 
             for torrent in data["expand"]["trs"]:
                 tr = TorrentRecord.from_dict(torrent)
-                size += tr.size
                 torrents.append(tr)
+                size += tr.size
 
             # "comparison" is a comma seperated string,
-            # so we'll transform it into a set
-            comparisons = {i.strip() for i in data["comparison"].split(",") if i}
+            comparisons = tuple(sorted(i.strip() for i in data["comparison"].split(",") if i))
 
             # "theoreticalBest" is an empty string in the API
             # if there's no theoretical best, we'll replace it with None
