@@ -38,5 +38,6 @@ def test_from_infohash(seadex_entry: SeaDexEntry) -> None:
 def test_from_filter(seadex_entry: SeaDexEntry) -> None:
     assert next(seadex_entry.from_filter(f"alID={165790}")) == seadex_entry.from_id(165790)
 
+
 def test_iterator(seadex_entry: SeaDexEntry) -> None:
     assert next(seadex_entry.iterator()) == seadex_entry.from_id(165790)
