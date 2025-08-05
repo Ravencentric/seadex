@@ -1,0 +1,458 @@
+{
+  "page": 1,
+  "perPage": 30,
+  "totalItems": 1,
+  "totalPages": 2,
+  "items": [
+    {
+      "alID": 165790,
+      "collectionId": "3l2x9nxip35gqb5",
+      "collectionName": "entries",
+      "comparison": "https://slow.pics/c/ntpJn04T",
+      "created": "2025-03-05 22:27:18.283Z",
+      "expand": {
+        "trs": [
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:16.546Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 6998581145,
+                "name": "365 Days to the Wedding S01E01 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 7000491203,
+                "name": "365 Days to the Wedding S01E02 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6979226594,
+                "name": "365 Days to the Wedding S01E03 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6996854606,
+                "name": "365 Days to the Wedding S01E04 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6991295602,
+                "name": "365 Days to the Wedding S01E05 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6994531903,
+                "name": "365 Days to the Wedding S01E06 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6993457026,
+                "name": "365 Days to the Wedding S01E07 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6980374159,
+                "name": "365 Days to the Wedding S01E08 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 7005228304,
+                "name": "365 Days to the Wedding S01E09 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 7010749826,
+                "name": "365 Days to the Wedding S01E10 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6976051358,
+                "name": "365 Days to the Wedding S01E11 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 6972408748,
+                "name": "365 Days to the Wedding S01E12 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv"
+              },
+              {
+                "length": 443750178,
+                "name": "NCED #01.mkv"
+              },
+              {
+                "length": 435716138,
+                "name": "NCOP #01.mkv"
+              }
+            ],
+            "groupedUrl": "",
+            "id": "z2hmkedvvo6z9la",
+            "infoHash": "\u003Credacted\u003E",
+            "isBest": true,
+            "releaseGroup": "-ZR-",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "AB",
+            "updated": "2025-08-01 22:48:14.280Z",
+            "url": "/torrents.php?id=94644&torrentid=1160250"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:16.667Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1444517064,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 01 (1080p) [29AE676E].mkv"
+              },
+              {
+                "length": 1447575015,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 02 (1080p) [0DAD4C4C].mkv"
+              },
+              {
+                "length": 1440842737,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 03 (1080p) [DDDB9B82].mkv"
+              },
+              {
+                "length": 1443906241,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 04 (1080p) [ADC71869].mkv"
+              },
+              {
+                "length": 1440349613,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 05 (1080p) [7D6C78F3].mkv"
+              },
+              {
+                "length": 1440658774,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 06 (1080p) [25C5BC0D].mkv"
+              },
+              {
+                "length": 1445615971,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 07 (1080p) [E4FF4B15].mkv"
+              },
+              {
+                "length": 1440150751,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 08v2 (1080p) [7431FDFD].mkv"
+              },
+              {
+                "length": 1442618684,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 09 (1080p) [9C080E81].mkv"
+              },
+              {
+                "length": 1438335408,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 10 (1080p) [F0B66676].mkv"
+              },
+              {
+                "length": 1438344410,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 11 (1080p) [9E20DDC5].mkv"
+              },
+              {
+                "length": 1446346347,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 12 (1080p) [A663077D].mkv"
+              }
+            ],
+            "groupedUrl": "",
+            "id": "oc96ttoirde3m7i",
+            "infoHash": "\u003Credacted\u003E",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "AB",
+            "updated": "2025-08-01 22:48:14.360Z",
+            "url": "/torrents.php?id=94644&torrentid=1148022"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:16.826Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1444517064,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 01 (1080p) [29AE676E].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "8hdn2imlud4c2ox",
+            "infoHash": "c4c1031570089d70bff40e1a89253025ad1cead7",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.433Z",
+            "url": "https://nyaa.si/view/1880265"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:16.936Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1447575015,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 02 (1080p) [0DAD4C4C].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "oxdcaovz9xrfmsb",
+            "infoHash": "698546217b6bac38cd2632659baec87919c45c4f",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.509Z",
+            "url": "https://nyaa.si/view/1883348"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.056Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1440842737,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 03 (1080p) [DDDB9B82].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "m9eatsndt5x7uzj",
+            "infoHash": "ce933d9bb5ac5eda640a2e881f5cfa7285263c3a",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.581Z",
+            "url": "https://nyaa.si/view/1887035"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.215Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1443906241,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 04 (1080p) [ADC71869].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "y04aabmzb3rbfgu",
+            "infoHash": "e354c59c629f3ef9b54a5caf37c71f935b85d137",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.661Z",
+            "url": "https://nyaa.si/view/1890363"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.332Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1440349613,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 05 (1080p) [7D6C78F3].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "h3jrs6pb7968ihl",
+            "infoHash": "52b3ca71903a192d58ab6a48b8e7ce343701c34c",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.723Z",
+            "url": "https://nyaa.si/view/1893308"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.449Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1440658774,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 06 (1080p) [25C5BC0D].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "b8w0rtsysq2lnmc",
+            "infoHash": "2cdd212a2b9373334ca7a15db244949cbf407adb",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.794Z",
+            "url": "https://nyaa.si/view/1896408"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.566Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1445615971,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 07 (1080p) [E4FF4B15].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "cl8lfwio6gcnrgh",
+            "infoHash": "1cb4ea3255a31977d3758f32fb405b8bf908dd40",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.871Z",
+            "url": "https://nyaa.si/view/1899464"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.699Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1440150751,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 08v2 (1080p) [7431FDFD].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "ghs3wco8xkq946s",
+            "infoHash": "c7725c95781c1ba2ae0e316e592ae4de5f2513ef",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:14.949Z",
+            "url": "https://nyaa.si/view/1902423"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.809Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1442618684,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 09 (1080p) [9C080E81].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "8xwrvd5v8q0trvv",
+            "infoHash": "70e89b0966ab8817454b2f58aec39a6b513bfa51",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:15.018Z",
+            "url": "https://nyaa.si/view/1905261"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:17.949Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1438335408,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 10 (1080p) [F0B66676].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "psdoxyu9qnw02ns",
+            "infoHash": "d75daf84491e72f028ad4a59dfbdab32405b033f",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:15.108Z",
+            "url": "https://nyaa.si/view/1908001"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:18.073Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1438344410,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 11 (1080p) [9E20DDC5].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "u6t01vc42aafr6n",
+            "infoHash": "5191a3e7f51682e57d22550e4e17d31964b55dbf",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:15.182Z",
+            "url": "https://nyaa.si/view/1910785"
+          },
+          {
+            "collectionId": "oiwizhmushn5qqh",
+            "collectionName": "torrents",
+            "created": "2025-03-05 22:27:18.186Z",
+            "dualAudio": false,
+            "files": [
+              {
+                "length": 1446346347,
+                "name": "[SubsPlease] Kekkon suru tte, Hontou desu ka - 12 (1080p) [A663077D].mkv"
+              }
+            ],
+            "groupedUrl": "https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            "id": "6zoa0ti5uuv6ibs",
+            "infoHash": "e2b872e65150ba4c0a811d39ad885c15ad6f6249",
+            "isBest": false,
+            "releaseGroup": "SubsPlease",
+            "tags": [
+              "Deband Recommended"
+            ],
+            "tracker": "Nyaa",
+            "updated": "2025-08-01 22:48:15.249Z",
+            "url": "https://nyaa.si/view/1913294"
+          }
+        ]
+      },
+      "id": "ydydj1p7bn3o7ro",
+      "incomplete": false,
+      "notes": "-ZR- is JPN BD Remux+CR\nSubsPlease is a CR WEB-DL\nMPV deband helps everything, CR is very starved so a ReinForce or similar mux would be a better alt",
+      "theoreticalBest": "",
+      "trs": [
+        "z2hmkedvvo6z9la",
+        "oc96ttoirde3m7i",
+        "8hdn2imlud4c2ox",
+        "oxdcaovz9xrfmsb",
+        "m9eatsndt5x7uzj",
+        "y04aabmzb3rbfgu",
+        "h3jrs6pb7968ihl",
+        "b8w0rtsysq2lnmc",
+        "cl8lfwio6gcnrgh",
+        "ghs3wco8xkq946s",
+        "8xwrvd5v8q0trvv",
+        "psdoxyu9qnw02ns",
+        "u6t01vc42aafr6n",
+        "6zoa0ti5uuv6ibs"
+      ],
+      "updated": "2025-08-01 22:48:15.341Z"
+    }
+  ]
+}
