@@ -8,6 +8,8 @@ from seadex import EntryRecord, File, Tag, TorrentRecord, Tracker
 
 def test_entry_record(sample_response: dict[str, Any]) -> None:
     record = EntryRecord.from_dict(sample_response["items"][0])
+
+    assert EntryRecord.from_json(record.to_json()) == record
     assert record.anilist_id == 165790
     assert record.collection_id == "3l2x9nxip35gqb5"
     assert record.collection_name == "entries"

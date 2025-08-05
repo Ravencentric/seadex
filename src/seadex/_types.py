@@ -133,8 +133,8 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
     """The URL of the torrent."""
     grouped_url: str | None = None
     """
-    A URL that points to a list of related torrents on a page,
-    such as a Nyaa search results page, for user convenience.
+    A URL that points to a list of related torrents, most likely a Nyaa search results page.
+    This is a convenience link for users, only provided when a season pack isn't available.
     """
     size: int
     """The total size of the torrent, calculated by summing the sizes of all files."""
