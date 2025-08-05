@@ -1,1 +1,2 @@
+::: seadex.entries
 ::: seadex.SeaDexEntry
