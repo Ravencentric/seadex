@@ -65,7 +65,7 @@ class SeaDexEntry:
     def __exit__(self, *args: object) -> None:
         self.close()
 
-    def __from_filter(self, filter: str | None, /, *, paginate: bool) -> Iterator[EntryRecord]:
+    def _from_filter(self, filter: str | None, /, *, paginate: bool) -> Iterator[EntryRecord]:
         """Yield entries that match the provided filter."""
         params: dict[str, Any] = {}
 
@@ -82,7 +82,7 @@ class SeaDexEntry:
             for item in data["items"]:  # Page 1
                 yield EntryRecord.from_dict(item)
 
-            for page in range(2, total_pages + 1):  # Page 2 to total_pages
+            for page in range(2, total_pages + 1):  # Page 2 to total_pages # pragma: no cover
                 params.update({"page": page})
                 response = self._client.get(self._endpoint, params=params).raise_for_status()
                 for item in response.json()["items"]:
@@ -128,7 +128,7 @@ class SeaDexEntry:
             errmsg = f"'filter' must be a string, not {type(filter).__name__}."
             raise TypeError(errmsg)
 
-        yield from self.__from_filter(filter, paginate=True)
+        yield from self._from_filter(filter, paginate=True)
 
     def from_id(self, id: int | str, /) -> EntryRecord:
         """
@@ -152,7 +152,7 @@ class SeaDexEntry:
 
         """
         filter = f"alID={id}" if isinstance(id, int) else f"id='{id}'"
-        entries = self.__from_filter(filter, paginate=False)
+        entries = self._from_filter(filter, paginate=False)
 
         try:
             return next(entries)
@@ -202,7 +202,7 @@ class SeaDexEntry:
                 self._al_cache[title] = media = response.json()["data"]["Media"]
                 anilist_id = media["id"]
 
-            entries = self.__from_filter(f"alID={anilist_id}", paginate=False)
+            entries = self._from_filter(f"alID={anilist_id}", paginate=False)
             return next(entries)
 
         except (StopIteration, TypeError, httpx.HTTPStatusError):
@@ -224,7 +224,7 @@ class SeaDexEntry:
             The retrieved entry.
 
         """
-        yield from self.__from_filter(f'trs.files?~\'"name":"{basename(filename)}"\'', paginate=False)
+        yield from self._from_filter(f'trs.files?~\'"name":"{basename(filename)}"\'', paginate=False)
 
     def from_infohash(self, infohash: str, /) -> Iterator[EntryRecord]:
         """
@@ -258,7 +258,7 @@ class SeaDexEntry:
             errmsg = "Invalid infohash format. Must be a 40-character hexadecimal string."
             raise ValueError(errmsg)
 
-        yield from self.__from_filter(f"trs.infoHash?='{infohash}'", paginate=False)
+        yield from self._from_filter(f"trs.infoHash?='{infohash}'", paginate=False)
 
     def iterator(self) -> Iterator[EntryRecord]:
         """
@@ -270,4 +270,4 @@ class SeaDexEntry:
             The retrieved entry.
 
         """
-        yield from self.__from_filter(None, paginate=True)
+        yield from self._from_filter(None, paginate=True)

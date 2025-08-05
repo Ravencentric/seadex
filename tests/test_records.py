@@ -1,261 +1,357 @@
 from __future__ import annotations
 
-import base64
-from datetime import datetime, timezone
+import datetime
+from typing import Any
 
-from seadex import EntryRecord, File, TorrentRecord, Tracker
-
-
-def test_torrent_record_movie() -> None:
-    """
-    Tests that `_from_dict` correctly parses a dictionary into a TorrentRecord object.
-    """
-    sample_data = {
-        "collectionId": "oiwizhmushn5qqh",
-        "collectionName": "torrents",
-        "created": "2024-01-30 19:28:09.110Z",
-        "dualAudio": True,
-        "files": [
-            {"length": 4636316199, "name": "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"},
-        ],
-        "id": "pcpina3ekbqk7a5",
-        "infoHash": "23f77120cfdf9df8b42a10216aa33e281c58b456",
-        "isBest": True,
-        "releaseGroup": "LYS1TH3A",
-        "tracker": "Nyaa",
-        "updated": "2024-01-30 19:28:09.110Z",
-        "url": "https://nyaa.si/view/1693872",
-    }
-    record = TorrentRecord.from_dict(sample_data)
-
-    assert TorrentRecord.from_json(record.to_json()) == TorrentRecord.from_dict(record.to_dict())
-    assert record.collection_id == "oiwizhmushn5qqh"
-    assert record.collection_name == "torrents"
-    assert isinstance(record.created_at, datetime)
-    assert record.is_dual_audio
-    assert len(record.files) == 1
-    assert record.files[0].name == "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"
-    assert record.files[0].size == 4636316199
-    assert File.from_json(record.files[0].to_json()) == File.from_dict(record.files[0].to_dict())
-    assert record.size == 4636316199
-    assert record.id == "pcpina3ekbqk7a5"
-    assert record.infohash == "23f77120cfdf9df8b42a10216aa33e281c58b456"
-    assert record.is_best
-    assert record.release_group == "LYS1TH3A"
-    assert record.tracker is Tracker.NYAA
-    assert isinstance(record.updated_at, datetime)
-    assert record.url == "https://nyaa.si/view/1693872"
+from seadex import EntryRecord, File, Tag, TorrentRecord, Tracker
 
 
-def test_torrent_record_tv() -> None:
-    """
-    Tests that `_from_dict` correctly parses a dictionary into a TorrentRecord object.
-    """
-    # ruff: noqa: E501
-    sample_data = {
-        "collectionId": "oiwizhmushn5qqh",
-        "collectionName": "torrents",
-        "created": "2025-04-24 12:45:04.500Z",
-        "dualAudio": True,
-        "files": [
-            {
-                "length": 7104731698,
-                "name": "DAN.DA.DAN.S01E01.That's.How.Love.Starts.Ya.Know.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6806413318,
-                "name": "DAN.DA.DAN.S01E02.That's.a.Space.Alien.Ain't.It.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6870896112,
-                "name": "DAN.DA.DAN.S01E03.It's.a.Granny.vs.Granny.Clash.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 7083129160,
-                "name": "DAN.DA.DAN.S01E04.Kicking.Turbo.Granny's.Ass.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6836508162,
-                "name": "DAN.DA.DAN.S01E05.Like.Where.Are.Your.Balls.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6813577317,
-                "name": "DAN.DA.DAN.S01E06.A.Dangerous.Woman.Arrives.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6808794549,
-                "name": "DAN.DA.DAN.S01E07.To.a.Kinder.World.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 7070929817,
-                "name": "DAN.DA.DAN.S01E08.I've.Got.This.Funny.Feeling.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6857504844,
-                "name": "DAN.DA.DAN.S01E09.Merge.Serpo.Dover.Demon.Nessie.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 7001167363,
-                "name": "DAN.DA.DAN.S01E10.Have.You.Ever.Seen.a.Cattle.Mutilation.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6803425880,
-                "name": "DAN.DA.DAN.S01E11.First.Love.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-            {
-                "length": 6722527363,
-                "name": "DAN.DA.DAN.S01E12.Let's.Go.to.the.Cursed.House.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            },
-        ],
-        "groupedUrl": "",
-        "id": "qppmbbhxkwe6xkx",
-        "infoHash": "<redacted>",
-        "isBest": True,
-        "releaseGroup": "CRUCiBLE",
-        "tracker": "AB",
-        "updated": "2025-04-30 22:57:07.177Z",
-        "url": "/torrents.php?id=94649&torrentid=1168369",
-    }
-    record = TorrentRecord.from_dict(sample_data)
-
-    assert TorrentRecord.from_json(record.to_json()) == TorrentRecord.from_dict(record.to_dict())
-    assert record.collection_id == "oiwizhmushn5qqh"
-    assert record.collection_name == "torrents"
-    assert record.created_at == datetime(2025, 4, 24, 12, 45, 4, 500000, tzinfo=timezone.utc)
-    assert record.is_dual_audio
-    assert record.files == (
-        File(
-            name="DAN.DA.DAN.S01E01.That's.How.Love.Starts.Ya.Know.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=7104731698,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E02.That's.a.Space.Alien.Ain't.It.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6806413318,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E03.It's.a.Granny.vs.Granny.Clash.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6870896112,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E04.Kicking.Turbo.Granny's.Ass.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=7083129160,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E05.Like.Where.Are.Your.Balls.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6836508162,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E06.A.Dangerous.Woman.Arrives.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6813577317,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E07.To.a.Kinder.World.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6808794549,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E08.I've.Got.This.Funny.Feeling.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=7070929817,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E09.Merge.Serpo.Dover.Demon.Nessie.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6857504844,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E10.Have.You.Ever.Seen.a.Cattle.Mutilation.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=7001167363,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E11.First.Love.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6803425880,
-        ),
-        File(
-            name="DAN.DA.DAN.S01E12.Let's.Go.to.the.Cursed.House.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-CRUCiBLE.mkv",
-            size=6722527363,
-        ),
-    )
-    assert record.size == 82779605583
-    assert record.id == "qppmbbhxkwe6xkx"
-    assert record.infohash is None
-    assert record.is_best
-    assert record.release_group == "CRUCiBLE"
-    assert record.tracker is Tracker.ANIMEBYTES
-    assert record.updated_at == datetime(2025, 4, 30, 22, 57, 7, 177000, tzinfo=timezone.utc)
-
-
-def test_entry_record() -> None:
-    sample_data = {
-        "alID": 20519,
-        "collectionId": "3l2x9nxip35gqb5",
-        "collectionName": "entries",
-        "comparison": "https://slow.pics/c/rc6qrB1F",
-        "created": "2024-01-30 19:28:10.337Z",
-        "expand": {
-            "trs": [
-                {
-                    "collectionId": "oiwizhmushn5qqh",
-                    "collectionName": "torrents",
-                    "created": "2024-01-30 19:28:09.110Z",
-                    "dualAudio": True,
-                    "files": [
-                        {"length": 4636316199, "name": "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"}
-                    ],
-                    "id": "pcpina3ekbqk7a5",
-                    "infoHash": "23f77120cfdf9df8b42a10216aa33e281c58b456",
-                    "isBest": True,
-                    "releaseGroup": "LYS1TH3A",
-                    "tracker": "Nyaa",
-                    "updated": "2024-01-30 19:28:09.110Z",
-                    "url": "https://nyaa.si/view/1693872",
-                },
-                {
-                    "collectionId": "oiwizhmushn5qqh",
-                    "collectionName": "torrents",
-                    "created": "2024-01-30 19:28:09.461Z",
-                    "dualAudio": True,
-                    "files": [
-                        {"length": 4636316199, "name": "Tamako.Love.Story.2014.1080p.BluRay.Opus2.0.H.265-LYS1TH3A.mkv"}
-                    ],
-                    "id": "tvh4fn4m2qi19n5",
-                    "infoHash": "<redacted>",
-                    "isBest": True,
-                    "releaseGroup": "LYS1TH3A",
-                    "tracker": "AB",
-                    "updated": "2024-01-30 19:28:09.461Z",
-                    "url": "/torrents.php?id=20684&torrentid=1053072",
-                },
-            ]
-        },
-        "id": "c344w8ld7q1yppz",
-        "incomplete": False,
-        "notes": "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub",
-        "theoreticalBest": "",
-        "trs": ["pcpina3ekbqk7a5", "tvh4fn4m2qi19n5", "qhcmujh4dsw55j2", "enytf1g1cxf0k47"],
-        "updated": "2024-01-30 19:28:10.337Z",
-    }
-
-    record = EntryRecord.from_dict(sample_data)
-
-    assert EntryRecord.from_json(record.to_json()) == EntryRecord.from_dict(record.to_dict())
-    assert record.anilist_id == 20519
+def test_entry_record(sample_response: dict[str, Any]) -> None:
+    record = EntryRecord.from_dict(sample_response["items"][0])
+    assert record.anilist_id == 165790
     assert record.collection_id == "3l2x9nxip35gqb5"
     assert record.collection_name == "entries"
-    assert record.comparisons == ("https://slow.pics/c/rc6qrB1F",)  # Tuple with one element
-    assert isinstance(record.created_at, datetime)
-    assert record.id == "c344w8ld7q1yppz"
-    assert not record.is_incomplete
+    assert record.comparisons == ("https://slow.pics/c/ntpJn04T",)
+    assert record.created_at == datetime.datetime(2025, 3, 5, 22, 27, 18, 283000, tzinfo=datetime.timezone.utc)
+    assert record.id == "ydydj1p7bn3o7ro"
+    assert record.is_incomplete is False
     assert record.notes == (
-        "Okay-Subs is JPN BD Encode+Commie with additional honorifics track\nLYS1TH3A is Okay-Subs+Dub"
+        "-ZR- is JPN BD Remux+CR\nSubsPlease is a CR WEB-DL\nMPV deband helps everything, "
+        "CR is very starved so a ReinForce or similar mux would be a better alt"
     )
     assert record.theoretical_best is None
-    assert record.torrents[0].url == "https://nyaa.si/view/1693872"
-    assert (
-        record.torrents[1].url
-        == base64.b64decode(
-            b"aHR0cHM6Ly9hbmltZWJ5dGVzLnR2L3RvcnJlbnRzLnBocD9pZD0yMDY4NCZ0b3JyZW50aWQ9MTA1MzA3Mg=="
-        ).decode()
+    assert record.updated_at == datetime.datetime(2025, 8, 1, 22, 48, 15, 341000, tzinfo=datetime.timezone.utc)
+    assert record.url == "https://releases.moe/165790/"
+    assert record.size == 119397238820
+    assert record.torrents == (
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 16, 546000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(
+                    name="365 Days to the Wedding S01E01 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6998581145,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E02 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=7000491203,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E03 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6979226594,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E04 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6996854606,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E05 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6991295602,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E06 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6994531903,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E07 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6993457026,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E08 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6980374159,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E09 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=7005228304,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E10 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=7010749826,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E11 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6976051358,
+                ),
+                File(
+                    name="365 Days to the Wedding S01E12 2024 1080p Bluray REMUX AVC LPCM 2.0 English Subbed -ZR-.mkv",
+                    size=6972408748,
+                ),
+                File(name="NCED #01.mkv", size=443750178),
+                File(name="NCOP #01.mkv", size=435716138),
+            ),
+            id="z2hmkedvvo6z9la",
+            infohash=None,
+            is_best=True,
+            release_group="-ZR-",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.ANIMEBYTES,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 280000, tzinfo=datetime.timezone.utc),
+            url="https://animebytes.tv/torrents.php?id=94644&torrentid=1160250",
+            grouped_url=None,
+            size=84778716790,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 16, 667000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 01 (1080p) [29AE676E].mkv", size=1444517064),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 02 (1080p) [0DAD4C4C].mkv", size=1447575015),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 03 (1080p) [DDDB9B82].mkv", size=1440842737),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 04 (1080p) [ADC71869].mkv", size=1443906241),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 05 (1080p) [7D6C78F3].mkv", size=1440349613),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 06 (1080p) [25C5BC0D].mkv", size=1440658774),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 07 (1080p) [E4FF4B15].mkv", size=1445615971),
+                File(
+                    name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 08v2 (1080p) [7431FDFD].mkv", size=1440150751
+                ),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 09 (1080p) [9C080E81].mkv", size=1442618684),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 10 (1080p) [F0B66676].mkv", size=1438335408),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 11 (1080p) [9E20DDC5].mkv", size=1438344410),
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 12 (1080p) [A663077D].mkv", size=1446346347),
+            ),
+            id="oc96ttoirde3m7i",
+            infohash=None,
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.ANIMEBYTES,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 360000, tzinfo=datetime.timezone.utc),
+            url="https://animebytes.tv/torrents.php?id=94644&torrentid=1148022",
+            grouped_url=None,
+            size=17309261015,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 16, 826000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 01 (1080p) [29AE676E].mkv", size=1444517064),
+            ),
+            id="8hdn2imlud4c2ox",
+            infohash="c4c1031570089d70bff40e1a89253025ad1cead7",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 433000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1880265",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1444517064,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 16, 936000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 02 (1080p) [0DAD4C4C].mkv", size=1447575015),
+            ),
+            id="oxdcaovz9xrfmsb",
+            infohash="698546217b6bac38cd2632659baec87919c45c4f",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 509000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1883348",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1447575015,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 56000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 03 (1080p) [DDDB9B82].mkv", size=1440842737),
+            ),
+            id="m9eatsndt5x7uzj",
+            infohash="ce933d9bb5ac5eda640a2e881f5cfa7285263c3a",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 581000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1887035",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1440842737,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 215000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 04 (1080p) [ADC71869].mkv", size=1443906241),
+            ),
+            id="y04aabmzb3rbfgu",
+            infohash="e354c59c629f3ef9b54a5caf37c71f935b85d137",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 661000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1890363",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1443906241,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 332000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 05 (1080p) [7D6C78F3].mkv", size=1440349613),
+            ),
+            id="h3jrs6pb7968ihl",
+            infohash="52b3ca71903a192d58ab6a48b8e7ce343701c34c",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 723000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1893308",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1440349613,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 449000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 06 (1080p) [25C5BC0D].mkv", size=1440658774),
+            ),
+            id="b8w0rtsysq2lnmc",
+            infohash="2cdd212a2b9373334ca7a15db244949cbf407adb",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 794000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1896408",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1440658774,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 566000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 07 (1080p) [E4FF4B15].mkv", size=1445615971),
+            ),
+            id="cl8lfwio6gcnrgh",
+            infohash="1cb4ea3255a31977d3758f32fb405b8bf908dd40",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 871000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1899464",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1445615971,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 699000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(
+                    name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 08v2 (1080p) [7431FDFD].mkv", size=1440150751
+                ),
+            ),
+            id="ghs3wco8xkq946s",
+            infohash="c7725c95781c1ba2ae0e316e592ae4de5f2513ef",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 14, 949000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1902423",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1440150751,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 809000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 09 (1080p) [9C080E81].mkv", size=1442618684),
+            ),
+            id="8xwrvd5v8q0trvv",
+            infohash="70e89b0966ab8817454b2f58aec39a6b513bfa51",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 15, 18000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1905261",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1442618684,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 17, 949000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 10 (1080p) [F0B66676].mkv", size=1438335408),
+            ),
+            id="psdoxyu9qnw02ns",
+            infohash="d75daf84491e72f028ad4a59dfbdab32405b033f",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 15, 108000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1908001",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1438335408,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 18, 73000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 11 (1080p) [9E20DDC5].mkv", size=1438344410),
+            ),
+            id="u6t01vc42aafr6n",
+            infohash="5191a3e7f51682e57d22550e4e17d31964b55dbf",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 15, 182000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1910785",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1438344410,
+        ),
+        TorrentRecord(
+            collection_id="oiwizhmushn5qqh",
+            collection_name="torrents",
+            created_at=datetime.datetime(2025, 3, 5, 22, 27, 18, 186000, tzinfo=datetime.timezone.utc),
+            is_dual_audio=False,
+            files=(
+                File(name="[SubsPlease] Kekkon suru tte, Hontou desu ka - 12 (1080p) [A663077D].mkv", size=1446346347),
+            ),
+            id="6zoa0ti5uuv6ibs",
+            infohash="e2b872e65150ba4c0a811d39ad885c15ad6f6249",
+            is_best=False,
+            release_group="SubsPlease",
+            tags=frozenset([Tag.DEBAND_RECOMMENDED]),
+            tracker=Tracker.NYAA,
+            updated_at=datetime.datetime(2025, 8, 1, 22, 48, 15, 249000, tzinfo=datetime.timezone.utc),
+            url="https://nyaa.si/view/1913294",
+            grouped_url="https://nyaa.si/?f=0&c=0_0&q=%5BSubsPlease%5D+Kekkon+suru+tte%2C+Hontou+desu+ka+1080p",
+            size=1446346347,
+        ),
     )
-    assert record.torrents[0].infohash is not None
-    assert record.torrents[1].infohash is None
-    assert isinstance(record.updated_at, datetime)
-    assert record.url == "https://releases.moe/20519/"
-    assert record.size == sum(tr.size for tr in record.torrents)

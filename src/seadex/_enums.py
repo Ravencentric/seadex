@@ -32,6 +32,55 @@ class CaseInsensitiveStrEnum(StrEnum):
         raise ValueError(msg)
 
 
+class Tag(CaseInsensitiveStrEnum):
+    """Torrent tags."""
+
+    DOLBY_VISION = "Dolby Vision"
+    """This release is Dolby Vision Profile 5 which will not display correctly on unsupported setups."""
+
+    HDR = "HDR"
+    """This release is HDR which will not display correctly on unsupported setups."""
+
+    DEBAND_REQUIRED = "Deband Required"
+    """
+    This release requires the use of MPV Deband (Press b).
+    If you cannot deband, get the alt release.
+    """
+
+    DEBAND_RECOMMENDED = "Deband Recommended"
+    """
+    This release recommends the use of MPV Deband (Press b).
+    If you cannot deband, still get this release.
+    """
+
+    YUV444P = "YUV444P"
+    """
+    This release is encoded in YUV444P which has poor hardware support,
+    make sure your device can play it properly or get the alt release.
+    """
+
+    PATCH_REQUIRED = "Patch Required"
+    """This release requires you to download an external patch to fix issues."""
+
+    MISPLACED_SPECIAL = "Misplaced Special"
+    """
+    This release has specials at the top of the file list,
+    make sure you watch the episodes in the correct order.
+    """
+
+    VFR = "VFR"
+    """
+    This release has a variable framerate, your screen should
+    be set to a multiple of 120hz or use VRR to display it correctly.
+    """
+
+    INCOMPLETE = "Incomplete"
+    """This release does not contain all the episodes."""
+
+    BROKEN = "Broken"
+    """This release has issues, see notes for more information."""
+
+
 class Tracker(CaseInsensitiveStrEnum):
     """Enum of public and private trackers."""
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from seadex._backup import BackupFile, SeaDexBackup
 from seadex._entry import SeaDexEntry
-from seadex._enums import Tracker
+from seadex._enums import Tag, Tracker
 from seadex._exceptions import BadBackupFileError, EntryNotFoundError, SeaDexError
 from seadex._torrent import SeaDexTorrent
 from seadex._types import EntryRecord, File, TorrentRecord
@@ -18,6 +18,7 @@ __all__ = (
     "SeaDexEntry",
     "SeaDexError",
     "SeaDexTorrent",
+    "Tag",
     "TorrentRecord",
     "Tracker",
     "__version__",

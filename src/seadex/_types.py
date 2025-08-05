@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 
 import msgspec
 
-from seadex._enums import Tracker
+from seadex._enums import Tag, Tracker
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -17,12 +17,7 @@ StrPath: TypeAlias = str | PathLike[str]
 """String or path-like objects"""
 
 
-class Base(
-    msgspec.Struct,
-    forbid_unknown_fields=True,
-    frozen=True,
-    kw_only=True,
-):
+class Base(msgspec.Struct, frozen=True, kw_only=True):
     """Base class for AniList data structures."""
 
     @classmethod
@@ -41,7 +36,7 @@ class Base(
             An instance of this class.
 
         """
-        return msgspec.convert(data, type=cls)
+        return msgspec.convert(data, type=cls)  # pragma: no cover
 
     def to_dict(self) -> dict[str, Any]:
         """
@@ -128,12 +123,19 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
     """Whether this torrent is marked as the "best"."""
     release_group: str
     """The name of the group that released the torrent."""
+    tags: frozenset[Tag] = frozenset()
+    """A set of tags associated with the torrent."""
     tracker: Tracker
     """The tracker where the torrent is hosted."""
     updated_at: datetime
     """The timestamp of when the torrent record was last updated."""
     url: str
     """The URL of the torrent."""
+    grouped_url: str | None = None
+    """
+    A URL that points to a list of related torrents on a page,
+    such as a Nyaa search results page, for user convenience.
+    """
     size: int
     """The total size of the torrent, calculated by summing the sizes of all files."""
 
@@ -172,6 +174,10 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
             # This replaces it with None for a more pythonic approach.
             infohash = None if data["infoHash"] == "<redacted>" else data["infoHash"]
 
+            # SeaDex API uses an empty string for grouped_url if there is no grouped URL.
+            # This replaces it with None for a more pythonic approach.
+            grouped_url = data["groupedUrl"] if data["groupedUrl"] else None
+
             # Private trackers only have a relative URL on SeaDex
             # This will transform said relative URLs into absolute URLs.
             tracker = Tracker(data["tracker"])
@@ -189,9 +195,11 @@ class TorrentRecord(Base, frozen=True, kw_only=True):
                 "infohash": infohash,
                 "is_best": data["isBest"],
                 "release_group": data["releaseGroup"],
+                "tags": data["tags"],
                 "tracker": tracker,
                 "updated_at": data["updated"],
                 "url": url,
+                "grouped_url": grouped_url,
                 "size": size,
             }
             return msgspec.convert(kwargs, type=cls, strict=False)
@@ -256,10 +264,20 @@ class EntryRecord(Base, frozen=True, kw_only=True):
             torrents: list[TorrentRecord] = []
             size = 0
 
-            for torrent in data["expand"]["trs"]:
-                tr = TorrentRecord.from_dict(torrent)
-                torrents.append(tr)
-                size += tr.size
+            try:
+                for torrent in data["expand"]["trs"]:
+                    tr = TorrentRecord.from_dict(torrent)
+                    torrents.append(tr)
+                    size += tr.size
+            except KeyError:
+                # The only way you'll hit this is if you provided bad data.
+                # This is really just for providing a better error message to the possibly clueless user.
+                msg = (
+                    "The provided data does not contain the 'trs' key in the 'expand' field. "
+                    "If you got this data from the SeaDex API, "
+                    "it means that you didn't add `expand=trs` to your query parameters."
+                )
+                raise ValueError(msg) from None
 
             # "comparison" is a comma seperated string,
             comparisons = tuple(sorted(i.strip() for i in data["comparison"].split(",") if i))
