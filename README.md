@@ -69,7 +69,7 @@ Python wrapper for the [SeaDex API](https://releases.moe/about/).
 
 ## Docs
 
-Checkout the complete documentation [here](https://ravencentric.cc/seadex//).
+Checkout the complete documentation [here](https://ravencentric.cc/seadex/).
 
 ## License
 
