@@ -71,7 +71,7 @@ class SeaDexBackup:
         email: str,
         password: str,
         *,
-        base_url: str = "https://releases.moe",
+        base_url: str = "https://seadex.moe",
         client: Client | None = None,
     ) -> None:
         """
@@ -155,7 +155,7 @@ class SeaDexBackup:
         """
 
         response = self._client.get(
-            "https://releases.moe/api/backups", headers={"Authorization": self._admin_token}
+            "https://seadex.moe/api/backups", headers={"Authorization": self._admin_token}
         ).json()
         backups = [BackupFile.from_dict(backup) for backup in response]
         return tuple(sorted(backups, key=lambda f: f.modified_time))

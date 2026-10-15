@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class SeaDexEntry:
-    def __init__(self, base_url: str = "https://releases.moe", *, client: Client | None = None) -> None:
+    def __init__(self, base_url: str = "https://seadex.moe", *, client: Client | None = None) -> None:
         """
         Client to interact with SeaDex entries.
 

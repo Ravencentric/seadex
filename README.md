@@ -30,7 +30,7 @@
 
 ## About
 
-Python wrapper for the [SeaDex API](https://releases.moe/about/).
+Python wrapper for the [SeaDex API](https://seadex.moe/about/).
 
 ## Installation
 

@@ -23,7 +23,7 @@ def test_entry_record(sample_response: dict[str, Any]) -> None:
     )
     assert record.theoretical_best is None
     assert record.updated_at == datetime.datetime(2025, 8, 1, 22, 48, 15, 341000, tzinfo=datetime.timezone.utc)
-    assert record.url == "https://releases.moe/165790/"
+    assert record.url == "https://seadex.moe/165790/"
     assert record.size == 119397238820
     assert record.torrents == (
         TorrentRecord(
