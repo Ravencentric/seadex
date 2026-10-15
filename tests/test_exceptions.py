@@ -22,7 +22,7 @@ def test_entry_record_no_expand_trs() -> None:
 
 def test_entry_not_found_from_anilist_id(httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID%3D98329837198378237183918&skipTotal=true",
+        url="https://seadex.moe/api/collections/entries/records?perPage=500&expand=trs&filter=alID%3D98329837198378237183918&skipTotal=true",
         json={"page": 1, "perPage": 30, "totalItems": 0, "totalPages": 0, "items": []},
     )
 
@@ -33,7 +33,7 @@ def test_entry_not_found_from_anilist_id(httpx_mock: HTTPXMock) -> None:
 
 def test_entry_not_found_from_seadex_id(httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/collections/entries/records?perPage=500&expand=trs&filter=id%3D%27jashdsjhdsakjdhsakdhsadhaksjd%27&skipTotal=true",
+        url="https://seadex.moe/api/collections/entries/records?perPage=500&expand=trs&filter=id%3D%27jashdsjhdsakjdhsakdhsadhaksjd%27&skipTotal=true",
         json={"page": 1, "perPage": 30, "totalItems": 0, "totalPages": 0, "items": []},
     )
 

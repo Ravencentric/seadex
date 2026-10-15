@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 def test_properties(seadex_entry: SeaDexEntry) -> None:
-    assert seadex_entry.base_url == "https://releases.moe"
+    assert seadex_entry.base_url == "https://seadex.moe"
 
 
 def test_from_anilist_id(seadex_entry: SeaDexEntry) -> None:

@@ -300,7 +300,7 @@ class EntryRecord(Base, frozen=True, kw_only=True):
                 "theoretical_best": theoretical_best,
                 "updated_at": data["updated"],
                 "torrents": torrents,
-                "url": f"https://releases.moe/{anilist_id}/",
+                "url": f"https://seadex.moe/{anilist_id}/",
                 "size": size,
             }
             return msgspec.convert(kwargs, type=cls, strict=False)

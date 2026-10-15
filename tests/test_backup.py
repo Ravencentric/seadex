@@ -39,8 +39,8 @@ def test_backup_properties(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -
         {"key": "@auto_pb_backup_sea_dex_20241121000000.zip", "size": 65304056, "modified": "2024-11-21 00:00:03.661Z"},
         {"key": "@auto_pb_backup_sea_dex_20241122000000.zip", "size": 65847001, "modified": "2024-11-22 00:00:03.487Z"},
     ]
-    httpx_mock.add_response(url="https://releases.moe/api/backups", json=sample, is_reusable=True)
-    assert seadex_backup.base_url == "https://releases.moe"
+    httpx_mock.add_response(url="https://seadex.moe/api/backups", json=sample, is_reusable=True)
+    assert seadex_backup.base_url == "https://seadex.moe"
     assert len(seadex_backup.get_backups()) == 7
     assert seadex_backup.get_latest_backup() == BackupFile(
         name="@auto_pb_backup_sea_dex_20241122000000.zip",
@@ -62,7 +62,7 @@ def test_backup_download(
         {"key": "@auto_pb_backup_sea_dex_20241121000000.zip", "size": 65304056, "modified": "2024-11-21 00:00:03.661Z"},
         {"key": "@auto_pb_backup_sea_dex_20241122000000.zip", "size": 65847001, "modified": "2024-11-22 00:00:03.487Z"},
     ]
-    httpx_mock.add_response(url="https://releases.moe/api/backups", json=sample, is_reusable=True)
+    httpx_mock.add_response(url="https://seadex.moe/api/backups", json=sample, is_reusable=True)
 
     latest_backup = seadex_backup.get_latest_backup()
     sample_backup_file = tmp_path_factory.mktemp("blah") / "sample_backup.zip"
@@ -71,7 +71,7 @@ def test_backup_download(
         f.writestr("data.db", data=b"hello world")
 
     httpx_mock.add_response(
-        url=f"https://releases.moe/api/backups/{latest_backup.name}?token=secret",
+        url=f"https://seadex.moe/api/backups/{latest_backup.name}?token=secret",
         content=sample_backup_file.read_bytes(),
         is_reusable=True,
     )
@@ -79,7 +79,7 @@ def test_backup_download(
     zip_with_bad_crc = f"{uuid4()}.zip"
 
     httpx_mock.add_response(
-        url=f"https://releases.moe/api/backups/{zip_with_bad_crc}?token=secret",
+        url=f"https://seadex.moe/api/backups/{zip_with_bad_crc}?token=secret",
         # https://github.com/python/cpython/blob/f1e74248025b36a0c5d12f72c4ab713f4682f523/Lib/test/test_zipfile/test_core.py#L2435-L2443
         content=(
             b"PK\003\004\024\0\0\0\0\0 \213\212;:r"
@@ -117,7 +117,7 @@ def test_backup_create(seadex_backup: SeaDexBackup) -> None:
 
 def test_backup_create_with_invalid_filename(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(
-        url="https://releases.moe/api/backups",
+        url="https://seadex.moe/api/backups",
         method="POST",
         json={"name": "seadex-backup.zip"},
         headers={"Authorization": "secret"},
@@ -127,12 +127,12 @@ def test_backup_create_with_invalid_filename(seadex_backup: SeaDexBackup, httpx_
         {"key": "@auto_pb_backup_sea_dex_20241121000000.zip", "size": 65304056, "modified": "2024-11-21 00:00:03.661Z"},
         {"key": "seadex-backup.zip", "size": 65847001, "modified": "2024-11-23 00:00:03.487Z"},
     ]
-    httpx_mock.add_response(url="https://releases.moe/api/backups", method="GET", json=sample)
+    httpx_mock.add_response(url="https://seadex.moe/api/backups", method="GET", json=sample)
 
     backup = seadex_backup.create("seadex-backup.zip")
     assert backup.name == "seadex-backup.zip"
 
 
 def test_backup_delete(seadex_backup: SeaDexBackup, httpx_mock: HTTPXMock) -> None:
-    httpx_mock.add_response(url="https://releases.moe/api/backups/seadex-backup.zip", method="DELETE")
+    httpx_mock.add_response(url="https://seadex.moe/api/backups/seadex-backup.zip", method="DELETE")
     seadex_backup.delete("seadex-backup.zip")
