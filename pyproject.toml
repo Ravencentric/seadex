@@ -2,91 +2,65 @@
 name = "seadex"
 version = "0.7.2"
 description = "Python wrapper for the SeaDex API."
-authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
-license = "MIT"
 requires-python = ">=3.10"
-keywords = ["seadex", "anime", "seadex.moe"]
+license = "MIT"
+authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
+keywords = ["anime", "seadex", "seadex.moe"]
 classifiers = [
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Typing :: Typed",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Typing :: Typed",
 ]
 dependencies = [
-    "atomicwriter>=0.2.5",
-    "httpx>=0.27.2",
-    "msgspec>=0.19.0",
+  "atomicwriter>=0.2.5",
+  "httpx>=0.27.2",
+  "msgspec>=0.19.0",
 ]
-
-[project.optional-dependencies]
-cli = ["cyclopts>=3.9.0", "humanize>=4.12.2", "rich>=13.9.4", "torf>=4.2.7"]
-torrent = ["torf>=4.2.7"]
-
-[project.scripts]
-seadex = "seadex.__main__:app"
 
 [project.urls]
 Documentation = "https://ravencentric.cc/seadex/"
 Repository = "https://github.com/Ravencentric/seadex"
 
+[project.scripts]
+seadex = "seadex.__main__:app"
+
+[project.optional-dependencies]
+cli = ["cyclopts>=3.9.0", "humanize>=4.12.2", "rich>=13.9.4", "torf>=4.2.7"]
+torrent = ["torf>=4.2.7"]
+
 [dependency-groups]
-docs = [
-    "mkdocs-autorefs>=1.3.1",
-    "mkdocs-material>=9.6.5",
-    "mkdocstrings[python]>=0.28.1",
+dev = [
+  { include-group = "docs" },
+  { include-group = "lint" },
+  { include-group = "test" },
 ]
-test = [
-    "coverage>=7.6.12",
-    "pytest>=8.3.4",
-    "pytest-httpx>=0.34.0",
-    "tomli>=2.0.1",
+docs = [
+  "mkdocs-autorefs>=1.3.1",
+  "mkdocs-material>=9.6.5",
+  "mkdocstrings[python]>=0.28.1",
 ]
 lint = ["mypy>=1.16.0", "ruff>=0.11.13", "typing-extensions>=4.12.2"]
-dev = [
-    { include-group = "docs" },
-    { include-group = "test" },
-    { include-group = "lint" },
+test = [
+  "coverage>=7.6.12",
+  "pytest>=8.3.4",
+  "pytest-httpx>=0.34.0",
+  "tomli>=2.0.1",
 ]
 
-[tool.ruff]
-line-length = 120
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.ruff.lint]
-extend-select = [
-    "I",    # https://docs.astral.sh/ruff/rules/#isort-i
-    "DTZ",  # https://docs.astral.sh/ruff/rules/#flake8-datetimez-dtz
-    "RUF",  # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
-    "UP",   # https://docs.astral.sh/ruff/rules/#pyupgrade-up
-    "N",    # https://docs.astral.sh/ruff/rules/#pep8-naming-n
-    "D4",   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
-    "B",    # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
-    "FBT",  # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap-fbt
-    "C4",   # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
-    "EM",   # https://docs.astral.sh/ruff/rules/#flake8-errmsg-em
-    "ISC",  # https://docs.astral.sh/ruff/rules/multi-line-implicit-string-concatenation/
-    "PIE",  # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
-    "RET",  # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
-    "PL",   # https://docs.astral.sh/ruff/rules/#pylint-pl
-    "E",    # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
-    "W",    # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
-    "FURB", # https://docs.astral.sh/ruff/rules/#refurb-furb
-    "TC",   # https://docs.astral.sh/ruff/rules/#flake8-type-checking-tc
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",  # Only used for type-hints
 ]
-fixable = ["ALL"]
-ignore = ["PLC0415"]
-
-[tool.ruff.lint.flake8-type-checking]
-exempt-modules = ["typing", "cyclopts.types"]
-runtime-evaluated-base-classes = ["msgspec.Struct"]
-
-[tool.ruff.lint.extend-per-file-ignores]
-"tests/*" = ["D", "FBT", "PL", "C416"]
-
-[tool.ruff.lint.isort]
-required-imports = ["from __future__ import annotations"]
 
 [tool.mypy]
 strict = true
@@ -100,11 +74,39 @@ filterwarnings = ["error"]
 log_cli_level = "INFO"
 testpaths = ["tests"]
 
-[tool.coverage.report]
-exclude_also = [
-    "if TYPE_CHECKING:", # Only used for type-hints
-]
+[tool.ruff]
+line-length = 120
 
-[build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+[tool.ruff.lint]
+extend-select = [
+  "I",  # https://docs.astral.sh/ruff/rules/#isort-i
+  "DTZ",  # https://docs.astral.sh/ruff/rules/#flake8-datetimez-dtz
+  "RUF",  # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
+  "UP",  # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+  "N",  # https://docs.astral.sh/ruff/rules/#pep8-naming-n
+  "D4",  # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+  "B",  # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+  "FBT",  # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap-fbt
+  "C4",  # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+  "EM",  # https://docs.astral.sh/ruff/rules/#flake8-errmsg-em
+  "ISC",  # https://docs.astral.sh/ruff/rules/multi-line-implicit-string-concatenation/
+  "PIE",  # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
+  "RET",  # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
+  "PL",  # https://docs.astral.sh/ruff/rules/#pylint-pl
+  "E",  # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+  "W",  # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+  "FURB",  # https://docs.astral.sh/ruff/rules/#refurb-furb
+  "TC",  # https://docs.astral.sh/ruff/rules/#flake8-type-checking-tc
+]
+fixable = ["ALL"]
+ignore = ["PLC0415"]
+
+[tool.ruff.lint.flake8-type-checking]
+exempt-modules = ["typing", "cyclopts.types"]
+runtime-evaluated-base-classes = ["msgspec.Struct"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["D", "FBT", "PL", "C416"]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
