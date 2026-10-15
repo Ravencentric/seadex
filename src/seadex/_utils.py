@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+from importlib import metadata
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import httpx
-
-from seadex._version import __version__
 
 if TYPE_CHECKING:
     from seadex._types import StrPath
@@ -22,7 +21,8 @@ def httpx_client(*, timeout: httpx.Timeout | None = None) -> httpx.Client:
     """
     Return an instance of an httpx.Client.
     """
-    headers = {"User-Agent": f"seadex/{__version__} (https://pypi.org/project/seadex/)"}
+    version = metadata.version("seadex")
+    headers = {"User-Agent": f"seadex/{version} (https://pypi.org/project/seadex/)"}
 
     if timeout is not None:
         return httpx.Client(headers=headers, timeout=timeout)

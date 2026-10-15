@@ -12,11 +12,9 @@ except ModuleNotFoundError:
 from seadex._cli._backup import backup_app
 from seadex._cli._entry import entry_app
 from seadex._cli._torrent import torrent_app
-from seadex._version import __version__
 
 app = App(
     "seadex",
-    version=__version__,
     help="Command line interface to the SeaDex API.",
     help_format="plaintext",
 )
